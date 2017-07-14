@@ -12,14 +12,11 @@
 		57E65EA41F15D59000B39AF4 /* ArcadeCity.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 57E65EA21F15D59000B39AF4 /* ArcadeCity.xcdatamodeld */; };
 		57E65EA61F15D59000B39AF4 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 57E65EA51F15D59000B39AF4 /* Assets.xcassets */; };
 		57E65EA91F15D59000B39AF4 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 57E65EA71F15D59000B39AF4 /* LaunchScreen.storyboard */; };
-		57E65EB41F1815DD00B39AF4 /* RideRequestPageTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57E65EB31F1815DD00B39AF4 /* RideRequestPageTableViewCell.swift */; };
-		57E65EB61F18161800B39AF4 /* RideRequestTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57E65EB51F18161800B39AF4 /* RideRequestTableViewController.swift */; };
 		57E65EB81F181B3200B39AF4 /* Rider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57E65EB71F181B3200B39AF4 /* Rider.swift */; };
 		57E65EBB1F18584400B39AF4 /* RideRequestCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57E65EBA1F18584400B39AF4 /* RideRequestCollectionViewCell.swift */; };
 		57E65EBD1F185A1200B39AF4 /* RideRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57E65EBC1F185A1200B39AF4 /* RideRequest.swift */; };
 		57E65EBF1F185AB800B39AF4 /* Offer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57E65EBE1F185AB800B39AF4 /* Offer.swift */; };
 		57E65EC11F185C3A00B39AF4 /* Driver.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57E65EC01F185C3A00B39AF4 /* Driver.swift */; };
-		57E65EC31F18673C00B39AF4 /* RequestPageCollectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57E65EC21F18673C00B39AF4 /* RequestPageCollectionViewController.swift */; };
 		57E65EC61F186E3900B39AF4 /* RequestPageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57E65EC51F186E3900B39AF4 /* RequestPageViewController.swift */; };
 /* End PBXBuildFile section */
 
@@ -31,14 +28,11 @@
 		57E65EA51F15D59000B39AF4 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		57E65EA81F15D59000B39AF4 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		57E65EAA1F15D59000B39AF4 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		57E65EB31F1815DD00B39AF4 /* RideRequestPageTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = RideRequestPageTableViewCell.swift; path = ../RideRequestPageTableViewCell.swift; sourceTree = "<group>"; };
-		57E65EB51F18161800B39AF4 /* RideRequestTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RideRequestTableViewController.swift; sourceTree = "<group>"; };
 		57E65EB71F181B3200B39AF4 /* Rider.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Rider.swift; sourceTree = "<group>"; };
 		57E65EBA1F18584400B39AF4 /* RideRequestCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RideRequestCollectionViewCell.swift; sourceTree = "<group>"; };
 		57E65EBC1F185A1200B39AF4 /* RideRequest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RideRequest.swift; sourceTree = "<group>"; };
 		57E65EBE1F185AB800B39AF4 /* Offer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Offer.swift; sourceTree = "<group>"; };
 		57E65EC01F185C3A00B39AF4 /* Driver.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Driver.swift; sourceTree = "<group>"; };
-		57E65EC21F18673C00B39AF4 /* RequestPageCollectionViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RequestPageCollectionViewController.swift; sourceTree = "<group>"; };
 		57E65EC51F186E3900B39AF4 /* RequestPageViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RequestPageViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -72,14 +66,11 @@
 		57E65E9A1F15D59000B39AF4 /* ArcadeCity */ = {
 			isa = PBXGroup;
 			children = (
-				57E65EB31F1815DD00B39AF4 /* RideRequestPageTableViewCell.swift */,
 				57E65E9B1F15D59000B39AF4 /* AppDelegate.swift */,
 				57E65E9F1F15D59000B39AF4 /* Main.storyboard */,
 				57E65EC51F186E3900B39AF4 /* RequestPageViewController.swift */,
-				57E65EC21F18673C00B39AF4 /* RequestPageCollectionViewController.swift */,
 				57E65EBA1F18584400B39AF4 /* RideRequestCollectionViewCell.swift */,
 				57E65EC41F18679700B39AF4 /* Types */,
-				57E65EB51F18161800B39AF4 /* RideRequestTableViewController.swift */,
 				57E65EB91F18246C00B39AF4 /* Supporting Files */,
 				57E65EA21F15D59000B39AF4 /* ArcadeCity.xcdatamodeld */,
 			);
@@ -184,13 +175,10 @@
 				57E65EC61F186E3900B39AF4 /* RequestPageViewController.swift in Sources */,
 				57E65EA41F15D59000B39AF4 /* ArcadeCity.xcdatamodeld in Sources */,
 				57E65EBD1F185A1200B39AF4 /* RideRequest.swift in Sources */,
-				57E65EB41F1815DD00B39AF4 /* RideRequestPageTableViewCell.swift in Sources */,
 				57E65EB81F181B3200B39AF4 /* Rider.swift in Sources */,
-				57E65EC31F18673C00B39AF4 /* RequestPageCollectionViewController.swift in Sources */,
 				57E65E9C1F15D59000B39AF4 /* AppDelegate.swift in Sources */,
 				57E65EC11F185C3A00B39AF4 /* Driver.swift in Sources */,
 				57E65EBB1F18584400B39AF4 /* RideRequestCollectionViewCell.swift in Sources */,
-				57E65EB61F18161800B39AF4 /* RideRequestTableViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -10,68 +10,6 @@
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
-        <!--Ride Request Table View Controller-->
-        <scene sceneID="6le-Pn-6oB">
-            <objects>
-                <tableViewController id="WaH-qh-JKE" customClass="RideRequestTableViewController" customModule="ArcadeCity" customModuleProvider="target" sceneMemberID="viewController">
-                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="97" sectionHeaderHeight="28" sectionFooterHeight="28" id="OaR-KP-Fu7">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                        <prototypes>
-                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="riderPost" rowHeight="97" id="g3g-2o-UhI" customClass="RideRequestPageTableViewCell" customModule="ArcadeCity" customModuleProvider="target">
-                                <rect key="frame" x="0.0" y="28" width="375" height="97"/>
-                                <autoresizingMask key="autoresizingMask"/>
-                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="g3g-2o-UhI" id="snG-i2-rPj">
-                                    <rect key="frame" x="0.0" y="0.0" width="375" height="97"/>
-                                    <autoresizingMask key="autoresizingMask"/>
-                                    <subviews>
-                                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="J9p-4a-uaQ">
-                                            <rect key="frame" x="8" y="8" width="60" height="52"/>
-                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                        </imageView>
-                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Name" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="bYe-2j-gv4">
-                                            <rect key="frame" x="76" y="8" width="104" height="21"/>
-                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                            <fontDescription key="fontDescription" style="UICTFontTextStyleHeadline"/>
-                                            <nil key="textColor"/>
-                                            <nil key="highlightedColor"/>
-                                        </label>
-                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Time" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="2kB-gF-Mi7">
-                                            <rect key="frame" x="76" y="30" width="42" height="21"/>
-                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                            <fontDescription key="fontDescription" style="UICTFontTextStyleCaption1"/>
-                                            <nil key="textColor"/>
-                                            <nil key="highlightedColor"/>
-                                        </label>
-                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Offer Ride" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="a2T-tn-ehP">
-                                            <rect key="frame" x="148" y="67" width="78" height="21"/>
-                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                            <nil key="textColor"/>
-                                            <nil key="highlightedColor"/>
-                                        </label>
-                                    </subviews>
-                                </tableViewCellContentView>
-                                <connections>
-                                    <outlet property="offerRide" destination="a2T-tn-ehP" id="Pli-g4-0hq"/>
-                                    <outlet property="profilePic" destination="J9p-4a-uaQ" id="KMr-en-cGx"/>
-                                    <outlet property="riderName" destination="bYe-2j-gv4" id="968-Qg-8Ff"/>
-                                    <outlet property="timePosted" destination="2kB-gF-Mi7" id="Qvr-Pi-dU4"/>
-                                </connections>
-                            </tableViewCell>
-                        </prototypes>
-                        <connections>
-                            <outlet property="dataSource" destination="WaH-qh-JKE" id="KmA-oQ-MUu"/>
-                            <outlet property="delegate" destination="WaH-qh-JKE" id="1vP-KY-1vj"/>
-                        </connections>
-                    </tableView>
-                    <navigationItem key="navigationItem" id="Eky-wa-goF"/>
-                </tableViewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="kMc-V5-soT" userLabel="First Responder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="1020" y="89.505247376311857"/>
-        </scene>
         <!--Ride Requests-->
         <scene sceneID="S3v-Oc-VGA">
             <objects>
@@ -180,24 +118,6 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="gTv-2u-Qn7" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="1020" y="836.13193403298362"/>
-        </scene>
-        <!--Navigation Controller-->
-        <scene sceneID="wQP-2N-Y6U">
-            <objects>
-                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="b2H-Y3-qL7" sceneMemberID="viewController">
-                    <toolbarItems/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="LmZ-XD-k44">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
-                        <autoresizingMask key="autoresizingMask"/>
-                    </navigationBar>
-                    <nil name="viewControllers"/>
-                    <connections>
-                        <segue destination="WaH-qh-JKE" kind="relationship" relationship="rootViewController" id="MgP-D4-bkE"/>
-                    </connections>
-                </navigationController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="QHT-cK-KbF" userLabel="First Responder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="80.799999999999997" y="89.505247376311857"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="EQf-d3-3d0">
