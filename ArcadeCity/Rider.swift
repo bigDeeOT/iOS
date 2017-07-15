@@ -14,8 +14,8 @@ class Rider {
     var ridesRequest: Int?
     var ridesResolved: Int?
     
-     init(url: URL, n: String) {
+     init(url: URL, name: String) {
         profilePicURL = url
-        name = n
+        self.name = name
     }
 }

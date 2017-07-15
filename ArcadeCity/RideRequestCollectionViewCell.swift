@@ -28,6 +28,8 @@ class RideRequestCollectionViewCell: UICollectionViewCell {
     private func updateUI() {
         riderName.text = rideRequest?.rider?.name
         pickUp.text = rideRequest?.text
+        pickUp.lineBreakMode = .byWordWrapping
+        pickUp.numberOfLines = 0
         
         if let url = rideRequest?.rider?.profilePicURL {
             DispatchQueue.global(qos: .default).async {

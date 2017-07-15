@@ -7,6 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		57D195CC1F19444300F27BB7 /* LoadRequests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57D195CB1F19444300F27BB7 /* LoadRequests.swift */; };
+		57D195CE1F194C1600F27BB7 /* SignInViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57D195CD1F194C1600F27BB7 /* SignInViewController.swift */; };
+		57D195D01F19604F00F27BB7 /* AddRideTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57D195CF1F19604F00F27BB7 /* AddRideTableViewController.swift */; };
 		57E65E9C1F15D59000B39AF4 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57E65E9B1F15D59000B39AF4 /* AppDelegate.swift */; };
 		57E65EA11F15D59000B39AF4 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 57E65E9F1F15D59000B39AF4 /* Main.storyboard */; };
 		57E65EA41F15D59000B39AF4 /* ArcadeCity.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 57E65EA21F15D59000B39AF4 /* ArcadeCity.xcdatamodeld */; };
@@ -21,6 +24,9 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		57D195CB1F19444300F27BB7 /* LoadRequests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoadRequests.swift; sourceTree = "<group>"; };
+		57D195CD1F194C1600F27BB7 /* SignInViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SignInViewController.swift; sourceTree = "<group>"; };
+		57D195CF1F19604F00F27BB7 /* AddRideTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AddRideTableViewController.swift; sourceTree = "<group>"; };
 		57E65E981F15D59000B39AF4 /* ArcadeCity.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ArcadeCity.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		57E65E9B1F15D59000B39AF4 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		57E65EA01F15D59000B39AF4 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
@@ -66,13 +72,14 @@
 		57E65E9A1F15D59000B39AF4 /* ArcadeCity */ = {
 			isa = PBXGroup;
 			children = (
-				57E65E9B1F15D59000B39AF4 /* AppDelegate.swift */,
 				57E65E9F1F15D59000B39AF4 /* Main.storyboard */,
 				57E65EC51F186E3900B39AF4 /* RequestPageViewController.swift */,
+				57D195CF1F19604F00F27BB7 /* AddRideTableViewController.swift */,
+				57D195CD1F194C1600F27BB7 /* SignInViewController.swift */,
 				57E65EBA1F18584400B39AF4 /* RideRequestCollectionViewCell.swift */,
+				57D195CB1F19444300F27BB7 /* LoadRequests.swift */,
 				57E65EC41F18679700B39AF4 /* Types */,
 				57E65EB91F18246C00B39AF4 /* Supporting Files */,
-				57E65EA21F15D59000B39AF4 /* ArcadeCity.xcdatamodeld */,
 			);
 			path = ArcadeCity;
 			sourceTree = "<group>";
@@ -80,8 +87,10 @@
 		57E65EB91F18246C00B39AF4 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				57E65E9B1F15D59000B39AF4 /* AppDelegate.swift */,
 				57E65EA51F15D59000B39AF4 /* Assets.xcassets */,
 				57E65EA71F15D59000B39AF4 /* LaunchScreen.storyboard */,
+				57E65EA21F15D59000B39AF4 /* ArcadeCity.xcdatamodeld */,
 				57E65EAA1F15D59000B39AF4 /* Info.plist */,
 			);
 			name = "Supporting Files";
@@ -173,11 +182,14 @@
 			files = (
 				57E65EBF1F185AB800B39AF4 /* Offer.swift in Sources */,
 				57E65EC61F186E3900B39AF4 /* RequestPageViewController.swift in Sources */,
+				57D195CC1F19444300F27BB7 /* LoadRequests.swift in Sources */,
 				57E65EA41F15D59000B39AF4 /* ArcadeCity.xcdatamodeld in Sources */,
 				57E65EBD1F185A1200B39AF4 /* RideRequest.swift in Sources */,
+				57D195D01F19604F00F27BB7 /* AddRideTableViewController.swift in Sources */,
 				57E65EB81F181B3200B39AF4 /* Rider.swift in Sources */,
 				57E65E9C1F15D59000B39AF4 /* AppDelegate.swift in Sources */,
 				57E65EC11F185C3A00B39AF4 /* Driver.swift in Sources */,
+				57D195CE1F194C1600F27BB7 /* SignInViewController.swift in Sources */,
 				57E65EBB1F18584400B39AF4 /* RideRequestCollectionViewCell.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

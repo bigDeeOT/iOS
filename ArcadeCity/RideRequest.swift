@@ -20,8 +20,8 @@ class RideRequest {
        case unresolved, resolved, canceled
     }
     
-    init (r: Rider) {
-        rider = r
+    init (rider: Rider) {
+        self.rider = rider
         state = .unresolved
         offers = [Offer]()
     }
