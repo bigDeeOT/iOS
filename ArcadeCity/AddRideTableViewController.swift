@@ -9,7 +9,7 @@
 import UIKit
 
 class AddRideTableViewController: UITableViewController {
-    var rider: Rider?
+
     
     var identifier = "requestRide"
 
@@ -24,7 +24,7 @@ class AddRideTableViewController: UITableViewController {
     @IBOutlet weak var otherInfo: UITextField!
     
     @IBAction func requestRide(_ sender: UIButton) {
-        let ride = RideRequest(rider: rider!)
+        let ride = RideRequest()
         if let pickUpText = pickUp.text{
             if pickUpText.characters.count <= 1 {
                 //invalid pickup
@@ -62,7 +62,7 @@ class AddRideTableViewController: UITableViewController {
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if let vc = segue.destination as? RequestPageViewController {
             if let ride = sender as? RideRequest {
-                vc.userName = rider
+              //  RequestPageViewController.userName = rider
                 vc.pendingRequest = ride
             }
         }

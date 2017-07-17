@@ -8,14 +8,11 @@
 
 import Foundation
 
-class Rider {
-    var profilePicURL: URL?
-    var name: String?
-    var ridesRequest: Int?
-    var ridesResolved: Int?
+class Rider: User {
     
-     init(url: URL, name: String) {
+     override init(url: URL, name: String) {
+        super.init(name: name)
         profilePicURL = url
-        self.name = name
+        privilege = .rider
     }
 }

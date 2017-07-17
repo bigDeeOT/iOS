@@ -12,8 +12,9 @@ class RequestPageViewController: UIViewController, UICollectionViewDelegate, UIC
     
     var requestList = [RideRequest]()
     var loadRequests = LoadRequests()
-    var userName: Rider?
+    static var userName: User?
     var pendingRequest: RideRequest?
+    var cellWasViewed = [Bool]()
     
     @IBOutlet weak var addRequest: UIBarButtonItem!
     
@@ -28,12 +29,17 @@ class RequestPageViewController: UIViewController, UICollectionViewDelegate, UIC
             loadRequests.add(request: pendingRequest)
         }
         requestList = loadRequests.get()
-        if userName == nil {
+        if RequestPageViewController.userName == nil {
             addRequest.isEnabled = false
         } else {
             signInButton.title = "Sign Out"
         }
-        print(userName?.name ?? "Not Signed in yet")
+        print(RequestPageViewController.userName?.name ?? "Not Signed in yet")
+        let image = UIImage(named: "logo")
+        navigationItem.titleView = UIImageView(image: image)
+        for _ in 0..<99 {
+            cellWasViewed.append(false)
+        }
     }
     
     @IBAction func signIn(_ sender: UIBarButtonItem) {
@@ -42,7 +48,7 @@ class RequestPageViewController: UIViewController, UICollectionViewDelegate, UIC
         } else {
             //user wants to logout
             sender.title = "Sign In"
-            userName = nil
+            RequestPageViewController.userName = nil
             addRequest.isEnabled = false
         }
         
@@ -67,13 +73,26 @@ class RequestPageViewController: UIViewController, UICollectionViewDelegate, UIC
         if let cell = cell as? RideRequestCollectionViewCell {
             let rideRequest = requestList[requestList.count - 1 - indexPath.section]
             cell.rideRequest = rideRequest
+            print("ride request eta in main is \(rideRequest.ETA ?? "nil value")")
             print(cell.pickUp.text ?? "")
             print(numberOfLines(rideRequest.text ?? ""))
             cell.frame.size.height = cell.frame.size.height + (20.5 * (numberOfLines(rideRequest.text!) - 1))
+            /*
+            if RequestPageViewController.userName ==  nil {
+                cell.frame.size.height = cell.frame.size.height + 30
+            }
+            if RequestPageViewController.userName?.privilege ==  User.Privilege.rider {
+                cell.frame.size.height = cell.frame.size.height + 30
+            }
+ */
+            cell.delegateClass = self
         }
-        //cell.frame.size.height = cell.frame.size.height + 30
         
         return cell
+    }
+    
+    func segueToAddCollage(rideRequest: RideRequest) {
+        performSegue(withIdentifier: "addCollage", sender: rideRequest)
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
@@ -85,24 +104,30 @@ class RequestPageViewController: UIViewController, UICollectionViewDelegate, UIC
     }
     
     private func numberOfLines (_ text: String) -> CGFloat {
-        let label = UILabel(frame: CGRect(x: 0, y: 0, width: 337, height: CGFloat(integerLiteral: Int.max)))
-        label.font = UIFont(name: ".SFUIText", size: 17)
+        let width = UIScreen.main.bounds.width * 0.8987
+        let label = UILabel(frame: CGRect(x: 0, y: 0, width: width, height: CGFloat(integerLiteral: Int.max)))
+        label.font = UIFont(name: ".SFUIText", size: 15)
         label.text = text
         label.numberOfLines = 0
         label.lineBreakMode = .byWordWrapping
         label.sizeToFit()
-        return label.frame.size.height / CGFloat(20.5)
+        return label.frame.size.height / CGFloat(25)
+        //was 20.5
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         if let cell = collectionView.cellForItem(at: indexPath) as? RideRequestCollectionViewCell {
-            performSegue(withIdentifier: "rideRequestDetails", sender: cell)
+            if RequestPageViewController.userName != nil {
+                performSegue(withIdentifier: "rideRequestDetails", sender: cell)
+            }
         }
     }
 
       override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        if let vc = segue.destination as? AddRideTableViewController {
-            vc.rider = userName
+        if let vc = segue.destination as? RideDetailViewController {
+            if let cell = sender as? RideRequestCollectionViewCell {
+                vc.rideRequest = cell.rideRequest
+            }
         }
     }
 

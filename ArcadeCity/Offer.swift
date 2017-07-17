@@ -9,11 +9,14 @@
 import Foundation
 
 class Offer {
-    var driver: Driver?
+    var driver: User?
     var date: Date?
-    var eta: Int?
+    var eta: String?
+    var comment: String?
     
-    init (d: Driver) {
-        driver = d
+    init (user: User, comment: String, date: Date) {
+        driver = user
+        self.comment = comment
+        self.date = date
     }
 }

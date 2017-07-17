@@ -8,14 +8,9 @@
 
 import Foundation
 
-class Driver {
-    var name: String?
-    var unique: String?
-    var collage: URL?
-    var phone: String?
-    var ridesOffered: Int?
-    var ridesResolved: Int?
-    init (n: String) {
-       name = n
+class Driver: User {
+    override init (name: String) {
+        super.init(name: name)
+        privilege = .driver
     }
 }

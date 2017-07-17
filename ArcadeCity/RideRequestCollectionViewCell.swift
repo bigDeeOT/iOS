@@ -9,21 +9,22 @@
 import UIKit
 
 class RideRequestCollectionViewCell: UICollectionViewCell {
-    
+    var delegateClass: RequestPageViewController?
     var rideRequest: RideRequest? {
         didSet {
             updateUI()
         }
     }
     @IBAction func offerRide(_ sender: UIButton) {
-        //segue
-        print(rideRequest?.rider?.name ?? "unknown ride request")
+        //delegateClass?.segueToAddCollage(rideRequest: rideRequest!)
     }
     @IBOutlet weak var profilePic: UIImageView!
 
     @IBOutlet weak var pickUp: UILabel!
     @IBOutlet weak var timePosted: UILabel!
     @IBOutlet weak var riderName: UILabel!
+    @IBOutlet weak var offerRideButton: UIButton!
+
     
     private func updateUI() {
         riderName.text = rideRequest?.rider?.name
@@ -37,9 +38,14 @@ class RideRequestCollectionViewCell: UICollectionViewCell {
                 if let imageData = NSData(contentsOf: url) {
                     DispatchQueue.main.async {
                         self?.profilePic.image = UIImage(data: imageData as Data)
+                        self?.profilePic.layer.borderWidth = 1
+                        self?.profilePic.layer.borderColor = UIColor.lightGray.cgColor
                     }
                 }
             }
+        }
+        if RequestPageViewController.userName == nil {
+            //offerRideButton?.removeFromSuperview()
         }
     }
 }
