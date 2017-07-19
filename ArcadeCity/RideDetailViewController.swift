@@ -18,11 +18,11 @@ class RideDetailViewController: UIViewController, UITableViewDelegate, UITableVi
     @IBOutlet weak var name: UILabel!
     @IBOutlet weak var date: UILabel!
     @IBOutlet weak var eta: UILabel!
+    @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var offerRideButton: UIButton!
     @IBAction func offerRide(_ sender: UIButton) {
         if sender.currentTitle == "Offer Ride" {    //post collage
             sender.setTitle("Resolve?", for: .normal)
-            
             performSegue(withIdentifier: "postCollage", sender: rideRequest)
         } else if sender.currentTitle == "Resolve?" {  //resolve the request
             print("changing to resolved")
@@ -33,15 +33,13 @@ class RideDetailViewController: UIViewController, UITableViewDelegate, UITableVi
         } else if (sender.currentTitle?.contains("#Resolved"))! {  //unresolve the request
             if rideRequest?.resolvedBy?.name == RequestPageViewController.userName?.name {
                 sender.setTitle("Resolve?", for: .normal)
-                sender.setTitleColor(UIColor.black, for: .normal)
+                sender.setTitleColor(UIColor(red:0.02, green:0.32, blue:0.54, alpha:1.0), for: .normal)
                 rideRequest?.resolvedBy = nil
+                rideRequest?.state = RideRequest.State.unresolved
             }
         }
     }
-    
-
-    @IBOutlet weak var tableView: UITableView!
-    
+        
     func updateUI() {
         loadImage()
         name.text = rideRequest?.rider?.name
@@ -73,12 +71,13 @@ class RideDetailViewController: UIViewController, UITableViewDelegate, UITableVi
             offerRideButton.setTitle("#Canceled", for: .normal)
             offerRideButton.setTitleColor(UIColor.red, for: .normal)
         }
-        //if viewer is rider, remove the button until it's resolved
-        if (RequestPageViewController.userName?.privilege)! == .rider {
+        //if viewer only has rider privilege, or if viwer is original requester of ride, remove the button until it's resolved
+        if ((RequestPageViewController.userName?.privilege)! == .rider) || ((RequestPageViewController.userName?.name)! == rideRequest?.rider?.name) {
             if (rideRequest?.state != RideRequest.State.resolved) && (rideRequest?.state != RideRequest.State.canceled) {
                 offerRideButton.removeFromSuperview()
             }
         }
+        
     }
     
     override func viewDidLoad() {
@@ -87,15 +86,13 @@ class RideDetailViewController: UIViewController, UITableViewDelegate, UITableVi
         tableView.delegate = self
         tableView.dataSource = self
         updateUI()
-        if navigationController?.viewControllers[(navigationController?.viewControllers.count)! - 2] is PostCollageViewController {
-            navigationController?.popToViewController((navigationController?.viewControllers[(navigationController?.viewControllers.count)! - 3])!, animated: false)
-        }
         self.tableView.rowHeight = UITableViewAutomaticDimension
         self.tableView.estimatedRowHeight = 208
     }
     
     override func viewWillAppear(_ animated: Bool) {
         tableView.reloadData()
+        print(rideRequest?.rider?.name ?? "no rideRequest Present in viewwillappear")
     }
 
     public func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -107,7 +104,7 @@ class RideDetailViewController: UIViewController, UITableViewDelegate, UITableVi
         return 0
     }
     
-    @available(iOS 2.0, *)
+    //@available(iOS 2.0, *)
     public func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: cellIdentifier, for: indexPath) as! RideDetailTableViewCell
             cell.offer = rideRequest?.offers?[indexPath.row]
@@ -122,13 +119,6 @@ class RideDetailViewController: UIViewController, UITableViewDelegate, UITableVi
                 vc.rideRequest = (sender as? RideRequest)
             }
         }
-        /*
-        if segue.identifier == "dfdf" {
-            if let vc = segue.destination as? UIViewController {
-                
-            }
-        }
- */
     }
     
     private func loadImage() {
@@ -147,5 +137,8 @@ class RideDetailViewController: UIViewController, UITableViewDelegate, UITableVi
         }
     }
     
+    @IBAction func unwindToRideDetail(segue: UIStoryboardSegue) {
+    print(rideRequest?.rider?.name ?? "no rideRequest Present")
+    }
 
 }

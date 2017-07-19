@@ -21,16 +21,19 @@ class AddRideTableViewController: UITableViewController {
     
     @IBOutlet weak var currentLocation: UISegmentedControl!
     
-    @IBOutlet weak var otherInfo: UITextField!
-    
+    @IBOutlet weak var otherInfo: UITextView!
+        
     @IBAction func requestRide(_ sender: UIButton) {
         let ride = RideRequest()
         if let pickUpText = pickUp.text{
             if pickUpText.characters.count <= 1 {
                 //invalid pickup
-                performSegue(withIdentifier: identifier, sender: nil)
+                return
             }
             ride.text = "\(pickUpText)"
+        } else {
+            //invalid pickup
+            return
         }
         if let dropOffText = dropOff.text{
             if dropOffText.characters.count >= 2 {
@@ -49,8 +52,17 @@ class AddRideTableViewController: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         tableView.tableFooterView = UIView()
-
+        otherInfo.layer.borderWidth = 1
+        otherInfo.layer.borderColor = UIColor.lightGray.cgColor
+        tableView.tableFooterView = UIView(frame: CGRect(x: 0, y: 0, width: tableView.frame.size.width, height: 1))
+        let tap = UITapGestureRecognizer(target: self, action: #selector(dismissKeyboard))
+        view.addGestureRecognizer(tap)
     }
+    
+    func dismissKeyboard() {
+        otherInfo.endEditing(true)
+    }
+        
     override func numberOfSections(in tableView: UITableView) -> Int {
         return 1
     }
@@ -58,11 +70,10 @@ class AddRideTableViewController: UITableViewController {
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return 6
     }
-
+    
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if let vc = segue.destination as? RequestPageViewController {
             if let ride = sender as? RideRequest {
-              //  RequestPageViewController.userName = rider
                 vc.pendingRequest = ride
             }
         }
