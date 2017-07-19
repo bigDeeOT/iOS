@@ -8,7 +8,7 @@
 
 import UIKit
 
-class RequestPageViewController: UIViewController, UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
+class RequestPageViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
     
     var requestList = [RideRequest]()
     var loadRequests = LoadRequests()
@@ -37,9 +37,11 @@ class RequestPageViewController: UIViewController, UICollectionViewDelegate, UIC
         print(RequestPageViewController.userName?.name ?? "Not Signed in yet")
         let image = UIImage(named: "logo")
         navigationItem.titleView = UIImageView(image: image)
+        /*
         for _ in 0..<99 {
             cellWasViewed.append(false)
         }
+ */
     }
     
     @IBAction func signIn(_ sender: UIBarButtonItem) {
@@ -54,17 +56,18 @@ class RequestPageViewController: UIViewController, UICollectionViewDelegate, UIC
         
     }
     
-    @IBOutlet weak var rideRequestList: UICollectionView!
+    @IBOutlet weak var rideRequestList: UITableView!
     
     var reuseIdentifier = "rideRequest"
     
-    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+    func numberOfSections(in tableView: UITableView) -> Int {
         return 1
     }
     
-    func numberOfSections(in collectionView: UICollectionView) -> Int {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return requestList.count
     }
+    
     
     
     // The cell that is returned must be retrieved from a call to -dequeueReusableCellWithReuseIdentifier:forIndexPath:
@@ -77,17 +80,22 @@ class RequestPageViewController: UIViewController, UICollectionViewDelegate, UIC
             print(cell.pickUp.text ?? "")
             print(numberOfLines(rideRequest.text ?? ""))
             cell.frame.size.height = cell.frame.size.height + (20.5 * (numberOfLines(rideRequest.text!) - 1))
-            /*
-            if RequestPageViewController.userName ==  nil {
-                cell.frame.size.height = cell.frame.size.height + 30
-            }
-            if RequestPageViewController.userName?.privilege ==  User.Privilege.rider {
-                cell.frame.size.height = cell.frame.size.height + 30
-            }
- */
             cell.delegateClass = self
         }
         
+        return cell
+    }
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCell(withIdentifier: reuseIdentifier, for: indexPath)
+        if let cell = cell as? RequestPageTableViewCell {
+            let rideRequest = requestList[requestList.count - 1 - indexPath.section]
+            cell.rideRequest = rideRequest
+            /* debug
+            print("ride request eta in main is \(rideRequest.ETA ?? "nil value")")
+            print(cell.pickUp.text ?? "")
+            */
+        }
         return cell
     }
     
@@ -122,13 +130,29 @@ class RequestPageViewController: UIViewController, UICollectionViewDelegate, UIC
             }
         }
     }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        if let cell = tableView.cellForRow(at: indexPath) as? RequestPageTableViewCell {
+            if RequestPageViewController.userName != nil {
+                performSegue(withIdentifier: "rideRequestDetails", sender: cell)
+            }
+        }
+    }
 
       override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        /*
         if let vc = segue.destination as? RideDetailViewController {
             if let cell = sender as? RideRequestCollectionViewCell {
                 vc.rideRequest = cell.rideRequest
             }
         }
+ */
+        if let vc = segue.destination as? RideDetailViewController {
+            if let cell = sender as? RequestPageTableViewCell {
+                vc.rideRequest = cell.rideRequest
+            }
+        }
+        
     }
 
 

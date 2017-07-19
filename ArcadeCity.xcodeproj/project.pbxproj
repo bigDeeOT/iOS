@@ -27,6 +27,7 @@
 		57E65EC11F185C3A00B39AF4 /* Driver.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57E65EC01F185C3A00B39AF4 /* Driver.swift */; };
 		57E65EC61F186E3900B39AF4 /* RequestPageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57E65EC51F186E3900B39AF4 /* RequestPageViewController.swift */; };
 		7C2EE085E9FFEAC069E9450C /* Pods_ArcadeCity.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 47D4409EDB97209FB6509052 /* Pods_ArcadeCity.framework */; };
+		AC3813EB1F1EE33900E79813 /* RequestPageTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC3813EA1F1EE33900E79813 /* RequestPageTableViewCell.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -53,6 +54,7 @@
 		57E65EBE1F185AB800B39AF4 /* Offer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Offer.swift; sourceTree = "<group>"; };
 		57E65EC01F185C3A00B39AF4 /* Driver.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Driver.swift; sourceTree = "<group>"; };
 		57E65EC51F186E3900B39AF4 /* RequestPageViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RequestPageViewController.swift; sourceTree = "<group>"; };
+		AC3813EA1F1EE33900E79813 /* RequestPageTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RequestPageTableViewCell.swift; sourceTree = "<group>"; };
 		B9F14C6420E689931DC11C49 /* Pods-ArcadeCity.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ArcadeCity.release.xcconfig"; path = "Pods/Target Support Files/Pods-ArcadeCity/Pods-ArcadeCity.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -71,6 +73,7 @@
 		57D195D81F1AA11600F27BB7 /* Request Page */ = {
 			isa = PBXGroup;
 			children = (
+				AC3813EA1F1EE33900E79813 /* RequestPageTableViewCell.swift */,
 				57E65EC51F186E3900B39AF4 /* RequestPageViewController.swift */,
 				57E65EBA1F18584400B39AF4 /* RideRequestCollectionViewCell.swift */,
 			);
@@ -289,6 +292,7 @@
 			files = (
 				57E65EBF1F185AB800B39AF4 /* Offer.swift in Sources */,
 				57E65EC61F186E3900B39AF4 /* RequestPageViewController.swift in Sources */,
+				AC3813EB1F1EE33900E79813 /* RequestPageTableViewCell.swift in Sources */,
 				57D195CC1F19444300F27BB7 /* LoadRequests.swift in Sources */,
 				57E65EA41F15D59000B39AF4 /* ArcadeCity.xcdatamodeld in Sources */,
 				57E65EBD1F185A1200B39AF4 /* RideRequest.swift in Sources */,
