@@ -49,4 +49,5 @@ class RideDetailTableViewCell: UITableViewCell {
             }
         }
     }
+    
 }

@@ -26,8 +26,7 @@ class RequestPageTableViewCell: UITableViewCell {
     @IBOutlet weak var riderName: UILabel!
     @IBOutlet weak var offerRideButton: UIButton!
     @IBOutlet weak var eta: UILabel!
-    
-    
+    let cellWidthFactor: CGFloat = 0.92
     
     private func updateUI() {
         riderName.text = rideRequest?.rider?.name
@@ -91,5 +90,18 @@ class RequestPageTableViewCell: UITableViewCell {
             }
         }
     }
+    /*
+    override var frame: CGRect {
+        get {
+            return super.frame
+        }
+        set {
+            var frame = newValue
+            frame.origin.x += UIScreen.main.bounds.width * (1 - cellWidthFactor) / 2
+            frame.size.width = UIScreen.main.bounds.width * cellWidthFactor
+            super.frame = frame
+        }
+    }
+ */
 
 }

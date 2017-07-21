@@ -19,8 +19,8 @@ class RequestPageViewController: UIViewController, UITableViewDelegate, UITableV
     @IBOutlet weak var addRequest: UIBarButtonItem!
     @IBOutlet weak var signInButton: UIBarButtonItem!
     var reuseIdentifier = "rideRequest"
-    var tableBackgroundColor = UIColor(red:0.83, green:0.84, blue:0.87, alpha:1.0)
-    //var tableBackgroundColor = UIColor(red:0.14, green:0.19, blue:0.26, alpha:1.0)
+    //var tableBackgroundColor = UIColor(red:0.83, green:0.84, blue:0.87, alpha:1.0)
+    var tableBackgroundColor = UIColor(red:0.86, green:0.87, blue:0.87, alpha:1.0)
     var justSignedIn: Bool = false
     
     override func viewDidLoad() {
@@ -35,12 +35,14 @@ class RequestPageViewController: UIViewController, UITableViewDelegate, UITableV
         print(RequestPageViewController.userName?.name ?? "Not Signed in yet")
         let image = UIImage(named: "logo")
         navigationItem.titleView = UIImageView(image: image)
-        self.rideRequestList.rowHeight = UITableViewAutomaticDimension
-        self.rideRequestList.estimatedRowHeight = 128
-        self.view.backgroundColor = tableBackgroundColor
+        rideRequestList.rowHeight = UITableViewAutomaticDimension
+        rideRequestList.estimatedRowHeight = 128
+        
+        view.backgroundColor = tableBackgroundColor
         //navigationController?.navigationBar.isTranslucent = false
         //navigationController?.navigationBar.barTintColor = UIColor(red:0.14, green:0.19, blue:0.26, alpha:1.0)
         rideRequestList.backgroundColor = tableBackgroundColor
+        rideRequestList.showsVerticalScrollIndicator = false
     }
     
     private func updateSignInButton() {
@@ -114,8 +116,12 @@ class RequestPageViewController: UIViewController, UITableViewDelegate, UITableV
             cell.rideRequest = rideRequest
             cell.selectionStyle = UITableViewCellSelectionStyle.none
             cell.requestPageDelegate = self
+            cell.layer.cornerRadius = 4
+            cell.layer.masksToBounds = false
+            cell.layer.shadowColor = UIColor.black.cgColor
+            cell.layer.shadowOffset = CGSize(width: 1, height: 1)
+            cell.layer.shadowOpacity = 0.3
         }
-
         return cell
     }
     
