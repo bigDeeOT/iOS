@@ -61,6 +61,7 @@ class RequestPageTableViewCell: UITableViewCell {
     private func offerRideButtonLogic() {
         offerRideButton?.setTitle("Offer Ride", for: .normal)
         offerRideButton?.isEnabled = true
+        offerRideButton?.isHidden = false
         offerRideButton?.setTitleColor(UIColor(red:0.05, green:0.29, blue:0.59, alpha:1.0), for: .normal)
         if RequestPageViewController.userName == nil {
             //don't show offer button if not signed in
@@ -71,7 +72,12 @@ class RequestPageTableViewCell: UITableViewCell {
                 if RequestPageViewController.userName?.privilege == User.Privilege.rider {
                     offerRideButton?.isHidden = true
                 } else {
-                    offerRideButton?.isHidden = false
+                    //dont show "offer ride" if it's your own request
+                    if RequestPageViewController.userName?.name == rideRequest?.rider?.name {
+                        offerRideButton?.isHidden = true
+                    } else {
+                        offerRideButton?.isHidden = false
+                    }
                 }
                 //don't show "offer ride" if already made offer
                 if let offers = rideRequest?.offers {

@@ -13,6 +13,7 @@ class Offer {
     var date: Date?
     var eta: String?
     var comment: String?
+    var unique: String?
     
     init (user: User, comment: String, date: Date) {
         driver = user

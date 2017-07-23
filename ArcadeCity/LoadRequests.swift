@@ -55,8 +55,24 @@ class LoadRequests {
         request.unique = autoID
     }
     
+    static func addOffer(_ offer: Offer, for rideRequest: RideRequest) {
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "MM-dd-yyyy HH:mm:ss"
+        let date = dateFormatter.string(from: Date())
+        let offerID = LoadRequests.gRef.child("Offers").childByAutoId().key
+        LoadRequests.gRef.child("Offers/\(offerID)").setValue([
+            "Driver"        : offer.driver?.unique,
+            "Date"          : date,
+            "ETA"           : offer.eta ?? "none",
+            "Comment"       : offer.comment ?? "none",
+            "Ride Request"  : rideRequest.unique
+            ])
+        offer.unique = offerID
+        LoadRequests.gRef.child("Requests/\(rideRequest.unique!)/Offers/\(offerID)").setValue("True")
+    }
+    
     func listenForRequest() {
-        self.ref.child("Requests").observe(.childAdded, with: { [weak self] (snapshot) in
+        self.ref.child("Requests").queryLimited(toFirst: 95).observe(.childAdded, with: { [weak self] (snapshot) in
             let unique = snapshot.key
             guard LoadRequests.requestList.last?.unique != unique else { return }
             let details = snapshot.value as! [String:Any]
@@ -69,6 +85,7 @@ class LoadRequests {
             let date = dateFormatter.date(from: details["Date"] as! String)
             request.date = date
             let riderUnique = details["Rider"] as! String
+            request.unique = unique
             self?.ref.child("Users/\(riderUnique)").observeSingleEvent(of: .value, with: { [weak self] (snapShotUser) in
                 guard snapShotUser.exists() else {return}
                 let user = self?.pullUserFromFirebase(snapShotUser)
@@ -113,6 +130,9 @@ class LoadRequests {
                 self?.createNewUserInFirebase(firebaseID)
                 return
             }
+            if self == nil {
+                print("self is nil in chekifuserexists")
+            }
             let user = self?.pullUserFromFirebase(snapshot)
             RequestPageViewController.userName = user
             self?.requestPage.rideRequestList.reloadData()
@@ -121,7 +141,6 @@ class LoadRequests {
     }
     
     private func pullUserFromFirebase(_ snapshot: DataSnapshot) -> User {
-        
         let userInfo = snapshot.value as! [String:Any]
         let picURL = userInfo["Profile Pic URL"] as? String
         let name = userInfo["Name"] as? String
@@ -152,7 +171,6 @@ class LoadRequests {
                 print("failed to print out graph request", err ?? "")
                 return
             }
-            print("result from getFBname", result ?? "")
             let fbInfo = result as! [String:String]
             let name = fbInfo["name"]
             let id = fbInfo["id"]

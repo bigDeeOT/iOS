@@ -43,7 +43,7 @@ class RideDetailViewController: UIViewController, UITableViewDelegate, UITableVi
     func updateUI() {
         loadImage()
         name.text = rideRequest?.rider?.name
-        date.text = "2min"
+        date.text = TimeAgo.get(rideRequest?.date ?? Date())
         eta.text = rideRequest?.ETA
         pickUpText.text = rideRequest?.text
         pickUpText.lineBreakMode = .byWordWrapping
@@ -108,7 +108,6 @@ class RideDetailViewController: UIViewController, UITableViewDelegate, UITableVi
     public func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: cellIdentifier, for: indexPath) as! RideDetailTableViewCell
             cell.offer = rideRequest?.offers?[indexPath.row]
-        
         return cell
     }
     

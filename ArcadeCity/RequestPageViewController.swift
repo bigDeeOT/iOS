@@ -24,6 +24,7 @@ class RequestPageViewController: UIViewController, UITableViewDelegate, UITableV
     var justSignedIn: Bool = false
     var fbButton: UIBarButtonItem!
     var menuButton: UIBarButtonItem!
+    var isListening: Bool = false
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -35,19 +36,27 @@ class RequestPageViewController: UIViewController, UITableViewDelegate, UITableV
         addRequestButtonLogic()
         loadRequests.requestPage = self
         loadRequests.checkIfUserExists()
-        loadRequests.listenForRequest()
+        if Auth.auth().currentUser?.uid != nil {
+            loadRequests.listenForRequest()
+            isListening = true
+        }
     }
     
     private func style() {
+        let bar = navigationController?.navigationBar
         view.backgroundColor = tableBackgroundColor
-        //navigationController?.navigationBar.isTranslucent = false
-        //navigationController?.navigationBar.barTintColor = UIColor(red:0.14, green:0.19, blue:0.26, alpha:1.0)
+        bar?.isTranslucent = true
+        bar?.barTintColor = UIColor(red:0.16, green:0.46, blue:0.75, alpha:1.0)
+        //bar?.setBackgroundImage(UIImage(), for: .default)
+        //bar?.shadowImage = UIImage()
+        //bar?.clipsToBounds = true
+        
         rideRequestList.backgroundColor = tableBackgroundColor
         rideRequestList.showsVerticalScrollIndicator = false
         rideRequestList.rowHeight = UITableViewAutomaticDimension
         rideRequestList.estimatedRowHeight = 128
         let image = UIImage(named: "logo")
-        navigationItem.titleView = UIImageView(image: image)
+      //  navigationItem.titleView = UIImageView(image: image)
     }
     
     private func setNavBarButton() {
@@ -65,6 +74,9 @@ class RequestPageViewController: UIViewController, UITableViewDelegate, UITableV
         menuButton = UIBarButtonItem()
         menuButton.customView = menu
         menuButtonLogic()
+        
+        navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .plain, target: nil, action: nil)
+        navigationItem
     }
     
     func login() {
@@ -87,6 +99,8 @@ class RequestPageViewController: UIViewController, UITableViewDelegate, UITableV
         addRequest.isEnabled = false
         rideRequestList.reloadData()
         menuButtonLogic()
+        LoadRequests.gRef.child("Requests").removeAllObservers()
+        isListening = false
     }
     
     private func addRequestButtonLogic() {
@@ -110,12 +124,19 @@ class RequestPageViewController: UIViewController, UITableViewDelegate, UITableV
         super.viewWillAppear(animated)
         menuButtonLogic()
         rideRequestList.reloadData()
-       // loadRequests.listenForRequest()
+        
+        if (isListening == false) && (RequestPageViewController.userName != nil) {
+            loadRequests.listenForRequest()
+            isListening = true
+        }
     }
     
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
-        //LoadRequests.gRef.child("Requests").removeAllObservers()
+        if (isListening == true) && (RequestPageViewController.userName == nil) {
+            LoadRequests.gRef.child("Requests").removeAllObservers()
+            isListening = false
+        }
     }
     
     /* Spacing between cells*/

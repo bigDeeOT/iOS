@@ -19,6 +19,7 @@ class User {
     var collage: URL?
     var phone: String?
     var privilege: Privilege = .rider
+    var delegate: RideDetailViewController?
     
     enum Privilege: Int {
     case banned, rider, driver, moderator, administrator

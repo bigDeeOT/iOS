@@ -16,6 +16,10 @@ class PostCollageViewController: UIViewController {
     
     @IBAction func submit(_ sender: Any) {
         let offer = Offer(user: RequestPageViewController.userName!, comment: comment.text, date: Date())
+        if let rideRequest = rideRequest {
+            LoadRequests.addOffer(offer, for: rideRequest)
+        }
+        
         //need to get updated rideRequest state here
         if rideRequest?.state == RideRequest.State.unresolved {
             rideRequest?.offers?.append(offer)
@@ -37,13 +41,14 @@ class PostCollageViewController: UIViewController {
         super.viewDidLoad()
         if rideRequest?.showETA == false {
             print("removed eta")
-            eta.removeFromSuperview()
+            eta.isHidden = true
         } else {
             eta.text = rideRequest?.ETA
             print("riderequest eta is \(rideRequest?.ETA ?? "no ride request eta found")")
         }
         comment.layer.borderWidth = 1
         comment.layer.borderColor = UIColor.lightGray.cgColor
+        comment.tintColor = UIColor.lightGray
         let tap = UITapGestureRecognizer(target: self, action: #selector(dismissKeyboard))
         view.addGestureRecognizer(tap)
     }
@@ -55,6 +60,7 @@ class PostCollageViewController: UIViewController {
        override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         let vc = segue.destination as? RideDetailViewController
         vc?.rideRequest = sender as? RideRequest
+        
     }
    
 
