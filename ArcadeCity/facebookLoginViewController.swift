@@ -65,7 +65,6 @@ class facebookLoginViewController: UIViewController, FBSDKLoginButtonDelegate {
                 try Auth.auth().signOut()
             } catch { print("error with firebase logout")}
             print("We logged out")
-            
         }
     }
     

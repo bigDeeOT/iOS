@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="12121" systemVersion="16F73" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="1uW-B9-8VL">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="12121" systemVersion="16F73" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="Z2K-Ik-gBZ">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
@@ -69,6 +69,48 @@
             </objects>
             <point key="canvasLocation" x="1020" y="133.5832083958021"/>
         </scene>
+        <!--Waiting For Database View Controller-->
+        <scene sceneID="V3O-0d-MeD">
+            <objects>
+                <viewController id="23d-EG-rVI" customClass="WaitingForDatabaseViewController" customModule="ArcadeCity" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="k6H-YZ-5YH"/>
+                        <viewControllerLayoutGuide type="bottom" id="Khg-uO-yp6"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="G4v-jU-vfL">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="logoWait" translatesAutoresizingMaskIntoConstraints="NO" id="dy1-VB-HtM">
+                                <rect key="frame" x="16" y="55" width="343" height="343"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            </imageView>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Arcade City" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="QZ0-cP-tXC">
+                                <rect key="frame" x="16" y="419" width="343" height="52"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" name="KohinoorBangla-Semibold" family="Kohinoor Bangla" pointSize="40"/>
+                                <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" fixedFrame="YES" hidesWhenStopped="YES" animating="YES" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="hy9-Sf-ycp">
+                                <rect key="frame" x="177" y="512" width="20" height="20"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <color key="color" red="0.9816928506" green="0.98786956069999998" blue="0.98792499300000003" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                            </activityIndicatorView>
+                        </subviews>
+                        <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                    </view>
+                    <nil key="simulatedStatusBarMetrics"/>
+                    <nil key="simulatedTopBarMetrics"/>
+                    <connections>
+                        <segue destination="9SD-W9-AmA" kind="unwind" identifier="ready" unwindAction="unwindToRequestPageWithSegue:" id="VRW-wh-pb1"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="nzs-13-4kq" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <exit id="9SD-W9-AmA" userLabel="Exit" sceneMemberID="exit"/>
+            </objects>
+            <point key="canvasLocation" x="2178.4000000000001" y="131.78410794602701"/>
+        </scene>
         <!--Arcade City-->
         <scene sceneID="S3v-Oc-VGA">
             <objects>
@@ -89,7 +131,7 @@
                                         <rect key="frame" x="0.0" y="28" width="343" height="128"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="n5R-hU-3M4" id="MHf-Fn-i8H">
-                                            <rect key="frame" x="0.0" y="0.0" width="343" height="127.5"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="343" height="128"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <stackView opaque="NO" contentMode="scaleToFill" alignment="top" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="oVt-NH-mFm">
@@ -204,11 +246,6 @@
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" title="Arcade City" id="Dwv-Sz-b8W">
-                        <barButtonItem key="leftBarButtonItem" title="Sign In" id="S2Z-8j-IhZ">
-                            <connections>
-                                <action selector="signIn:" destination="DhC-KY-3sv" id="Twg-ow-RS0"/>
-                            </connections>
-                        </barButtonItem>
                         <barButtonItem key="rightBarButtonItem" systemItem="add" id="wMF-4E-RZ8">
                             <connections>
                                 <segue destination="A2e-Ol-9cn" kind="show" id="R1G-fW-PPh"/>
@@ -219,10 +256,9 @@
                     <connections>
                         <outlet property="addRequest" destination="wMF-4E-RZ8" id="rMs-9n-ZHZ"/>
                         <outlet property="rideRequestList" destination="XGX-Hy-H5X" id="bFR-sr-OUq"/>
-                        <outlet property="signInButton" destination="S2Z-8j-IhZ" id="Ql8-La-nVa"/>
-                        <segue destination="XYy-yC-z4l" kind="show" identifier="signIn" id="u4F-8i-XYw"/>
                         <segue destination="M67-u6-5eC" kind="show" identifier="rideRequestDetails" id="f00-Zg-XAw"/>
                         <segue destination="b15-VZ-WOL" kind="show" identifier="postCollage" id="hNd-ET-JVO"/>
+                        <segue destination="23d-EG-rVI" kind="show" identifier="waitingForDatabase" id="4Cb-Dv-AM1"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="gTv-2u-Qn7" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -671,15 +707,19 @@
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="o8o-XM-8bn">
-                                                    <rect key="frame" x="142" y="8" width="91" height="30"/>
+                                                    <rect key="frame" x="8" y="0.0" width="359" height="44"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                                    <state key="normal" title="Request Ride"/>
+                                                    <fontDescription key="fontDescription" style="UICTFontTextStyleTitle3"/>
+                                                    <state key="normal" title="Request Ride">
+                                                        <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                                                    </state>
                                                     <connections>
                                                         <action selector="requestRide:" destination="A2e-Ol-9cn" eventType="touchUpInside" id="2tQ-Li-YzS"/>
                                                     </connections>
                                                 </button>
                                             </subviews>
                                         </tableViewCellContentView>
+                                        <color key="backgroundColor" red="0.2468472146836265" green="0.52276721366232948" blue="0.83032598350253806" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                     </tableViewCell>
                                 </cells>
                             </tableViewSection>
@@ -695,10 +735,11 @@
                         <outlet property="nowOrLater" destination="RQ2-WZ-RgX" id="4g3-Sg-Mgn"/>
                         <outlet property="otherInfo" destination="rkZ-0E-upG" id="Hfc-e9-wcX"/>
                         <outlet property="pickUp" destination="RI6-Ua-GqM" id="iGb-ga-1ln"/>
-                        <segue destination="DhC-KY-3sv" kind="show" identifier="requestRide" id="R83-VL-nMj"/>
+                        <segue destination="shL-mC-cWJ" kind="unwind" identifier="requestRide" unwindAction="unwindToRequestPageWithSegue:" id="aB7-qY-sk6"/>
                     </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="kXP-3t-v7w" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <exit id="shL-mC-cWJ" userLabel="Exit" sceneMemberID="exit"/>
             </objects>
             <point key="canvasLocation" x="2863.1999999999998" y="819.94002998500753"/>
         </scene>
@@ -748,7 +789,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="w1P-w7-t85" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-23.199999999999999" y="1009.7451274362819"/>
+            <point key="canvasLocation" x="-113" y="904"/>
         </scene>
         <!--Firebase Testing View Controller-->
         <scene sceneID="1db-cQ-wID">
@@ -853,9 +894,11 @@
             <point key="canvasLocation" x="-962.39999999999998" y="1009.7451274362819"/>
         </scene>
     </scenes>
+    <resources>
+        <image name="logoWait" width="16" height="16"/>
+    </resources>
     <inferredMetricsTieBreakers>
         <segue reference="hNd-ET-JVO"/>
-        <segue reference="R83-VL-nMj"/>
         <segue reference="f00-Zg-XAw"/>
     </inferredMetricsTieBreakers>
 </document>

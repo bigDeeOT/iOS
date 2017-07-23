@@ -13,15 +13,18 @@ class User {
     var profilePicURL: URL?
     var ridesRequested = 0
     var ridesResolved = 0
+    var ridesOffered = 0
+    var ridesGiven = 0
     var unique: String?
     var collage: URL?
     var phone: String?
+    var privilege: Privilege = .rider
     
     enum Privilege: Int {
     case banned, rider, driver, moderator, administrator
     }
     
-    var privilege: Privilege = .rider
+    
     
     init(name: String) {
         self.name = name
@@ -29,5 +32,9 @@ class User {
     init(url: URL, name: String) {
         self.name = name
         profilePicURL = url
+    }
+    init(url: String, name: String) {
+        self.name = name
+        profilePicURL = URL(string: url)
     }
 }

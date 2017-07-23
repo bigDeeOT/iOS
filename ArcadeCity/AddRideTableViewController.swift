@@ -72,9 +72,9 @@ class AddRideTableViewController: UITableViewController {
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        if let vc = segue.destination as? RequestPageViewController {
+        if segue.identifier == identifier {
             if let ride = sender as? RideRequest {
-                vc.pendingRequest = ride
+                LoadRequests.add(request: ride)
             }
         }
     }

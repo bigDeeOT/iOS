@@ -16,6 +16,7 @@ class RideRequest {
     var text: String?
     var showETA: Bool = true
     var ETA: String?
+    var unique: String?
     var resolvedBy: User? {
         didSet {
             if resolvedBy != nil {

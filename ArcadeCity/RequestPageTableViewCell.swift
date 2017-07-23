@@ -36,6 +36,7 @@ class RequestPageTableViewCell: UITableViewCell {
         loadPicture()
         offerRideButtonLogic()
         etaLogic()
+        timePosted.text = TimeAgo.get((rideRequest?.date)!)
     }
     
     private func etaLogic() {
@@ -59,10 +60,11 @@ class RequestPageTableViewCell: UITableViewCell {
     
     private func offerRideButtonLogic() {
         offerRideButton?.setTitle("Offer Ride", for: .normal)
+        offerRideButton?.isEnabled = true
+        offerRideButton?.setTitleColor(UIColor(red:0.05, green:0.29, blue:0.59, alpha:1.0), for: .normal)
         if RequestPageViewController.userName == nil {
             //don't show offer button if not signed in
             offerRideButton?.isHidden = true
-            offerRideButton?.tintColor = UIColor(red:0.05, green:0.29, blue:0.59, alpha:1.0)
         } else {
             if rideRequest?.state == RideRequest.State.unresolved {
                 //don't show "offer ride" to riders
@@ -75,7 +77,10 @@ class RequestPageTableViewCell: UITableViewCell {
                 if let offers = rideRequest?.offers {
                     for offer in offers {
                         if RequestPageViewController.userName?.name == offer.driver?.name {
-                            offerRideButton?.isHidden = true
+                            offerRideButton?.setTitle("Collage Posted", for: .normal)
+                            offerRideButton?.setTitleColor(UIColor.black, for: .normal)
+                            offerRideButton?.isEnabled = false
+                            
                         }
                     }
                 }
@@ -90,18 +95,5 @@ class RequestPageTableViewCell: UITableViewCell {
             }
         }
     }
-    /*
-    override var frame: CGRect {
-        get {
-            return super.frame
-        }
-        set {
-            var frame = newValue
-            frame.origin.x += UIScreen.main.bounds.width * (1 - cellWidthFactor) / 2
-            frame.size.width = UIScreen.main.bounds.width * cellWidthFactor
-            super.frame = frame
-        }
-    }
- */
-
+  
 }

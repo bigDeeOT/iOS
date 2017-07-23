@@ -7,6 +7,8 @@
 //
 
 import UIKit
+import FBSDKLoginKit
+import Firebase
 
 class RequestPageViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, OfferRide {
     
@@ -17,61 +19,103 @@ class RequestPageViewController: UIViewController, UITableViewDelegate, UITableV
     var cellWasViewed = [Bool]()
      @IBOutlet weak var rideRequestList: UITableView!
     @IBOutlet weak var addRequest: UIBarButtonItem!
-    @IBOutlet weak var signInButton: UIBarButtonItem!
     var reuseIdentifier = "rideRequest"
-    //var tableBackgroundColor = UIColor(red:0.83, green:0.84, blue:0.87, alpha:1.0)
     var tableBackgroundColor = UIColor(red:0.86, green:0.87, blue:0.87, alpha:1.0)
     var justSignedIn: Bool = false
+    var fbButton: UIBarButtonItem!
+    var menuButton: UIBarButtonItem!
     
     override func viewDidLoad() {
         super.viewDidLoad()
         rideRequestList.delegate = self
         rideRequestList.dataSource = self
-        if let pendingRequest = pendingRequest {
-            loadRequests.add(request: pendingRequest)
-        }
         requestList = loadRequests.get()
-        updateSignInButton()
-        print(RequestPageViewController.userName?.name ?? "Not Signed in yet")
-        let image = UIImage(named: "logo")
-        navigationItem.titleView = UIImageView(image: image)
-        rideRequestList.rowHeight = UITableViewAutomaticDimension
-        rideRequestList.estimatedRowHeight = 128
-        
+        setNavBarButton()
+        style()
+        addRequestButtonLogic()
+        loadRequests.requestPage = self
+        loadRequests.checkIfUserExists()
+        loadRequests.listenForRequest()
+    }
+    
+    private func style() {
         view.backgroundColor = tableBackgroundColor
         //navigationController?.navigationBar.isTranslucent = false
         //navigationController?.navigationBar.barTintColor = UIColor(red:0.14, green:0.19, blue:0.26, alpha:1.0)
         rideRequestList.backgroundColor = tableBackgroundColor
         rideRequestList.showsVerticalScrollIndicator = false
+        rideRequestList.rowHeight = UITableViewAutomaticDimension
+        rideRequestList.estimatedRowHeight = 128
+        let image = UIImage(named: "logo")
+        navigationItem.titleView = UIImageView(image: image)
     }
     
-    private func updateSignInButton() {
-        if RequestPageViewController.userName == nil {
-            addRequest.isEnabled = false
-            
-        } else {
-            signInButton.title = "Sign Out"
-            addRequest.isEnabled = true
-            //addRequest.tintColor = UIColor.white
-        }
-        //signInButton.tintColor = UIColor.white
+    private func setNavBarButton() {
+        let fb = UIButton()
+        fb.frame = CGRect(x: 0, y: 0, width: 30, height: 30)
+        fb.setImage(UIImage(named: "fbLoginNavBar"), for: .normal)
+        fb.addTarget(self, action: #selector(login), for: .touchUpInside)
+        fbButton = UIBarButtonItem()
+        fbButton.customView = fb
+        
+        let menu = UIButton()
+        menu.frame = CGRect(x: 0, y: 0, width: 30, height: 30)
+        menu.setImage(UIImage(named: "menuNavBar"), for: .normal)
+        menu.addTarget(self, action: #selector(menuNavBar), for: .touchUpInside)
+        menuButton = UIBarButtonItem()
+        menuButton.customView = menu
+        menuButtonLogic()
     }
+    
+    func login() {
+        addRequest.isEnabled = true
+        loadRequests.login(self)
+        performSegue(withIdentifier: "waitingForDatabase", sender: nil)
+    }
+
+    
+    func menuNavBar() {
+        logout()
+    }
+    
+    func logout() {
+        FBSDKLoginManager().logOut()
+        do {
+            try Auth.auth().signOut()
+        } catch { print("error with firebase logout")}
+        RequestPageViewController.userName = nil
+        addRequest.isEnabled = false
+        rideRequestList.reloadData()
+        menuButtonLogic()
+    }
+    
+    private func addRequestButtonLogic() {
+        if Auth.auth().currentUser?.uid == nil {
+            addRequest.isEnabled = false
+        } else {
+            addRequest.isEnabled = true
+        }
+    }
+    
+    private func menuButtonLogic() {
+        if Auth.auth().currentUser?.uid == nil {
+            navigationItem.leftBarButtonItem = fbButton
+        } else {
+            navigationItem.leftBarButtonItem = menuButton
+        }
+    }
+    
     
     override func viewWillAppear(_ animated: Bool) {
-        updateSignInButton()
+        super.viewWillAppear(animated)
+        menuButtonLogic()
         rideRequestList.reloadData()
+       // loadRequests.listenForRequest()
     }
     
-    @IBAction func signIn(_ sender: UIBarButtonItem) {
-        if sender.title == "Sign In" {
-        performSegue(withIdentifier: "signIn", sender: nil)
-        } else {
-            //user wants to logout
-            sender.title = "Sign In"
-            RequestPageViewController.userName = nil
-            addRequest.isEnabled = false
-            rideRequestList.reloadData()
-        }
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        //LoadRequests.gRef.child("Requests").removeAllObservers()
     }
     
     /* Spacing between cells*/
@@ -102,7 +146,7 @@ class RequestPageViewController: UIViewController, UITableViewDelegate, UITableV
     
     
     func numberOfSections(in tableView: UITableView) -> Int {
-        return requestList.count
+        return LoadRequests.requestList.count
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -112,7 +156,7 @@ class RequestPageViewController: UIViewController, UITableViewDelegate, UITableV
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: reuseIdentifier, for: indexPath)
         if let cell = cell as? RequestPageTableViewCell {
-            let rideRequest = requestList[requestList.count - 1 - indexPath.section]
+            let rideRequest = LoadRequests.requestList[LoadRequests.requestList.count - 1 - indexPath.section]
             cell.rideRequest = rideRequest
             cell.selectionStyle = UITableViewCellSelectionStyle.none
             cell.requestPageDelegate = self
@@ -138,7 +182,7 @@ class RequestPageViewController: UIViewController, UITableViewDelegate, UITableV
             performSegue(withIdentifier: "postCollage", sender: rideRequest)
         }
     }
-      override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if let vc = segue.destination as? RideDetailViewController {
             if let cell = sender as? RequestPageTableViewCell {
                 vc.rideRequest = cell.rideRequest
@@ -149,17 +193,20 @@ class RequestPageViewController: UIViewController, UITableViewDelegate, UITableV
                 vc.rideRequest = request
             }
         }
+        if let vc = segue.destination as? WaitingForDatabaseViewController {
+            loadRequests.waitingPage = vc
+            print("assigned waiting page")
+        }
         
     }
 
     @IBAction func unwindToRequestPage(segue: UIStoryboardSegue) {
-        
+        navigationController?.isNavigationBarHidden = false
     }
 
 }
 
 protocol OfferRide {
+    //this is just so we can segue from tableView cell
     func segueToAddCollage(rideRequest: RideRequest)
 }
-
-//glitches - when someone resolves a ride, then unresolves it, when another user signs in, it shows still resolved. 
