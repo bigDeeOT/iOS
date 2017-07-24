@@ -55,7 +55,7 @@ class RequestPageViewController: UIViewController, UITableViewDelegate, UITableV
         rideRequestList.showsVerticalScrollIndicator = false
         rideRequestList.rowHeight = UITableViewAutomaticDimension
         rideRequestList.estimatedRowHeight = 128
-        let image = UIImage(named: "logo")
+       // let image = UIImage(named: "logo")
       //  navigationItem.titleView = UIImageView(image: image)
     }
     
@@ -76,11 +76,9 @@ class RequestPageViewController: UIViewController, UITableViewDelegate, UITableV
         menuButtonLogic()
         
         navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .plain, target: nil, action: nil)
-        navigationItem
     }
     
     func login() {
-        addRequest.isEnabled = true
         loadRequests.login(self)
         performSegue(withIdentifier: "waitingForDatabase", sender: nil)
     }
@@ -101,6 +99,7 @@ class RequestPageViewController: UIViewController, UITableViewDelegate, UITableV
         menuButtonLogic()
         LoadRequests.gRef.child("Requests").removeAllObservers()
         isListening = false
+        LoadRequests.clear()
     }
     
     private func addRequestButtonLogic() {
@@ -123,9 +122,11 @@ class RequestPageViewController: UIViewController, UITableViewDelegate, UITableV
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         menuButtonLogic()
+        addRequestButtonLogic()
         rideRequestList.reloadData()
         
         if (isListening == false) && (RequestPageViewController.userName != nil) {
+            print("adding request observer in view will appear")
             loadRequests.listenForRequest()
             isListening = true
         }
@@ -134,6 +135,7 @@ class RequestPageViewController: UIViewController, UITableViewDelegate, UITableV
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         if (isListening == true) && (RequestPageViewController.userName == nil) {
+            print("removing observers in view will disappear")
             LoadRequests.gRef.child("Requests").removeAllObservers()
             isListening = false
         }
@@ -175,8 +177,11 @@ class RequestPageViewController: UIViewController, UITableViewDelegate, UITableV
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+      //  print("cellForRowAt indexPath")
         let cell = tableView.dequeueReusableCell(withIdentifier: reuseIdentifier, for: indexPath)
         if let cell = cell as? RequestPageTableViewCell {
+            guard indexPath.section <= (LoadRequests.requestList.count - 1) else {return cell}
+            
             let rideRequest = LoadRequests.requestList[LoadRequests.requestList.count - 1 - indexPath.section]
             cell.rideRequest = rideRequest
             cell.selectionStyle = UITableViewCellSelectionStyle.none
@@ -216,7 +221,6 @@ class RequestPageViewController: UIViewController, UITableViewDelegate, UITableV
         }
         if let vc = segue.destination as? WaitingForDatabaseViewController {
             loadRequests.waitingPage = vc
-            print("assigned waiting page")
         }
         
     }

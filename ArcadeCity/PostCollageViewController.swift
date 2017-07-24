@@ -17,13 +17,13 @@ class PostCollageViewController: UIViewController {
     @IBAction func submit(_ sender: Any) {
         let offer = Offer(user: RequestPageViewController.userName!, comment: comment.text, date: Date())
         if let rideRequest = rideRequest {
-            LoadRequests.addOffer(offer, for: rideRequest)
+            //need to get updated rideRequest state here
+            if rideRequest.state == RideRequest.State.unresolved {
+                LoadRequests.addOffer(offer, for: rideRequest)
+            }
         }
         
-        //need to get updated rideRequest state here
-        if rideRequest?.state == RideRequest.State.unresolved {
-            rideRequest?.offers?.append(offer)
-        }
+
         
         //we don't want user to go "back" to this page
         
@@ -48,7 +48,7 @@ class PostCollageViewController: UIViewController {
         }
         comment.layer.borderWidth = 1
         comment.layer.borderColor = UIColor.lightGray.cgColor
-        comment.tintColor = UIColor.lightGray
+        comment.tintColor = UIColor(red:0.16, green:0.46, blue:0.75, alpha:1.0)
         let tap = UITapGestureRecognizer(target: self, action: #selector(dismissKeyboard))
         view.addGestureRecognizer(tap)
     }

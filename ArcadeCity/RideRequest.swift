@@ -17,6 +17,7 @@ class RideRequest {
     var showETA: Bool = true
     var ETA: String?
     var unique: String?
+    var delegate: RideDetailViewController?
     var resolvedBy: User? {
         didSet {
             if resolvedBy != nil {
@@ -24,6 +25,14 @@ class RideRequest {
             } else {
                 state = State.unresolved
             }
+        }
+    }
+    var isOld: Bool {
+        get {
+            if Date().timeIntervalSince(date!) > 60*20 {
+                return true
+            }
+            return false
         }
     }
     

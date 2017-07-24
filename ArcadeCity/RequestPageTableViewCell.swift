@@ -40,7 +40,11 @@ class RequestPageTableViewCell: UITableViewCell {
     }
     
     private func etaLogic() {
-        //configure eta label
+        if (rideRequest?.isOld)! || (RequestPageViewController.userName?.name == rideRequest?.rider?.name) {
+            eta.isHidden = true
+        } else {
+            eta.isHidden = false
+        }
     }
     
     private func loadPicture() {
@@ -68,6 +72,10 @@ class RequestPageTableViewCell: UITableViewCell {
             offerRideButton?.isHidden = true
         } else {
             if rideRequest?.state == RideRequest.State.unresolved {
+                if (rideRequest?.isOld)! {
+                    offerRideButton?.isHidden = true
+                    return
+                }
                 //don't show "offer ride" to riders
                 if RequestPageViewController.userName?.privilege == User.Privilege.rider {
                     offerRideButton?.isHidden = true
@@ -92,7 +100,7 @@ class RequestPageTableViewCell: UITableViewCell {
                 }
             } else if rideRequest?.state == RideRequest.State.resolved {
                 offerRideButton.isHidden = false
-                offerRideButton.setTitle("#Resolved by \(rideRequest?.resolvedBy?.name ?? "error")", for: .normal)
+                offerRideButton.setTitle("#Resolved", for: .normal)
                 offerRideButton.setTitleColor(UIColor.black, for: .normal)
             } else if rideRequest?.state == RideRequest.State.canceled {
                 offerRideButton.isHidden = false

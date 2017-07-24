@@ -57,9 +57,9 @@ class AddRideTableViewController: UITableViewController {
         tableView.tableFooterView = UIView(frame: CGRect(x: 0, y: 0, width: tableView.frame.size.width, height: 1))
         let tap = UITapGestureRecognizer(target: self, action: #selector(dismissKeyboard))
         view.addGestureRecognizer(tap)
-        dropOff.tintColor = UIColor.lightGray
-        pickUp.tintColor = UIColor.lightGray
-        otherInfo.tintColor = UIColor.lightGray
+        dropOff.tintColor = UIColor(red:0.16, green:0.46, blue:0.75, alpha:1.0)
+        pickUp.tintColor = UIColor(red:0.16, green:0.46, blue:0.75, alpha:1.0)
+        otherInfo.tintColor = UIColor(red:0.16, green:0.46, blue:0.75, alpha:1.0)
     }
     
     func dismissKeyboard() {

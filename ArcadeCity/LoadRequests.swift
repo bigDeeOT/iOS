@@ -21,11 +21,21 @@ class LoadRequests {
     
     init() {
         if LoadRequests.needToLoad {
-       loadRequestsFullOfJunk()
+       LoadRequests.loadRequestsFullOfJunk()
             LoadRequests.needToLoad = false
         }
         ref = Database.database().reference()
         LoadRequests.gRef = ref
+    }
+    
+    static func clear() {
+        for request in requestList {
+            if request.unique != nil {
+                removeOfferListener(requestNumber: request.unique!)
+            }
+        }
+        requestList.removeAll()
+        loadRequestsFullOfJunk()
     }
     
     func get() -> [RideRequest] {
@@ -34,7 +44,10 @@ class LoadRequests {
     
     static func addRequestToList(_ request: RideRequest){
         if LoadRequests.requestList.count >= 100 {
-            LoadRequests.requestList.removeFirst(3)
+            if requestList.first?.unique != nil {
+                removeOfferListener(requestNumber: (requestList.first?.unique)!)
+            }
+            LoadRequests.requestList.removeFirst()
         }
         LoadRequests.requestList.append(request)
     }
@@ -50,6 +63,7 @@ class LoadRequests {
             "Rider"         : request.rider?.unique,
             "Date"          : date,
             "Show ETA"      : request.showETA ? "True" : "False"
+            //"Offers"        : "None"
             ])
         LoadRequests.gRef.child("Requests by Users/\((request.rider?.unique)!)/Requests/\(autoID)").setValue("True")
         request.unique = autoID
@@ -65,16 +79,23 @@ class LoadRequests {
             "Date"          : date,
             "ETA"           : offer.eta ?? "none",
             "Comment"       : offer.comment ?? "none",
-            "Ride Request"  : rideRequest.unique
+            "Ride Request"  : rideRequest.unique,
             ])
         offer.unique = offerID
         LoadRequests.gRef.child("Requests/\(rideRequest.unique!)/Offers/\(offerID)").setValue("True")
     }
     
+    var listenForRequestUnique: String?
+    
     func listenForRequest() {
+
         self.ref.child("Requests").queryLimited(toFirst: 95).observe(.childAdded, with: { [weak self] (snapshot) in
+            print("listenForRequest was called")
             let unique = snapshot.key
-            guard LoadRequests.requestList.last?.unique != unique else { return }
+            guard LoadRequests.requestList.last?.unique != unique else {
+                self?.listenForOffer((LoadRequests.requestList.last)!)
+                return
+            }
             let details = snapshot.value as! [String:Any]
             let request = RideRequest()
             request.text = details["Text"] as? String
@@ -86,14 +107,60 @@ class LoadRequests {
             request.date = date
             let riderUnique = details["Rider"] as! String
             request.unique = unique
+            //get rider
+            self?.listenForRequestUnique = request.unique
             self?.ref.child("Users/\(riderUnique)").observeSingleEvent(of: .value, with: { [weak self] (snapShotUser) in
                 guard snapShotUser.exists() else {return}
                 let user = self?.pullUserFromFirebase(snapShotUser)
+                print("listen for request -> getting user")
                 request.rider = user
+                LoadRequests.addRequestToList(request)
+                //get offers
+                print("about to call listenForOffer")
+                self?.listenForOffer(request)
+                print("now refreshing table")
                 self?.requestPage.rideRequestList.reloadData()
             })
-            LoadRequests.addRequestToList(request)
+            
         })
+    }
+    
+    
+    func listenForOffer(_ request: RideRequest) {
+        print("observing at Requests/\(request.unique!)/Offers")
+        self.ref.child("Requests/\(request.unique!)/Offers").observe(.childAdded, with: { [weak self] (offerSnapshot) in
+            print("inside listenForOffer")
+            print(offerSnapshot)
+            let offerUnique = offerSnapshot.key
+            self?.ref.child("Offers/\(offerUnique)").observeSingleEvent(of: .value, with: { (offerDetailSnapshot) in
+                let offerDetails = offerDetailSnapshot.value as! [String:Any]
+                let offer = Offer()
+                let dateFormatter = DateFormatter()
+                dateFormatter.dateFormat = "MM-dd-yyyy HH:mm:ss"
+                offer.date = dateFormatter.date(from: offerDetails["Date"] as! String)
+                let offerETA = offerDetails["ETA"] as? String
+                offer.eta = offerETA
+                if offerETA == "none" { offer.eta = nil }
+                offer.comment = offerDetails["Comment"] as? String
+                offer.unique = offerUnique
+                //get user who made offer
+                let offerDriverUnique = offerDetails["Driver"] as! String
+                self?.ref.child("Users/\(offerDriverUnique)").observeSingleEvent(of: .value, with: { (offerDriverSnapshot) in
+                    let offerDriver = self?.pullUserFromFirebase(offerDriverSnapshot)
+                    offer.driver = offerDriver
+                    request.offers?.append(offer)
+                    print("refreshing table after creating offer")
+                    request.delegate?.tableView.reloadData()
+                    self?.requestPage.rideRequestList.reloadData()
+                })
+            })
+        })
+
+    }
+ 
+    
+    static private func removeOfferListener(requestNumber unique: String) {
+        LoadRequests.gRef.child("Requests/\(unique)/Offers").removeAllObservers()
     }
     
     
@@ -123,10 +190,13 @@ class LoadRequests {
     }
     
     func checkIfUserExists() {
-        guard let firebaseID = Auth.auth().currentUser?.uid else {return}
+        guard let firebaseID = Auth.auth().currentUser?.uid else {
+            print("not logged in to firebase. huge error")
+            return
+        }
         self.ref.child("Users").child(firebaseID).observeSingleEvent(of: .value, with: { [weak self] (snapshot) in
             guard snapshot.exists() else {
-                print("user does not exist")
+                print("user does not exist in firebase database", firebaseID)
                 self?.createNewUserInFirebase(firebaseID)
                 return
             }
@@ -196,36 +266,43 @@ class LoadRequests {
         }
     }
     
-    private func loadRequestsFullOfJunk() {
+    static private func loadRequestsFullOfJunk() {
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "MM-dd-yyyy hh:mm:ss a"
+        let date = dateFormatter.date(from: "07-07-2017 10:08:13 am")
+        
         var rider = User(url: URL(string: "http://i.imgur.com/CO5oZG1.jpg")!, name: "Booker T Washington")
         rider.phone = "512 686-7920"
         var request = RideRequest(rider: rider)
         request.text = "Pickup domain to riveride"
-        request.date = Date()
+        request.date = date
         request.ETA = "ETA: 9 min"
+        request.state = RideRequest.State.resolved
         LoadRequests.requestList.append(request)
         
         rider = User(url: URL(string: "http://i.imgur.com/ezZRRss.jpg")!, name: "Donald J Trump")
         rider.phone = "512 686-7920"
         request = RideRequest(rider: rider)
         request.text = "Airport to Capitol please"
-        request.date = Date()
+        request.date = date
         request.ETA = "ETA: 9 min"
+        request.state = RideRequest.State.canceled
         LoadRequests.requestList.append(request)
         
         rider = User(url: URL(string: "http://i.imgur.com/1jP1Zwv.jpg")!, name: "Wolverine")
         rider.phone = "512 686-7920"
         request = RideRequest(rider: rider)
         request.text = "Hey guys I have a favor to ask. I don't know if this is the right place but is it possible for someone to pick up my dog from my apartment and bring him to the vet? I'm so worried about him please help!"
-        request.date = Date()
+        request.date = date
         request.ETA = "ETA: 9 min"
+        request.state = RideRequest.State.resolved
         LoadRequests.requestList.append(request)
         
         rider = User(url: URL(string: "http://i.imgur.com/9QBGS2m.jpg")!, name: "Gregory Fenves")
         rider.phone = "512 686-7920"
         request = RideRequest(rider: rider)
         request.text = "Redbud to UT"
-        request.date = Date()
+        request.date = date
         request.ETA = "ETA: 9 min"
         LoadRequests.requestList.append(request)
         
@@ -233,8 +310,9 @@ class LoadRequests {
         rider.phone = "512 686-7920"
         request = RideRequest(rider: rider)
         request.text = "Hyde Park to Zilker"
-        request.date = Date()
+        request.date = date
         request.ETA = "ETA: 9 min"
+        request.state = RideRequest.State.resolved
         LoadRequests.requestList.append(request)
     }
 

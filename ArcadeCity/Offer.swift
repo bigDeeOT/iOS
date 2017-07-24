@@ -20,4 +20,7 @@ class Offer {
         self.comment = comment
         self.date = date
     }
+    init() {
+        self.date = Date()
+    }
 }

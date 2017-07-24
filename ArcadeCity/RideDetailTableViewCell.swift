@@ -28,7 +28,7 @@ class RideDetailTableViewCell: UITableViewCell {
         eta.text = offer.eta
         phone.text = offer.driver?.phone
         comment.text = offer.comment
-        date.text = "1 min ago"
+        date.text = TimeAgo.get(offer.date ?? Date())
         loadImage()
         comment.lineBreakMode = .byWordWrapping
         comment.numberOfLines = 0

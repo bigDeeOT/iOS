@@ -14,9 +14,9 @@ class TimeAgo {
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "h:mm a"
         let dateInTime = " at " + dateFormatter.string(from: date)
-        dateFormatter.dateFormat = "-dd"
+        dateFormatter.dateFormat = "MMM d"
         let dayOfTheYear = dateFormatter.string(from: date)
-        dateFormatter.dateFormat = "mm-dd-yyyy"
+        dateFormatter.dateFormat = "MMM d yyyy"
         let datePeriod = dateFormatter.string(from: date)
         dateFormatter.dateFormat = "yyyy"
         let yearOfDate = dateFormatter.string(from: date)

@@ -9,10 +9,11 @@
 import UIKit
 
 class RideDetailViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
-    
+
     let cellIdentifier = "rideRequestDetail"
     var rideRequest: RideRequest?
     
+    @IBOutlet weak var seperator: UIView!
     @IBOutlet weak var pickUpText: UILabel!
     @IBOutlet weak var profilePic: UIImageView!
     @IBOutlet weak var name: UILabel!
@@ -44,12 +45,29 @@ class RideDetailViewController: UIViewController, UITableViewDelegate, UITableVi
         loadImage()
         name.text = rideRequest?.rider?.name
         date.text = TimeAgo.get(rideRequest?.date ?? Date())
-        eta.text = rideRequest?.ETA
         pickUpText.text = rideRequest?.text
         pickUpText.lineBreakMode = .byWordWrapping
         pickUpText.numberOfLines = 0
         tableView.tableFooterView = UIView()
+        etaLogic()
         setOfferButton()
+        seperatorLogic()
+    }
+    
+    private func etaLogic() {
+        if (rideRequest?.isOld)! || (RequestPageViewController.userName?.name == rideRequest?.rider?.name) {
+            eta.isHidden = true
+        } else {
+            eta.isHidden = false
+        }
+    }
+    
+    private func seperatorLogic() {
+        if rideRequest?.offers?.isEmpty == true {
+            seperator.isHidden = true
+        } else {
+            seperator.isHidden = false
+        }
     }
     
     private func setOfferButton() {
@@ -63,7 +81,7 @@ class RideDetailViewController: UIViewController, UITableViewDelegate, UITableVi
         }
         //if ride is resolved
         if rideRequest?.state == RideRequest.State.resolved {
-            offerRideButton.setTitle("#Resolved by \(rideRequest?.resolvedBy?.name ?? "error")", for: .normal)
+            offerRideButton.setTitle("#Resolved by \(rideRequest?.resolvedBy?.name ?? "Linda")", for: .normal)
             offerRideButton.setTitleColor(UIColor.red, for: .normal)
         }
         //if ride is canceled
@@ -88,11 +106,12 @@ class RideDetailViewController: UIViewController, UITableViewDelegate, UITableVi
         updateUI()
         self.tableView.rowHeight = UITableViewAutomaticDimension
         self.tableView.estimatedRowHeight = 208
+        rideRequest?.delegate = self
     }
     
     override func viewWillAppear(_ animated: Bool) {
         tableView.reloadData()
-        print(rideRequest?.rider?.name ?? "no rideRequest Present in viewwillappear")
+        seperatorLogic()
     }
 
     public func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -137,7 +156,7 @@ class RideDetailViewController: UIViewController, UITableViewDelegate, UITableVi
     }
     
     @IBAction func unwindToRideDetail(segue: UIStoryboardSegue) {
-    print(rideRequest?.rider?.name ?? "no rideRequest Present")
+    seperatorLogic()
     }
 
 }
