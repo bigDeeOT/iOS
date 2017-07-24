@@ -95,11 +95,11 @@ class RequestPageViewController: UIViewController, UITableViewDelegate, UITableV
         } catch { print("error with firebase logout")}
         RequestPageViewController.userName = nil
         addRequest.isEnabled = false
-        rideRequestList.reloadData()
         menuButtonLogic()
         LoadRequests.gRef.child("Requests").removeAllObservers()
         isListening = false
         LoadRequests.clear()
+        rideRequestList.reloadData()
     }
     
     private func addRequestButtonLogic() {
@@ -177,7 +177,7 @@ class RequestPageViewController: UIViewController, UITableViewDelegate, UITableV
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-      //  print("cellForRowAt indexPath")
+        //print("cellForRowAt indexPath")
         let cell = tableView.dequeueReusableCell(withIdentifier: reuseIdentifier, for: indexPath)
         if let cell = cell as? RequestPageTableViewCell {
             guard indexPath.section <= (LoadRequests.requestList.count - 1) else {return cell}

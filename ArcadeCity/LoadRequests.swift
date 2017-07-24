@@ -88,9 +88,7 @@ class LoadRequests {
     var listenForRequestUnique: String?
     
     func listenForRequest() {
-
         self.ref.child("Requests").queryLimited(toFirst: 95).observe(.childAdded, with: { [weak self] (snapshot) in
-            print("listenForRequest was called")
             let unique = snapshot.key
             guard LoadRequests.requestList.last?.unique != unique else {
                 self?.listenForOffer((LoadRequests.requestList.last)!)
@@ -98,7 +96,9 @@ class LoadRequests {
             }
             let details = snapshot.value as! [String:Any]
             let request = RideRequest()
+            LoadRequests.addRequestToList(request)
             request.text = details["Text"] as? String
+            print(request.text)
             if details["Show ETA"] as! String == "True" {
                 request.showETA = true } else { request.showETA = false }
             let dateFormatter = DateFormatter()
@@ -112,13 +112,10 @@ class LoadRequests {
             self?.ref.child("Users/\(riderUnique)").observeSingleEvent(of: .value, with: { [weak self] (snapShotUser) in
                 guard snapShotUser.exists() else {return}
                 let user = self?.pullUserFromFirebase(snapShotUser)
-                print("listen for request -> getting user")
                 request.rider = user
-                LoadRequests.addRequestToList(request)
+                //LoadRequests.addRequestToList(request)
                 //get offers
-                print("about to call listenForOffer")
                 self?.listenForOffer(request)
-                print("now refreshing table")
                 self?.requestPage.rideRequestList.reloadData()
             })
             
@@ -127,10 +124,7 @@ class LoadRequests {
     
     
     func listenForOffer(_ request: RideRequest) {
-        print("observing at Requests/\(request.unique!)/Offers")
         self.ref.child("Requests/\(request.unique!)/Offers").observe(.childAdded, with: { [weak self] (offerSnapshot) in
-            print("inside listenForOffer")
-            print(offerSnapshot)
             let offerUnique = offerSnapshot.key
             self?.ref.child("Offers/\(offerUnique)").observeSingleEvent(of: .value, with: { (offerDetailSnapshot) in
                 let offerDetails = offerDetailSnapshot.value as! [String:Any]
@@ -149,7 +143,6 @@ class LoadRequests {
                     let offerDriver = self?.pullUserFromFirebase(offerDriverSnapshot)
                     offer.driver = offerDriver
                     request.offers?.append(offer)
-                    print("refreshing table after creating offer")
                     request.delegate?.tableView.reloadData()
                     self?.requestPage.rideRequestList.reloadData()
                 })
