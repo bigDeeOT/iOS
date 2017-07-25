@@ -54,6 +54,12 @@ class RideDetailViewController: UIViewController, UITableViewDelegate, UITableVi
         seperatorLogic()
     }
     
+    func reload() {
+        tableView.reloadData()
+        seperatorLogic()
+        date.text = TimeAgo.get(rideRequest?.date ?? Date())
+    }
+    
     private func etaLogic() {
         if (rideRequest?.isOld)! || (RequestPageViewController.userName?.name == rideRequest?.rider?.name) {
             eta.isHidden = true

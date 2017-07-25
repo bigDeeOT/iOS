@@ -8,11 +8,9 @@
 
 /* Begin PBXBuildFile section */
 		5712C82A1F22BDB400442110 /* WaitingForDatabaseViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5712C8291F22BDB400442110 /* WaitingForDatabaseViewController.swift */; };
-		5783F0361F205E2600340F57 /* facebookLoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5783F0351F205E2600340F57 /* facebookLoginViewController.swift */; };
-		5783F0381F21225500340F57 /* FirebaseTestingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5783F0371F21225500340F57 /* FirebaseTestingViewController.swift */; };
+		575E7B681F266DCC00C1DD70 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 575E7B671F266DCC00C1DD70 /* LoginViewController.swift */; };
 		57BB52C81F241F0700736291 /* TimeAgo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57BB52C71F241F0700736291 /* TimeAgo.swift */; };
 		57D195CC1F19444300F27BB7 /* LoadRequests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57D195CB1F19444300F27BB7 /* LoadRequests.swift */; };
-		57D195CE1F194C1600F27BB7 /* SignInViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57D195CD1F194C1600F27BB7 /* SignInViewController.swift */; };
 		57D195D01F19604F00F27BB7 /* AddRideTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57D195CF1F19604F00F27BB7 /* AddRideTableViewController.swift */; };
 		57D195D31F1A728B00F27BB7 /* RideDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57D195D21F1A728B00F27BB7 /* RideDetailViewController.swift */; };
 		57D195D51F1A756000F27BB7 /* RideDetailTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57D195D41F1A756000F27BB7 /* RideDetailTableViewCell.swift */; };
@@ -38,11 +36,9 @@
 		47D4409EDB97209FB6509052 /* Pods_ArcadeCity.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_ArcadeCity.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		5712C8281F22400A00442110 /* ArcadeCity.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = ArcadeCity.entitlements; sourceTree = "<group>"; };
 		5712C8291F22BDB400442110 /* WaitingForDatabaseViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WaitingForDatabaseViewController.swift; sourceTree = "<group>"; };
-		5783F0351F205E2600340F57 /* facebookLoginViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = facebookLoginViewController.swift; sourceTree = "<group>"; };
-		5783F0371F21225500340F57 /* FirebaseTestingViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FirebaseTestingViewController.swift; sourceTree = "<group>"; };
+		575E7B671F266DCC00C1DD70 /* LoginViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 		57BB52C71F241F0700736291 /* TimeAgo.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TimeAgo.swift; sourceTree = "<group>"; };
 		57D195CB1F19444300F27BB7 /* LoadRequests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoadRequests.swift; sourceTree = "<group>"; };
-		57D195CD1F194C1600F27BB7 /* SignInViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SignInViewController.swift; sourceTree = "<group>"; };
 		57D195CF1F19604F00F27BB7 /* AddRideTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AddRideTableViewController.swift; sourceTree = "<group>"; };
 		57D195D21F1A728B00F27BB7 /* RideDetailViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RideDetailViewController.swift; sourceTree = "<group>"; };
 		57D195D41F1A756000F27BB7 /* RideDetailTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RideDetailTableViewCell.swift; sourceTree = "<group>"; };
@@ -121,12 +117,10 @@
 			children = (
 				5712C8281F22400A00442110 /* ArcadeCity.entitlements */,
 				57E65E9F1F15D59000B39AF4 /* Main.storyboard */,
-				5783F0371F21225500340F57 /* FirebaseTestingViewController.swift */,
-				5783F0351F205E2600340F57 /* facebookLoginViewController.swift */,
 				57D195D91F1AA15000F27BB7 /* Ride Request Detail */,
 				57D195D81F1AA11600F27BB7 /* Request Page */,
 				57D195CF1F19604F00F27BB7 /* AddRideTableViewController.swift */,
-				57D195CD1F194C1600F27BB7 /* SignInViewController.swift */,
+				575E7B671F266DCC00C1DD70 /* LoginViewController.swift */,
 				57D195CB1F19444300F27BB7 /* LoadRequests.swift */,
 				57E65EC41F18679700B39AF4 /* Types */,
 				57E65EB91F18246C00B39AF4 /* Supporting Files */,
@@ -318,13 +312,11 @@
 				57D195DC1F1AE50900F27BB7 /* PostCollageViewController.swift in Sources */,
 				57D195D71F1A7FB700F27BB7 /* User.swift in Sources */,
 				57D195D01F19604F00F27BB7 /* AddRideTableViewController.swift in Sources */,
-				5783F0361F205E2600340F57 /* facebookLoginViewController.swift in Sources */,
 				57E65EB81F181B3200B39AF4 /* Rider.swift in Sources */,
+				575E7B681F266DCC00C1DD70 /* LoginViewController.swift in Sources */,
 				57D195D31F1A728B00F27BB7 /* RideDetailViewController.swift in Sources */,
 				57E65E9C1F15D59000B39AF4 /* AppDelegate.swift in Sources */,
 				57E65EC11F185C3A00B39AF4 /* Driver.swift in Sources */,
-				57D195CE1F194C1600F27BB7 /* SignInViewController.swift in Sources */,
-				5783F0381F21225500340F57 /* FirebaseTestingViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

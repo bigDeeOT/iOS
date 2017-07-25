@@ -18,7 +18,8 @@ class LoadRequests {
     var userInfo: [String:String] = [:]
     var waitingPage: WaitingForDatabaseViewController!
     var requestPage: RequestPageViewController!
-    
+    var numberOfRequestsInFirebase = 0
+    var numberOfRequestsLoaded = 0
     init() {
         if LoadRequests.needToLoad {
        LoadRequests.loadRequestsFullOfJunk()
@@ -85,10 +86,17 @@ class LoadRequests {
         LoadRequests.gRef.child("Requests/\(rideRequest.unique!)/Offers/\(offerID)").setValue("True")
     }
     
-    var listenForRequestUnique: String?
+    func getNumberOfRideRequests() {
+        self.ref.child("Requests").queryLimited(toLast: 95).observeSingleEvent(of: .value, with: { (snapshot) in
+            let requests = snapshot.value as! [String:Any?]
+            self.numberOfRequestsInFirebase = requests.count
+            print("numberOfRequestsInFirebase is ", requests.count)
+        })
+
+    }
     
     func listenForRequest() {
-        self.ref.child("Requests").queryLimited(toFirst: 95).observe(.childAdded, with: { [weak self] (snapshot) in
+        self.ref.child("Requests").queryLimited(toLast: 95).observe(.childAdded, with: { [weak self] (snapshot) in
             let unique = snapshot.key
             guard LoadRequests.requestList.last?.unique != unique else {
                 self?.listenForOffer((LoadRequests.requestList.last)!)
@@ -98,7 +106,6 @@ class LoadRequests {
             let request = RideRequest()
             LoadRequests.addRequestToList(request)
             request.text = details["Text"] as? String
-            print(request.text)
             if details["Show ETA"] as! String == "True" {
                 request.showETA = true } else { request.showETA = false }
             let dateFormatter = DateFormatter()
@@ -108,19 +115,18 @@ class LoadRequests {
             let riderUnique = details["Rider"] as! String
             request.unique = unique
             //get rider
-            self?.listenForRequestUnique = request.unique
             self?.ref.child("Users/\(riderUnique)").observeSingleEvent(of: .value, with: { [weak self] (snapShotUser) in
+                self?.numberOfRequestsLoaded = (self?.numberOfRequestsLoaded)! + 1
                 guard snapShotUser.exists() else {return}
                 let user = self?.pullUserFromFirebase(snapShotUser)
                 request.rider = user
-                //LoadRequests.addRequestToList(request)
                 //get offers
                 self?.listenForOffer(request)
                 self?.requestPage.rideRequestList.reloadData()
             })
-            
         })
     }
+    
     
     
     func listenForOffer(_ request: RideRequest) {
@@ -143,14 +149,13 @@ class LoadRequests {
                     let offerDriver = self?.pullUserFromFirebase(offerDriverSnapshot)
                     offer.driver = offerDriver
                     request.offers?.append(offer)
-                    request.delegate?.tableView.reloadData()
+                    request.delegate?.reload()
                     self?.requestPage.rideRequestList.reloadData()
                 })
             })
         })
 
     }
- 
     
     static private func removeOfferListener(requestNumber unique: String) {
         LoadRequests.gRef.child("Requests/\(unique)/Offers").removeAllObservers()
@@ -165,7 +170,8 @@ class LoadRequests {
             }
             guard let accessToken = FBSDKAccessToken.current()?.tokenString else {
                 print("accessToken is nil")
-                self?.waitingPage?.go()
+                self?.requestPage.fixLoginIfUserCanceled()
+                //self?.waitingPage?.go()
                 return
             }
             let credential = FacebookAuthProvider.credential(withAccessToken: accessToken)
@@ -198,8 +204,8 @@ class LoadRequests {
             }
             let user = self?.pullUserFromFirebase(snapshot)
             RequestPageViewController.userName = user
+            self?.listenForRequest()
             self?.requestPage.rideRequestList.reloadData()
-            self?.waitingPage?.go()
         })
     }
     
@@ -254,8 +260,8 @@ class LoadRequests {
             user.collage = URL(string: picURL)
             user.unique = firebaseID
             RequestPageViewController.userName = user
+            self?.listenForRequest()
             self?.requestPage.rideRequestList.reloadData()
-            self?.waitingPage?.go()
         }
     }
     
