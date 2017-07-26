@@ -32,7 +32,7 @@ class TopProfileViewController: UIViewController {
                         self?.profilePic?.image = UIImage(data: imageData as Data)
                         self?.profilePic?.layer.borderWidth = 1
                         self?.profilePic?.layer.borderColor = UIColor.lightGray.cgColor
-                        self?.profilePic.image = self?.profilePic.image?.resizedImageWithinRect(rectSize: CGSize(width: 121, height: 121))
+                       
                     }
                 }
             }

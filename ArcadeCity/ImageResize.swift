@@ -8,34 +8,42 @@
 
 import UIKit
 
-extension UIImage {
-    
-    /// Returns a image that fills in newSize
-    func resizedImage(newSize: CGSize) -> UIImage {
-        // Guard newSize is different
-        guard self.size != newSize else { return self }
+class ImageResize {
+    static func getNewSize(currentSize current: CGSize!, maxSize max: CGSize!) -> CGSize {
+        var maxSizeScale = CGFloat(1)
+        var scale = CGFloat(1)
         
-        UIGraphicsBeginImageContextWithOptions(newSize, false, 0.0);
-        self.draw(in: CGRect(x: 0, y: 0, width: newSize.width, height: newSize.height))
-        let newImage: UIImage = UIGraphicsGetImageFromCurrentImageContext()!
-        UIGraphicsEndImageContext()
-        return newImage
-    }
-    
-    /// Returns a resized image that fits in rectSize, keeping it's aspect ratio
-    /// Note that the new image size is not rectSize, but within it.
-    func resizedImageWithinRect(rectSize: CGSize) -> UIImage {
-        let widthFactor = size.width / rectSize.width
-        let heightFactor = size.height / rectSize.height
+        //Scale factor if both sizes are portrait or both sizes are landscape
         
-        var resizeFactor = widthFactor
-        if size.height > size.width {
-            resizeFactor = heightFactor
+        if ((current.width/current.height < 1) && (max.width/max.height < 1)) || ((current.height/current.width < 1) && (max.height/max.width < 1)) {
+            maxSizeScale = max.width / max.height
+            if maxSizeScale > 1 {maxSizeScale = 1 / maxSizeScale}
         }
+ 
         
-        let newSize = CGSize(width: size.width/resizeFactor, height: size.height/resizeFactor)
-        let resized = resizedImage(newSize: newSize)
-        return resized
+        print("maxSizeScale is ", maxSizeScale)
+        //if image is already smaller, don't resize
+        if (current.width <= max.width) && (current.height <= max.height) {
+            return current
+        }
+        if current.width >= current.height {
+            if max.width > current.width {
+                scale = max.height / current.height
+            } else {
+                scale = max.width / current.width
+            }
+            print("scale is ", scale)
+            return CGSize(width: current.width * scale * maxSizeScale, height: current.height * scale * maxSizeScale)
+        }
+        if current.width < current.height {
+            if max.height > current.height {
+                scale = max.width / current.width
+            } else  {
+                scale = max.height / current.height
+            }
+            print("scale is ", scale)
+            return CGSize(width: current.width * scale * maxSizeScale, height: current.height * scale * maxSizeScale)
+        }
+        return current
     }
-    
 }

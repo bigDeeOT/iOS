@@ -79,6 +79,7 @@ class RequestPageViewController: UIViewController, UITableViewDelegate, UITableV
             loginPageView.isHidden = true
             tabBarNavBarLogic()
             addRequestButtonLogic()
+            rideRequestList.reloadData() //may have to delete this
         }
     }
     

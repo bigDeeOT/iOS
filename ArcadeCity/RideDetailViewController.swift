@@ -133,6 +133,7 @@ class RideDetailViewController: UIViewController, UITableViewDelegate, UITableVi
     public func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: cellIdentifier, for: indexPath) as! RideDetailTableViewCell
             cell.offer = rideRequest?.offers?[indexPath.row]
+        cell.contoller = self
         return cell
     }
     

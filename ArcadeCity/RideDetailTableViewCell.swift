@@ -22,6 +22,8 @@ class RideDetailTableViewCell: UITableViewCell {
     @IBOutlet weak var comment: UILabel!
     @IBOutlet weak var collage: UIImageView!
     @IBOutlet weak var date: UILabel!
+    var contoller: RideDetailViewController?
+    var maxCollageSize = CGSize(width: 200, height: 115)
     
     private func updateUI() {
         name.text = offer.driver?.name
@@ -32,7 +34,7 @@ class RideDetailTableViewCell: UITableViewCell {
         loadImage()
         comment.lineBreakMode = .byWordWrapping
         comment.numberOfLines = 0
-        collage.image = collage.image?.resizedImageWithinRect(rectSize: CGSize(width: 200, height: 200))
+        
     }
     
     private func loadImage() {
@@ -44,7 +46,12 @@ class RideDetailTableViewCell: UITableViewCell {
                         self?.collage?.image = UIImage(data: imageData as Data)
                         self?.collage?.layer.borderWidth = 1
                         self?.collage?.layer.borderColor = UIColor.lightGray.cgColor
-
+                        print("we are here")
+                        self?.collage?.frame.size = ImageResize.getNewSize(currentSize: self?.collage?.image?.size, maxSize: self?.maxCollageSize)
+                        //junk
+                        self?.setNeedsLayout()
+                        self?.layoutIfNeeded()
+                      //  self?.contoller?.tableView.reloadData()
                     }
                 }
             }

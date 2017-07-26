@@ -57,6 +57,9 @@ class User {
     init(url: String, name: String) {
         self.name = name
         profilePicURL = URL(string: url)
+        print("trying to put collage")
+        collage = URL(string: "http://i.imgur.com/nnCNDRO.jpg")
+        print("collage is ", collage ?? "no collage")
         keyValues["Name"] = name
         keyValues["Profile Pic URL"] = url
         
@@ -83,6 +86,7 @@ class User {
             if value != "Rider" {
                 self.privilege = User.Privilege.driver
             }
+            collage = URL(string: "http://i.imgur.com/nnCNDRO.jpg")
         }
     }
     func getViewableData() -> [String:String] {
