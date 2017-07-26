@@ -7,8 +7,12 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		5712C82A1F22BDB400442110 /* WaitingForDatabaseViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5712C8291F22BDB400442110 /* WaitingForDatabaseViewController.swift */; };
 		575E7B681F266DCC00C1DD70 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 575E7B671F266DCC00C1DD70 /* LoginViewController.swift */; };
+		57A00B1E1F27149F00842DDF /* TopProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57A00B1D1F27149F00842DDF /* TopProfileViewController.swift */; };
+		57A00B221F2714BD00842DDF /* BottomProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57A00B211F2714BC00842DDF /* BottomProfileViewController.swift */; };
+		57A00B251F271D8800842DDF /* ImageResize.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57A00B241F271D8800842DDF /* ImageResize.swift */; };
+		57A00B271F2726DF00842DDF /* ProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57A00B261F2726DF00842DDF /* ProfileViewController.swift */; };
+		57A00B291F27D43D00842DDF /* MiddleProfileTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57A00B281F27D43C00842DDF /* MiddleProfileTableViewController.swift */; };
 		57BB52C81F241F0700736291 /* TimeAgo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57BB52C71F241F0700736291 /* TimeAgo.swift */; };
 		57D195CC1F19444300F27BB7 /* LoadRequests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57D195CB1F19444300F27BB7 /* LoadRequests.swift */; };
 		57D195D01F19604F00F27BB7 /* AddRideTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57D195CF1F19604F00F27BB7 /* AddRideTableViewController.swift */; };
@@ -35,8 +39,12 @@
 		1793F771E381A19DBA654345 /* Pods-ArcadeCity.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ArcadeCity.debug.xcconfig"; path = "Pods/Target Support Files/Pods-ArcadeCity/Pods-ArcadeCity.debug.xcconfig"; sourceTree = "<group>"; };
 		47D4409EDB97209FB6509052 /* Pods_ArcadeCity.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_ArcadeCity.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		5712C8281F22400A00442110 /* ArcadeCity.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = ArcadeCity.entitlements; sourceTree = "<group>"; };
-		5712C8291F22BDB400442110 /* WaitingForDatabaseViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WaitingForDatabaseViewController.swift; sourceTree = "<group>"; };
 		575E7B671F266DCC00C1DD70 /* LoginViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
+		57A00B1D1F27149F00842DDF /* TopProfileViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TopProfileViewController.swift; sourceTree = "<group>"; };
+		57A00B211F2714BC00842DDF /* BottomProfileViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BottomProfileViewController.swift; sourceTree = "<group>"; };
+		57A00B241F271D8800842DDF /* ImageResize.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ImageResize.swift; sourceTree = "<group>"; };
+		57A00B261F2726DF00842DDF /* ProfileViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProfileViewController.swift; sourceTree = "<group>"; };
+		57A00B281F27D43C00842DDF /* MiddleProfileTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MiddleProfileTableViewController.swift; sourceTree = "<group>"; };
 		57BB52C71F241F0700736291 /* TimeAgo.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TimeAgo.swift; sourceTree = "<group>"; };
 		57D195CB1F19444300F27BB7 /* LoadRequests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoadRequests.swift; sourceTree = "<group>"; };
 		57D195CF1F19604F00F27BB7 /* AddRideTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AddRideTableViewController.swift; sourceTree = "<group>"; };
@@ -73,12 +81,30 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		57A00B1C1F27145800842DDF /* Profile */ = {
+			isa = PBXGroup;
+			children = (
+				57A00B261F2726DF00842DDF /* ProfileViewController.swift */,
+				57A00B1D1F27149F00842DDF /* TopProfileViewController.swift */,
+				57A00B211F2714BC00842DDF /* BottomProfileViewController.swift */,
+				57A00B281F27D43C00842DDF /* MiddleProfileTableViewController.swift */,
+			);
+			name = Profile;
+			sourceTree = "<group>";
+		};
+		57A00B231F271CFC00842DDF /* Help Functions */ = {
+			isa = PBXGroup;
+			children = (
+				57A00B241F271D8800842DDF /* ImageResize.swift */,
+			);
+			name = "Help Functions";
+			sourceTree = "<group>";
+		};
 		57D195D81F1AA11600F27BB7 /* Request Page */ = {
 			isa = PBXGroup;
 			children = (
 				AC3813EA1F1EE33900E79813 /* RequestPageTableViewCell.swift */,
 				57E65EC51F186E3900B39AF4 /* RequestPageViewController.swift */,
-				5712C8291F22BDB400442110 /* WaitingForDatabaseViewController.swift */,
 			);
 			name = "Request Page";
 			sourceTree = "<group>";
@@ -117,11 +143,13 @@
 			children = (
 				5712C8281F22400A00442110 /* ArcadeCity.entitlements */,
 				57E65E9F1F15D59000B39AF4 /* Main.storyboard */,
-				57D195D91F1AA15000F27BB7 /* Ride Request Detail */,
 				57D195D81F1AA11600F27BB7 /* Request Page */,
+				57D195D91F1AA15000F27BB7 /* Ride Request Detail */,
+				57A00B1C1F27145800842DDF /* Profile */,
 				57D195CF1F19604F00F27BB7 /* AddRideTableViewController.swift */,
 				575E7B671F266DCC00C1DD70 /* LoginViewController.swift */,
 				57D195CB1F19444300F27BB7 /* LoadRequests.swift */,
+				57A00B231F271CFC00842DDF /* Help Functions */,
 				57E65EC41F18679700B39AF4 /* Types */,
 				57E65EB91F18246C00B39AF4 /* Supporting Files */,
 			);
@@ -303,9 +331,9 @@
 				57E65EBF1F185AB800B39AF4 /* Offer.swift in Sources */,
 				57E65EC61F186E3900B39AF4 /* RequestPageViewController.swift in Sources */,
 				AC3813EB1F1EE33900E79813 /* RequestPageTableViewCell.swift in Sources */,
-				5712C82A1F22BDB400442110 /* WaitingForDatabaseViewController.swift in Sources */,
 				57D195CC1F19444300F27BB7 /* LoadRequests.swift in Sources */,
 				57E65EA41F15D59000B39AF4 /* ArcadeCity.xcdatamodeld in Sources */,
+				57A00B251F271D8800842DDF /* ImageResize.swift in Sources */,
 				57E65EBD1F185A1200B39AF4 /* RideRequest.swift in Sources */,
 				57D195D51F1A756000F27BB7 /* RideDetailTableViewCell.swift in Sources */,
 				57BB52C81F241F0700736291 /* TimeAgo.swift in Sources */,
@@ -313,9 +341,13 @@
 				57D195D71F1A7FB700F27BB7 /* User.swift in Sources */,
 				57D195D01F19604F00F27BB7 /* AddRideTableViewController.swift in Sources */,
 				57E65EB81F181B3200B39AF4 /* Rider.swift in Sources */,
+				57A00B221F2714BD00842DDF /* BottomProfileViewController.swift in Sources */,
 				575E7B681F266DCC00C1DD70 /* LoginViewController.swift in Sources */,
 				57D195D31F1A728B00F27BB7 /* RideDetailViewController.swift in Sources */,
+				57A00B1E1F27149F00842DDF /* TopProfileViewController.swift in Sources */,
 				57E65E9C1F15D59000B39AF4 /* AppDelegate.swift in Sources */,
+				57A00B271F2726DF00842DDF /* ProfileViewController.swift in Sources */,
+				57A00B291F27D43D00842DDF /* MiddleProfileTableViewController.swift in Sources */,
 				57E65EC11F185C3A00B39AF4 /* Driver.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

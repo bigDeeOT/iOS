@@ -32,6 +32,7 @@ class RideDetailTableViewCell: UITableViewCell {
         loadImage()
         comment.lineBreakMode = .byWordWrapping
         comment.numberOfLines = 0
+        collage.image = collage.image?.resizedImageWithinRect(rectSize: CGSize(width: 200, height: 200))
     }
     
     private func loadImage() {

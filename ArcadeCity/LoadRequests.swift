@@ -16,7 +16,6 @@ class LoadRequests {
     static var requestList = [RideRequest]()
     static var needToLoad = true
     var userInfo: [String:String] = [:]
-    var waitingPage: WaitingForDatabaseViewController!
     var requestPage: RequestPageViewController!
     var numberOfRequestsInFirebase = 0
     var numberOfRequestsLoaded = 0
@@ -88,6 +87,7 @@ class LoadRequests {
     
     func getNumberOfRideRequests() {
         self.ref.child("Requests").queryLimited(toLast: 95).observeSingleEvent(of: .value, with: { (snapshot) in
+            guard snapshot.exists() else {return}
             let requests = snapshot.value as! [String:Any?]
             self.numberOfRequestsInFirebase = requests.count
             print("numberOfRequestsInFirebase is ", requests.count)
@@ -209,6 +209,9 @@ class LoadRequests {
         })
     }
     
+    
+    
+    /*
     private func pullUserFromFirebase(_ snapshot: DataSnapshot) -> User {
         let userInfo = snapshot.value as! [String:Any]
         let picURL = userInfo["Profile Pic URL"] as? String
@@ -233,7 +236,8 @@ class LoadRequests {
         }
         return user
     }
- 
+    */
+ /*
     private func createNewUserInFirebase(_ firebaseID: String) {
         FBSDKGraphRequest(graphPath: "/me", parameters: ["fields": "id, name, email"]).start {[weak self] (connection, result, err) in
             if err != nil {
@@ -259,6 +263,30 @@ class LoadRequests {
             user.phone = "512-867-5309"
             user.collage = URL(string: picURL)
             user.unique = firebaseID
+            RequestPageViewController.userName = user
+            self?.listenForRequest()
+            self?.requestPage.rideRequestList.reloadData()
+        }
+    }
+ */
+    private func pullUserFromFirebase(_ snapshot: DataSnapshot) -> User {
+        let userInfo = snapshot.value as! [String: String]
+        let user = User(userInfo)
+        user.unique = snapshot.key
+        return user
+    }
+    
+    private func createNewUserInFirebase(_ firebaseID: String) {
+        FBSDKGraphRequest(graphPath: "/me", parameters: ["fields": "id, name, email"]).start {[weak self] (connection, result, err) in
+            if err != nil {
+                print("failed to print out graph request", err ?? "")
+                return
+            }
+            let fbInfo = result as! [String:String]
+            let picURL = "http://graph.facebook.com/\(fbInfo["id"]!)/picture?type=large"
+            let user = User(url: picURL, name: fbInfo["name"]!)
+            user.unique = firebaseID
+            self?.ref.child("Users").child(firebaseID).setValue(user.keyValues)
             RequestPageViewController.userName = user
             self?.listenForRequest()
             self?.requestPage.rideRequestList.reloadData()

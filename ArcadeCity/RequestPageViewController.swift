@@ -285,9 +285,7 @@ class RequestPageViewController: UIViewController, UITableViewDelegate, UITableV
                 vc.rideRequest = request
             }
         }
-        if let vc = segue.destination as? WaitingForDatabaseViewController {
-            loadRequests.waitingPage = vc
-        }
+
         if let vc = segue.destination as? LoginViewController {
             vc.requestPage = self
         }
