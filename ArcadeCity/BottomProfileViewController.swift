@@ -10,64 +10,84 @@ import UIKit
 
 class BottomProfileViewController: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
 
+    @IBOutlet weak var spinner: UIActivityIndicatorView!
     @IBOutlet weak var collage: UIImageView!
     var user: User?
-    var maxImageSize = CGSize(width: 400, height: 100)
+    var maxImageSize = CGSize(width: 250, height: 110)
+    var containingView: ProfileViewController?
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         loadImage()
-        collage.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(getNewCollage)))
+        collage.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(collageOptions)))
         collage.isUserInteractionEnabled = true
-        print(collage.image?.size ?? "")
-        print(collage.frame.size)
-        print(ImageResize.getNewSize(currentSize: collage.image?.size, maxSize: collage.frame.size))
- 
-        collage.frame.size = ImageResize.getNewSize(currentSize: collage.image?.size, maxSize: maxImageSize)
+        updateCollageSize()
+        spinner.hidesWhenStopped = true
+        spinner.stopAnimating()
     }
     
+    func updateCollageSize() {
+        collage.frame.size = ImageResize.getNewSize(currentSize: collage.image?.size, maxSize: maxImageSize)
+        collage.frame.origin.x = (UIScreen.main.bounds.width / 2) - (collage.frame.size.width / 2)
+    }
+    
+    func collageOptions() {
+        let actionSheet = UIAlertController(title: "View image or upload new one", message: nil, preferredStyle: .actionSheet)
+        let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
+        let uploadAction = UIAlertAction(title: "Upload", style: .default) { (action) in
+            print(action)
+            self.getNewCollage()
+        }
+        let viewAction = UIAlertAction(title: "View", style: .default) { (action) in
+            self.containingView?.performSegue(withIdentifier: "viewImage", sender: self.collage)
+        }
+        actionSheet.addAction(cancelAction)
+        actionSheet.addAction(viewAction)
+        actionSheet.addAction(uploadAction)
+        present(actionSheet, animated: true, completion: nil)
+    }
+    
+    
     func getNewCollage() {
+        spinner.startAnimating()
+        collage?.alpha = 0.2
         let picker = UIImagePickerController()
         picker.delegate = self
         present(picker, animated: true, completion: nil)
     }
     
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
-       // print(info)
-        var selectedImageFromPicker: UIImage?
+        let selectedImageFromPicker = info[UIImagePickerControllerOriginalImage] as? UIImage
         
-        if let originalImageInfo = info[UIImagePickerControllerOriginalImage] {
-            selectedImageFromPicker = originalImageInfo as? UIImage
-        }
         if let selectedImageFromPicker = selectedImageFromPicker {
             collage.image = selectedImageFromPicker
-            
-            
-            print(collage.image?.size ?? "")
-            print(collage.frame.size)
-            print(ImageResize.getNewSize(currentSize: collage.image?.size, maxSize: maxImageSize))
-            
-            collage.frame.size = ImageResize.getNewSize(currentSize: collage.image?.size, maxSize: maxImageSize)
-
+            updateCollageSize()
+            LoadRequests.uploadCollage(selectedImageFromPicker, delegate: self)
         }
-        
         dismiss(animated: true, completion: nil)
     }
     
     func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
+        spinner.stopAnimating()
         print("user canceled image pic")
         dismiss(animated: true, completion: nil)
+        collage?.alpha = 1
     }
 
     private func loadImage() {
-        if let url = RequestPageViewController.userName?.collage {
+        if user?.keyValues["Collage URL"] != nil {
+            collage.image = UIImage(named: "loading")
+        }
+        if let url = URL(string:(RequestPageViewController.userName?.keyValues["Collage URL"])!) {
             DispatchQueue.global(qos: .default).async {
                 [weak self] in
                 if let imageData = NSData(contentsOf: url) {
                     DispatchQueue.main.async {
+                        self?.collage.isHidden = false
                         self?.collage?.image = UIImage(data: imageData as Data)
                         self?.collage?.layer.borderWidth = 1
                         self?.collage?.layer.borderColor = UIColor.lightGray.cgColor
-                        self?.collage.frame.size = ImageResize.getNewSize(currentSize: self?.collage.image?.size, maxSize: self?.collage.frame.size)
+                        self?.updateCollageSize()
                     }
                 }
             }

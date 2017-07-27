@@ -24,7 +24,7 @@ class TopProfileViewController: UIViewController {
     }
 
     private func loadImage() {
-        if let url = RequestPageViewController.userName?.profilePicURL {
+        if let url = URL(string: (RequestPageViewController.userName?.keyValues["Profile Pic URL"])!) {
             DispatchQueue.global(qos: .default).async {
                 [weak self] in
                 if let imageData = NSData(contentsOf: url) {

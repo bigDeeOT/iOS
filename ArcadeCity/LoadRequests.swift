@@ -8,6 +8,7 @@
 
 import Foundation
 import Firebase
+import FirebaseStorage
 import FBSDKLoginKit
 
 class LoadRequests {
@@ -17,8 +18,10 @@ class LoadRequests {
     static var needToLoad = true
     var userInfo: [String:String] = [:]
     var requestPage: RequestPageViewController!
+    static var rideDetailPage: RideDetailViewController!
     var numberOfRequestsInFirebase = 0
     var numberOfRequestsLoaded = 0
+    
     init() {
         if LoadRequests.needToLoad {
        LoadRequests.loadRequestsFullOfJunk()
@@ -63,7 +66,6 @@ class LoadRequests {
             "Rider"         : request.rider?.unique,
             "Date"          : date,
             "Show ETA"      : request.showETA ? "True" : "False"
-            //"Offers"        : "None"
             ])
         LoadRequests.gRef.child("Requests by Users/\((request.rider?.unique)!)/Requests/\(autoID)").setValue("True")
         request.unique = autoID
@@ -133,6 +135,7 @@ class LoadRequests {
         self.ref.child("Requests/\(request.unique!)/Offers").observe(.childAdded, with: { [weak self] (offerSnapshot) in
             let offerUnique = offerSnapshot.key
             self?.ref.child("Offers/\(offerUnique)").observeSingleEvent(of: .value, with: { (offerDetailSnapshot) in
+                guard offerDetailSnapshot.exists() else { return }
                 let offerDetails = offerDetailSnapshot.value as! [String:Any]
                 let offer = Offer()
                 let dateFormatter = DateFormatter()
@@ -292,6 +295,57 @@ class LoadRequests {
             self?.requestPage.rideRequestList.reloadData()
         }
     }
+    
+    static func uploadCollage(_ image: UIImage, delegate: BottomProfileViewController) {
+        guard let uid = Auth.auth().currentUser?.uid else {
+            print("error uploading image")
+            return
+        }
+        let refStore = Storage.storage().reference().child("collage").child(uid + ".jpg")
+        let imageData = UIImageJPEGRepresentation(image, 0.01)
+        refStore.putData(imageData!, metadata: nil) { (meta, err) in
+            if err != nil {
+                print("error uploading image data ", err ?? "")
+                return
+            }
+            delegate.spinner.stopAnimating()
+            delegate.collage.alpha = 1
+            print(meta ?? "no meta")
+            let url = String(describing: (meta?.downloadURL())!)
+            LoadRequests.gRef.child("Users").child(uid).child("Collage URL").setValue(url)
+
+            RequestPageViewController.userName?.keyValues["Collage URL"] = url
+        }
+    }
+    
+    static func removeRideRequest(_ ride: RideRequest) {
+        LoadRequests.gRef.child("Requests").child(ride.unique!).child("Offers").observeSingleEvent(of: .value, with: { (snapshot) in
+            if snapshot.exists() {
+                let offers = snapshot.value as? [String:String]
+                for (offer, _) in offers! {
+                    LoadRequests.gRef.child("Offers").child(offer).removeValue()
+                }
+                LoadRequests.removeOfferListener(requestNumber: ride.unique!)
+            }
+            removeRequestInList(ride.unique!)
+            LoadRequests.gRef.child("Requests").child((ride.unique)!).removeValue()
+            print(LoadRequests.requestList.count)
+            
+            LoadRequests.rideDetailPage.performSegue(withIdentifier: "deleteRequest", sender: nil)
+        })
+    }
+    
+    static func removeRequestInList(_ unique: String) {
+        for i in 0..<LoadRequests.requestList.count {
+            print(LoadRequests.requestList[i].unique ?? "no request unique", "and ", unique )
+            if LoadRequests.requestList[i].unique == unique {
+                LoadRequests.requestList.remove(at: i)
+                print("removed one")
+                break
+            }
+        }
+    }
+    
     
     static private func loadRequestsFullOfJunk() {
         let dateFormatter = DateFormatter()

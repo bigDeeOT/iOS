@@ -58,13 +58,13 @@ class User {
         self.name = name
         profilePicURL = URL(string: url)
         print("trying to put collage")
-        collage = URL(string: "http://i.imgur.com/nnCNDRO.jpg")
+        collage = URL(string: "http://i.imgur.com/TkcP25X.jpg")
         print("collage is ", collage ?? "no collage")
         keyValues["Name"] = name
         keyValues["Profile Pic URL"] = url
         
         //hard coded default values
-        keyValues["Collage URL"] =          "http://i.imgur.com/nnCNDRO.jpg"
+       // keyValues["Collage URL"] =          "http://i.imgur.com/TkcP25X.jpg"
         keyValues["Phone"] =                "512-867-5309"
         keyValues["Class"] =                "Driver"
         keyValues["Bio"] = "I'm just an ordinary person doing ordinary things. I like AC because it lets people do their own business without a middle man taking a cut 🙌😎💯"
@@ -86,7 +86,7 @@ class User {
             if value != "Rider" {
                 self.privilege = User.Privilege.driver
             }
-            collage = URL(string: "http://i.imgur.com/nnCNDRO.jpg")
+            collage = URL(string: "http://i.imgur.com/TkcP25X.jpg")
         }
     }
     func getViewableData() -> [String:String] {

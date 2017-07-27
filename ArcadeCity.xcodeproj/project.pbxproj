@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		5708175B1F2989120062DB68 /* ImageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5708175A1F2989120062DB68 /* ImageViewController.swift */; };
 		575E7B681F266DCC00C1DD70 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 575E7B671F266DCC00C1DD70 /* LoginViewController.swift */; };
 		57A00B1E1F27149F00842DDF /* TopProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57A00B1D1F27149F00842DDF /* TopProfileViewController.swift */; };
 		57A00B221F2714BD00842DDF /* BottomProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57A00B211F2714BC00842DDF /* BottomProfileViewController.swift */; };
@@ -38,6 +39,7 @@
 /* Begin PBXFileReference section */
 		1793F771E381A19DBA654345 /* Pods-ArcadeCity.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ArcadeCity.debug.xcconfig"; path = "Pods/Target Support Files/Pods-ArcadeCity/Pods-ArcadeCity.debug.xcconfig"; sourceTree = "<group>"; };
 		47D4409EDB97209FB6509052 /* Pods_ArcadeCity.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_ArcadeCity.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		5708175A1F2989120062DB68 /* ImageViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ImageViewController.swift; sourceTree = "<group>"; };
 		5712C8281F22400A00442110 /* ArcadeCity.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = ArcadeCity.entitlements; sourceTree = "<group>"; };
 		575E7B671F266DCC00C1DD70 /* LoginViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 		57A00B1D1F27149F00842DDF /* TopProfileViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TopProfileViewController.swift; sourceTree = "<group>"; };
@@ -95,6 +97,8 @@
 		57A00B231F271CFC00842DDF /* Help Functions */ = {
 			isa = PBXGroup;
 			children = (
+				5708175A1F2989120062DB68 /* ImageViewController.swift */,
+				57BB52C71F241F0700736291 /* TimeAgo.swift */,
 				57A00B241F271D8800842DDF /* ImageResize.swift */,
 			);
 			name = "Help Functions";
@@ -113,7 +117,6 @@
 			isa = PBXGroup;
 			children = (
 				57D195D41F1A756000F27BB7 /* RideDetailTableViewCell.swift */,
-				57BB52C71F241F0700736291 /* TimeAgo.swift */,
 				57D195D21F1A728B00F27BB7 /* RideDetailViewController.swift */,
 				57D195DB1F1AE50900F27BB7 /* PostCollageViewController.swift */,
 			);
@@ -348,6 +351,7 @@
 				57E65E9C1F15D59000B39AF4 /* AppDelegate.swift in Sources */,
 				57A00B271F2726DF00842DDF /* ProfileViewController.swift in Sources */,
 				57A00B291F27D43D00842DDF /* MiddleProfileTableViewController.swift in Sources */,
+				5708175B1F2989120062DB68 /* ImageViewController.swift in Sources */,
 				57E65EC11F185C3A00B39AF4 /* Driver.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

@@ -40,10 +40,14 @@ class RideDetailViewController: UIViewController, UITableViewDelegate, UITableVi
             }
         }
     }
-        
+    
+    @IBOutlet weak var delete: UILabel!
+    
+
+    
     func updateUI() {
         loadImage()
-        name.text = rideRequest?.rider?.name
+        name.text = rideRequest?.rider?.keyValues["Name"]
         date.text = TimeAgo.get(rideRequest?.date ?? Date())
         pickUpText.text = rideRequest?.text
         pickUpText.lineBreakMode = .byWordWrapping
@@ -113,6 +117,14 @@ class RideDetailViewController: UIViewController, UITableViewDelegate, UITableVi
         self.tableView.rowHeight = UITableViewAutomaticDimension
         self.tableView.estimatedRowHeight = 208
         rideRequest?.delegate = self
+        delete.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(deleteRequest)))
+        delete.isUserInteractionEnabled = true
+        LoadRequests.rideDetailPage = self
+    }
+    
+    func deleteRequest() {
+        print("handler called")
+        LoadRequests.removeRideRequest(rideRequest!)
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -133,16 +145,23 @@ class RideDetailViewController: UIViewController, UITableViewDelegate, UITableVi
     public func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: cellIdentifier, for: indexPath) as! RideDetailTableViewCell
             cell.offer = rideRequest?.offers?[indexPath.row]
-        cell.contoller = self
+        cell.controller = self
         return cell
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        
         if segue.identifier == "postCollage" {
             if let vc = segue.destination as? PostCollageViewController {
                 vc.rideRequest = (sender as? RideRequest)
             }
+        }
+        if let vc = segue.destination as? ImageViewController {
+            vc.image = sender as? UIImageView
+            print("preparing segue")
+        }
+        if let vc = segue.destination as? RequestPageViewController {
+            print("ride detail, prepare for segue")
+            vc.rideRequestList.reloadData()
         }
     }
     

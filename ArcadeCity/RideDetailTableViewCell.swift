@@ -15,30 +15,35 @@ class RideDetailTableViewCell: UITableViewCell {
             updateUI()
         }
     }
-
     @IBOutlet weak var name: UILabel!
     @IBOutlet weak var eta: UILabel!
     @IBOutlet weak var phone: UILabel!
     @IBOutlet weak var comment: UILabel!
     @IBOutlet weak var collage: UIImageView!
     @IBOutlet weak var date: UILabel!
-    var contoller: RideDetailViewController?
-    var maxCollageSize = CGSize(width: 200, height: 115)
+    var controller: RideDetailViewController?
+    var maxCollageSize = CGSize(width: 250, height: 115)
     
     private func updateUI() {
-        name.text = offer.driver?.name
+        name.text = offer.driver?.keyValues["Name"]
         eta.text = offer.eta
-        phone.text = offer.driver?.phone
+        phone.text = offer.driver?.keyValues["Phone"]
         comment.text = offer.comment
         date.text = TimeAgo.get(offer.date ?? Date())
         loadImage()
         comment.lineBreakMode = .byWordWrapping
         comment.numberOfLines = 0
-        
+        collage.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(viewImage)))
+        collage.isUserInteractionEnabled = true
+    }
+    
+    func viewImage() {
+        print("calling performSegue to controller")
+        controller?.performSegue(withIdentifier: "viewImage", sender: collage)
     }
     
     private func loadImage() {
-        if let url = offer.driver?.collage {
+        if let url = URL(string:(offer.driver?.keyValues["Collage URL"])!) {
             DispatchQueue.global(qos: .default).async {
                 [weak self] in
                 if let imageData = NSData(contentsOf: url) {
@@ -46,12 +51,7 @@ class RideDetailTableViewCell: UITableViewCell {
                         self?.collage?.image = UIImage(data: imageData as Data)
                         self?.collage?.layer.borderWidth = 1
                         self?.collage?.layer.borderColor = UIColor.lightGray.cgColor
-                        print("we are here")
                         self?.collage?.frame.size = ImageResize.getNewSize(currentSize: self?.collage?.image?.size, maxSize: self?.maxCollageSize)
-                        //junk
-                        self?.setNeedsLayout()
-                        self?.layoutIfNeeded()
-                      //  self?.contoller?.tableView.reloadData()
                     }
                 }
             }

@@ -10,39 +10,28 @@ import UIKit
 
 class ImageResize {
     static func getNewSize(currentSize current: CGSize!, maxSize max: CGSize!) -> CGSize {
-        var maxSizeScale = CGFloat(1)
+        var newSize: CGSize
         var scale = CGFloat(1)
-        
-        //Scale factor if both sizes are portrait or both sizes are landscape
-        
-        if ((current.width/current.height < 1) && (max.width/max.height < 1)) || ((current.height/current.width < 1) && (max.height/max.width < 1)) {
-            maxSizeScale = max.width / max.height
-            if maxSizeScale > 1 {maxSizeScale = 1 / maxSizeScale}
-        }
- 
-        
-        print("maxSizeScale is ", maxSizeScale)
-        //if image is already smaller, don't resize
         if (current.width <= max.width) && (current.height <= max.height) {
             return current
         }
-        if current.width >= current.height {
-            if max.width > current.width {
-                scale = max.height / current.height
-            } else {
-                scale = max.width / current.width
+        if current.width > max.width {
+            scale = max.width / current.width
+            newSize = CGSize(width: current.width * scale, height: current.height * scale)
+            if newSize.height > max.height {
+                scale = max.height / newSize.height
+                newSize = CGSize(width: newSize.width * scale, height: newSize.height * scale)
             }
-            print("scale is ", scale)
-            return CGSize(width: current.width * scale * maxSizeScale, height: current.height * scale * maxSizeScale)
+            return newSize
         }
-        if current.width < current.height {
-            if max.height > current.height {
-                scale = max.width / current.width
-            } else  {
-                scale = max.height / current.height
+        if current.height > max.height {
+            scale = max.height / current.height
+            newSize = CGSize(width: current.width * scale, height: current.height * scale)
+            if newSize.width > max.width {
+                scale = max.width / newSize.width
+                newSize = CGSize(width: newSize.width * scale, height: newSize.height * scale)
             }
-            print("scale is ", scale)
-            return CGSize(width: current.width * scale * maxSizeScale, height: current.height * scale * maxSizeScale)
+            return newSize
         }
         return current
     }
