@@ -31,6 +31,7 @@ class AddRideTableViewController: UITableViewController {
                 return
             }
             ride.text = "\(pickUpText)"
+            ride.keyValues["Text"] = pickUpText
         } else {
             //invalid pickup
             return
@@ -38,14 +39,23 @@ class AddRideTableViewController: UITableViewController {
         if let dropOffText = dropOff.text{
             if dropOffText.characters.count >= 2 {
                 ride.text = ride.text! + " to \(dropOffText)"
+                ride.keyValues["Text"] = ride.keyValues["Text"]! + " to \(dropOffText)"
             }
         }
         if let otherInfoText = otherInfo.text {
             if otherInfoText.characters.count >= 3 {
                 ride.text = ride.text! + "\n" + otherInfoText
+                ride.keyValues["Text"] = ride.keyValues["Text"]! + "\n" + otherInfoText
             }
         }
         ride.date = Date.init()
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "MM-dd-yyyy hh:mm:ss a"
+        let date = dateFormatter.string(from: Date())
+        ride.keyValues["Date"] = date
+        ride.keyValues["Rider"] = RequestPageViewController.userName?.unique
+        ride.keyValues["State"] = "Unresolved"
+        ride.keyValues["Show ETA"] = "True"
         performSegue(withIdentifier: identifier, sender: ride)
     }
     

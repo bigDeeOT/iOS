@@ -339,13 +339,10 @@
                                     <constraint firstItem="YNz-4J-1I8" firstAttribute="top" secondItem="kRT-d2-3Fc" secondAttribute="bottom" constant="10" id="yXO-jV-Fzw"/>
                                 </constraints>
                             </stackView>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="x" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="jwG-qd-6zq">
-                                <rect key="frame" x="330" y="20" width="29" height="27"/>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="delete" translatesAutoresizingMaskIntoConstraints="NO" id="Vvz-QA-Lw4">
+                                <rect key="frame" x="341" y="21" width="18" height="17"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <fontDescription key="fontDescription" style="UICTFontTextStyleCaption2"/>
-                                <color key="textColor" red="0.73719757795333862" green="0.73728722333908081" blue="0.73716706037521362" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                <nil key="highlightedColor"/>
-                            </label>
+                            </imageView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
@@ -370,7 +367,7 @@
                     <extendedEdge key="edgesForExtendedLayout" bottom="YES"/>
                     <connections>
                         <outlet property="date" destination="xmc-wv-Zyv" id="FYU-Ei-2hR"/>
-                        <outlet property="delete" destination="jwG-qd-6zq" id="0Sh-Ss-KgS"/>
+                        <outlet property="delete" destination="Vvz-QA-Lw4" id="bwF-Tp-CGH"/>
                         <outlet property="eta" destination="uPI-PJ-PL9" id="FD6-BR-Lz1"/>
                         <outlet property="name" destination="R3j-Bx-YUR" id="H88-Xh-Vnj"/>
                         <outlet property="offerRideButton" destination="kRT-d2-3Fc" id="k3X-pm-wdS"/>
@@ -990,6 +987,7 @@
     </scenes>
     <resources>
         <image name="collage" width="150" height="150"/>
+        <image name="delete" width="30" height="26"/>
         <image name="home" width="30" height="30"/>
         <image name="loading" width="150" height="150"/>
         <image name="logoWait" width="360" height="360"/>

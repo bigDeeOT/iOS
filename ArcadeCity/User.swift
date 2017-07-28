@@ -67,7 +67,7 @@ class User {
        // keyValues["Collage URL"] =          "http://i.imgur.com/TkcP25X.jpg"
         keyValues["Phone"] =                "512-867-5309"
         keyValues["Class"] =                "Driver"
-        keyValues["Bio"] = "I'm just an ordinary person doing ordinary things. I like AC because it lets people do their own business without a middle man taking a cut 🙌😎💯"
+        keyValues["Bio"] = "I'm just an ordinary person doing ordinary things. My favorite food truck is Arlos cause have the best tacos. And Austin, Texas is the best city in the world 🙌😎💯"
         keyValues["Rides Requested"] =      "0"
         keyValues["Rides Resolved"] =       "0"
         keyValues["Rides Offered"] =        "0"

@@ -74,7 +74,6 @@ class RequestPageViewController: UIViewController, UITableViewDelegate, UITableV
     
     func removeLoginPage() {
         if Auth.auth().currentUser?.uid != nil {
-            print("removing login page")
             loginPage?.spinner.stopAnimating()
             loginPageView.isHidden = true
             tabBarNavBarLogic()
@@ -286,7 +285,6 @@ class RequestPageViewController: UIViewController, UITableViewDelegate, UITableV
                 vc.rideRequest = request
             }
         }
-
         if let vc = segue.destination as? LoginViewController {
             vc.requestPage = self
         }

@@ -18,6 +18,7 @@ class RideRequest {
     var ETA: String?
     var unique: String?
     var delegate: RideDetailViewController?
+    var keyValues: [String: String] = [:]
     var resolvedBy: User? {
         didSet {
             if resolvedBy != nil {
@@ -29,7 +30,10 @@ class RideRequest {
     }
     var isOld: Bool {
         get {
-            if Date().timeIntervalSince(date!) > 60*20 {
+            let dateFormatter = DateFormatter()
+            dateFormatter.dateFormat = "MM-dd-yyyy hh:mm:ss a"
+            let dateValue = dateFormatter.date(from: keyValues["Date"]!)
+            if Date().timeIntervalSince(dateValue!) > 60*20 {
                 return true
             }
             return false

@@ -78,7 +78,8 @@ class BottomProfileViewController: UIViewController, UIImagePickerControllerDele
         if user?.keyValues["Collage URL"] != nil {
             collage.image = UIImage(named: "loading")
         }
-        if let url = URL(string:(RequestPageViewController.userName?.keyValues["Collage URL"])!) {
+        guard let collageURL = RequestPageViewController.userName?.keyValues["Collage URL"] else {return}
+        if let url = URL(string:collageURL) {
             DispatchQueue.global(qos: .default).async {
                 [weak self] in
                 if let imageData = NSData(contentsOf: url) {

@@ -60,6 +60,13 @@ class TimeAgo {
         }
         return timeAgo
     }
+    
+    static func get(_ date: String) -> String {
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "MM-dd-yyyy hh:mm:ss a"
+        let date = dateFormatter.date(from: date)
+        return get(date!)
+    }
 }
 
 

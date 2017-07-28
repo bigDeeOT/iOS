@@ -12,7 +12,7 @@ class RideDetailViewController: UIViewController, UITableViewDelegate, UITableVi
 
     let cellIdentifier = "rideRequestDetail"
     var rideRequest: RideRequest?
-    
+    @IBOutlet weak var delete: UIImageView!
     @IBOutlet weak var seperator: UIView!
     @IBOutlet weak var pickUpText: UILabel!
     @IBOutlet weak var profilePic: UIImageView!
@@ -26,30 +26,29 @@ class RideDetailViewController: UIViewController, UITableViewDelegate, UITableVi
             sender.setTitle("Resolve?", for: .normal)
             performSegue(withIdentifier: "postCollage", sender: rideRequest)
         } else if sender.currentTitle == "Resolve?" {  //resolve the request
-            print("changing to resolved")
             rideRequest?.resolvedBy = RequestPageViewController.userName
-            sender.setTitle("#Resolved by \(rideRequest?.resolvedBy?.name ?? "error")", for: .normal)
+            rideRequest?.keyValues["Resolved By"] = RequestPageViewController.userName?.unique
+            sender.setTitle("#Resolved by \(rideRequest?.resolvedBy?.keyValues["Name"] ?? "error")", for: .normal)
+            LoadRequests.changeRideRequestStatus(rideRequest!, status: "#Resolved")
             sender.setTitleColor(UIColor.red, for: .normal)
-            rideRequest?.resolvedBy = RequestPageViewController.userName
         } else if (sender.currentTitle?.contains("#Resolved"))! {  //unresolve the request
-            if rideRequest?.resolvedBy?.name == RequestPageViewController.userName?.name {
+            if rideRequest?.resolvedBy?.keyValues["Name"] == RequestPageViewController.userName?.keyValues["Name"] {
                 sender.setTitle("Resolve?", for: .normal)
                 sender.setTitleColor(UIColor(red:0.02, green:0.32, blue:0.54, alpha:1.0), for: .normal)
                 rideRequest?.resolvedBy = nil
-                rideRequest?.state = RideRequest.State.unresolved
+                rideRequest?.keyValues["State"] = "Unresolved"
+                LoadRequests.changeRideRequestStatus(rideRequest!, status: "Unresolved")
             }
         }
     }
     
-    @IBOutlet weak var delete: UILabel!
-    
 
-    
+
     func updateUI() {
         loadImage()
         name.text = rideRequest?.rider?.keyValues["Name"]
-        date.text = TimeAgo.get(rideRequest?.date ?? Date())
-        pickUpText.text = rideRequest?.text
+        date.text = TimeAgo.get((rideRequest?.keyValues["Date"])!)
+        pickUpText.text = rideRequest?.keyValues["Text"]
         pickUpText.lineBreakMode = .byWordWrapping
         pickUpText.numberOfLines = 0
         tableView.tableFooterView = UIView()
@@ -65,7 +64,7 @@ class RideDetailViewController: UIViewController, UITableViewDelegate, UITableVi
     }
     
     private func etaLogic() {
-        if (rideRequest?.isOld)! || (RequestPageViewController.userName?.name == rideRequest?.rider?.name) {
+        if (rideRequest?.isOld)! || ((rideRequest?.keyValues["Show ETA"])! == "False") || (RequestPageViewController.userName?.keyValues["Name"] == rideRequest?.rider?.keyValues["Name"]) {
             eta.isHidden = true
         } else {
             eta.isHidden = false
@@ -80,9 +79,24 @@ class RideDetailViewController: UIViewController, UITableViewDelegate, UITableVi
         }
     }
     
+    func requestWasDeleted() {
+        let deleteLabel = UILabel()
+        deleteLabel.text = "DELETED"
+        deleteLabel.font = UIFont(name: deleteLabel.font.fontName, size: 60)
+        deleteLabel.textColor = UIColor.red
+        view.addSubview(deleteLabel)
+        deleteLabel.sizeToFit()
+        deleteLabel.frame.origin = CGPoint(x: UIScreen.main.bounds.width / 2 - (deleteLabel.frame.width / 2), y: UIScreen.main.bounds.height / 5 - (deleteLabel.frame.height / 2))
+        print("about to execute timer")
+        Timer.scheduledTimer(withTimeInterval: 2, repeats: false) { (timer) in
+            self.performSegue(withIdentifier: "deleteRequest", sender: nil)
+        }
+    }
+    
     private func setOfferButton() {
+        offerRideButton.isHidden = false
         //if driver viewing has posted an offer
-        if rideRequest?.state == RideRequest.State.unresolved {
+        if rideRequest?.keyValues["State"] == "Unresolved" {
             for offer in (rideRequest?.offers)! {
                 if offer.driver?.name == RequestPageViewController.userName?.name {
                     offerRideButton.setTitle("Resolve?", for: .normal)
@@ -90,22 +104,26 @@ class RideDetailViewController: UIViewController, UITableViewDelegate, UITableVi
             }
         }
         //if ride is resolved
-        if rideRequest?.state == RideRequest.State.resolved {
+        if rideRequest?.keyValues["State"] == "Resolved" {
             offerRideButton.setTitle("#Resolved by \(rideRequest?.resolvedBy?.name ?? "Linda")", for: .normal)
             offerRideButton.setTitleColor(UIColor.red, for: .normal)
         }
         //if ride is canceled
-        if rideRequest?.state == RideRequest.State.canceled {
+        if rideRequest?.keyValues["State"] == "#Canceled" {
             offerRideButton.setTitle("#Canceled", for: .normal)
             offerRideButton.setTitleColor(UIColor.red, for: .normal)
         }
         //if viewer only has rider privilege, or if viwer is original requester of ride, remove the button until it's resolved
         if ((RequestPageViewController.userName?.privilege)! == .rider) || ((RequestPageViewController.userName?.name)! == rideRequest?.rider?.name) {
-            if (rideRequest?.state != RideRequest.State.resolved) && (rideRequest?.state != RideRequest.State.canceled) {
-                offerRideButton.removeFromSuperview()
+            if (rideRequest?.keyValues["State"] != "#Resolved") && (rideRequest?.keyValues["State"] != "#Canceled") {
+                //offerRideButton.removeFromSuperview()
+                offerRideButton.isHidden = true
             }
         }
-        
+        //if ride is old, don't allow offer ride
+        if (rideRequest?.isOld)! && (rideRequest?.keyValues["State"] == "Unresolved") {
+            offerRideButton.isHidden = true
+        }
     }
     
     override func viewDidLoad() {
@@ -117,13 +135,38 @@ class RideDetailViewController: UIViewController, UITableViewDelegate, UITableVi
         self.tableView.rowHeight = UITableViewAutomaticDimension
         self.tableView.estimatedRowHeight = 208
         rideRequest?.delegate = self
-        delete.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(deleteRequest)))
-        delete.isUserInteractionEnabled = true
+        configureDeleteButton()
         LoadRequests.rideDetailPage = self
     }
     
+    func configureDeleteButton() {
+        delete.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(deleteOptions)))
+        delete.isUserInteractionEnabled = true
+        delete.frame.size = ImageResize.getNewSize(currentSize: delete.frame.size, maxSize: CGSize(width: 20, height: 20))
+        if rideRequest?.rider?.name != RequestPageViewController.userName?.name {
+            delete.isHidden = true
+        } else {
+            delete.isHidden = false
+        }
+        if rideRequest?.state == RideRequest.State.resolved {
+            delete.isHidden = true
+        }
+        
+    }
+    
+    func deleteOptions() {
+        let actionSheet = UIAlertController(title: "Delete the request?", message: nil, preferredStyle: .actionSheet)
+        let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
+        let deleteAction = UIAlertAction(title: "Delete", style: .destructive) { (action) in
+            self.deleteRequest()
+        }
+        actionSheet.addAction(cancelAction)
+        actionSheet.addAction(deleteAction)
+        present(actionSheet, animated: true, completion: nil)
+    }
+    
+    
     func deleteRequest() {
-        print("handler called")
         LoadRequests.removeRideRequest(rideRequest!)
     }
     
