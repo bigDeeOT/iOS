@@ -65,13 +65,19 @@ class User {
         
         //hard coded default values
        // keyValues["Collage URL"] =          "http://i.imgur.com/TkcP25X.jpg"
-        keyValues["Phone"] =                "512-867-5309"
-        keyValues["Class"] =                "Driver"
-        keyValues["Bio"] = "I'm just an ordinary person doing ordinary things. My favorite food truck is Arlos cause have the best tacos. And Austin, Texas is the best city in the world 🙌😎💯"
+        keyValues["Phone"] =                "469-279-0127"
+        keyValues["Bio"] = "I'm just an ordinary person doing ordinary things. My favorite food truck is Arlos cause they have the best tacos. And Austin, Texas is the best city in the world 🙌😎💯"
         keyValues["Rides Requested"] =      "0"
         keyValues["Rides Resolved"] =       "0"
         keyValues["Rides Offered"] =        "0"
         keyValues["Rides Given"] =          "0"
+        keyValues["Class"] =                "Rider"
+        for driver in PreselectedDrivers.drivers {
+            if keyValues["Name"] == driver {
+                keyValues["Class"] = "Driver"
+            }
+        }
+        
     }
     init(_ info: [String: String]) {
         for (key, value) in info {
@@ -97,6 +103,16 @@ class User {
             }
         }
         return data
+    }
+    
+    func incrementVariable(_ variableToIncrease: String) {
+        keyValues[variableToIncrease] = String(describing: Int(keyValues[variableToIncrease]!)! + 1)
+        LoadRequests.gRef.child("Users").child(unique!).child(variableToIncrease).setValue(keyValues[variableToIncrease])
+    }
+    
+    func decrementVariable(_ variableToIncrease: String) {
+        keyValues[variableToIncrease] = String(describing: Int(keyValues[variableToIncrease]!)! - 1)
+        LoadRequests.gRef.child("Users").child(unique!).child(variableToIncrease).setValue(keyValues[variableToIncrease])
     }
 }
 

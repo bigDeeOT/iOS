@@ -56,6 +56,10 @@ class AddRideTableViewController: UITableViewController {
         ride.keyValues["Rider"] = RequestPageViewController.userName?.unique
         ride.keyValues["State"] = "Unresolved"
         ride.keyValues["Show ETA"] = "True"
+        if currentLocation.selectedSegmentIndex == 1 {
+            ride.keyValues["Show ETA"] = "False"
+        }
+        ride.rider?.incrementVariable("Rides Requested")
         performSegue(withIdentifier: identifier, sender: ride)
     }
     

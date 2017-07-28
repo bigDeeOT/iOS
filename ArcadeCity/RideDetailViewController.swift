@@ -21,6 +21,7 @@ class RideDetailViewController: UIViewController, UITableViewDelegate, UITableVi
     @IBOutlet weak var eta: UILabel!
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var offerRideButton: UIButton!
+    var loadedImage = false
     @IBAction func offerRide(_ sender: UIButton) {
         if sender.currentTitle == "Offer Ride" {    //post collage
             sender.setTitle("Resolve?", for: .normal)
@@ -30,6 +31,8 @@ class RideDetailViewController: UIViewController, UITableViewDelegate, UITableVi
             rideRequest?.keyValues["Resolved By"] = RequestPageViewController.userName?.unique
             sender.setTitle("#Resolved by \(rideRequest?.resolvedBy?.keyValues["Name"] ?? "error")", for: .normal)
             LoadRequests.changeRideRequestStatus(rideRequest!, status: "#Resolved")
+            rideRequest?.rider?.incrementVariable("Rides Resolved")
+            RequestPageViewController.userName?.incrementVariable("Rides Given")
             sender.setTitleColor(UIColor.red, for: .normal)
         } else if (sender.currentTitle?.contains("#Resolved"))! {  //unresolve the request
             if rideRequest?.resolvedBy?.keyValues["Name"] == RequestPageViewController.userName?.keyValues["Name"] {
@@ -37,6 +40,7 @@ class RideDetailViewController: UIViewController, UITableViewDelegate, UITableVi
                 sender.setTitleColor(UIColor(red:0.02, green:0.32, blue:0.54, alpha:1.0), for: .normal)
                 rideRequest?.resolvedBy = nil
                 rideRequest?.keyValues["State"] = "Unresolved"
+                rideRequest?.resolvedBy?.decrementVariable("Rides Given")
                 LoadRequests.changeRideRequestStatus(rideRequest!, status: "Unresolved")
             }
         }
@@ -45,7 +49,10 @@ class RideDetailViewController: UIViewController, UITableViewDelegate, UITableVi
 
 
     func updateUI() {
-        loadImage()
+        if loadedImage == false {
+            loadImage()
+            loadedImage = true
+        }
         name.text = rideRequest?.rider?.keyValues["Name"]
         date.text = TimeAgo.get((rideRequest?.keyValues["Date"])!)
         pickUpText.text = rideRequest?.keyValues["Text"]
@@ -64,7 +71,7 @@ class RideDetailViewController: UIViewController, UITableViewDelegate, UITableVi
     }
     
     private func etaLogic() {
-        if (rideRequest?.isOld)! || ((rideRequest?.keyValues["Show ETA"])! == "False") || (RequestPageViewController.userName?.keyValues["Name"] == rideRequest?.rider?.keyValues["Name"]) {
+        if (rideRequest?.isOld)! || ((rideRequest?.keyValues["Show ETA"])! == "False") || (RequestPageViewController.userName?.keyValues["Name"] == rideRequest?.rider?.keyValues["Name"] || (RequestPageViewController.userName?.keyValues["Class"] == "Rider")) {
             eta.isHidden = true
         } else {
             eta.isHidden = false
@@ -104,8 +111,8 @@ class RideDetailViewController: UIViewController, UITableViewDelegate, UITableVi
             }
         }
         //if ride is resolved
-        if rideRequest?.keyValues["State"] == "Resolved" {
-            offerRideButton.setTitle("#Resolved by \(rideRequest?.resolvedBy?.name ?? "Linda")", for: .normal)
+        if rideRequest?.keyValues["State"] == "#Resolved" {
+            offerRideButton.setTitle("#Resolved by \(rideRequest?.keyValues["Resolved By"] ?? "Linda")", for: .normal)
             offerRideButton.setTitleColor(UIColor.red, for: .normal)
         }
         //if ride is canceled
@@ -122,6 +129,9 @@ class RideDetailViewController: UIViewController, UITableViewDelegate, UITableVi
         }
         //if ride is old, don't allow offer ride
         if (rideRequest?.isOld)! && (rideRequest?.keyValues["State"] == "Unresolved") {
+            offerRideButton.isHidden = true
+        }
+        if RequestPageViewController.userName?.keyValues["Collage URL"] == nil {
             offerRideButton.isHidden = true
         }
     }

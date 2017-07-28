@@ -40,7 +40,7 @@ class RequestPageTableViewCell: UITableViewCell {
     }
     
     private func etaLogic() {
-        if (rideRequest?.isOld)! || (RequestPageViewController.userName?.name == rideRequest?.rider?.name) || (rideRequest?.keyValues["Show ETA"] == "False")  {
+        if (rideRequest?.isOld)! || (RequestPageViewController.userName?.name == rideRequest?.rider?.name) || (rideRequest?.keyValues["Show ETA"] == "False") || (RequestPageViewController.userName?.keyValues["Class"] == "Rider")  {
             eta.isHidden = true
         } else {
             eta.isHidden = false
@@ -105,7 +105,7 @@ class RequestPageTableViewCell: UITableViewCell {
                         }
                     }
                 }
-            } else if rideRequest?.state == RideRequest.State.resolved {
+            } else if rideRequest?.keyValues["State"] == "#Resolved" {
                 offerRideButton.isHidden = false
                 offerRideButton.setTitle("#Resolved", for: .normal)
                 offerRideButton.setTitleColor(UIColor.black, for: .normal)

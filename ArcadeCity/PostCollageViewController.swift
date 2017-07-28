@@ -18,8 +18,9 @@ class PostCollageViewController: UIViewController {
         let offer = Offer(user: RequestPageViewController.userName!, comment: comment.text, date: Date())
         if let rideRequest = rideRequest {
             //need to get updated rideRequest state here
-            if rideRequest.state == RideRequest.State.unresolved {
+            if rideRequest.keyValues["State"] == "Unresolved" {
                 LoadRequests.addOffer(offer, for: rideRequest)
+                RequestPageViewController.userName?.incrementVariable("Rides Offered")
             }
         }
         

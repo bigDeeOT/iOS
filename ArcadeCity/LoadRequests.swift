@@ -65,9 +65,9 @@ class LoadRequests {
     }
     
     static func changeRideRequestStatus(_ request: RideRequest, status: String) {
-        LoadRequests.gRef.child("Requests/\(request.unique!)/Status").setValue(status)
+        LoadRequests.gRef.child("Requests/\(request.unique!)/State").setValue(status)
         if status == "#Resolved" {
-            LoadRequests.gRef.child("Requests/\(request.unique!)/Resolved By").setValue(RequestPageViewController.userName?.name ?? "unknown")
+            LoadRequests.gRef.child("Requests/\(request.unique!)/Resolved By").setValue(RequestPageViewController.userName?.unique ?? "unknown")
         }
         if status == "Unresolved" {
             LoadRequests.gRef.child("Requests/\(request.unique!)/Resolved By").removeValue()
@@ -167,6 +167,12 @@ class LoadRequests {
         }
         request.unique = snapshot.key
         LoadRequests.addRequestToList(request)
+        //if request is resolved, get user who resolved it
+        if request.keyValues["Resolved By"] != nil {
+            ref.child("Users").child(request.keyValues["Resolved By"]!).observeSingleEvent(of: .value, with: { [weak self] (snapshotUser) in
+                request.resolvedBy = self?.pullUserFromFirebase(snapshotUser)
+            })
+        }
         return request
     }
     
@@ -222,6 +228,29 @@ class LoadRequests {
         })
     }
     
+    func listenForRequestEdited() {
+        ref.child("Requests").observe(.childChanged, with: { [weak self] (snapshot) in
+            let detail = snapshot.value as! [String:Any]
+            
+            var request: RideRequest?
+            let id = snapshot.key
+            for req in LoadRequests.requestList {
+                if req.unique == id {
+                    request = req
+                    break
+                }
+            }
+            guard request != nil else {print("bad edit observe");return}
+            for (key, value) in detail {
+                if let value = value as? String {
+                    request?.keyValues[key] = value
+                }
+            }
+            self?.requestPage.rideRequestList.reloadData()
+            request?.delegate?.updateUI()
+        })
+    }
+    
     
     func login(_ vc: UIViewController) {
         FBSDKLoginManager().logIn(withReadPermissions: ["email", "public_profile"], from: vc) {[weak self]  (result, err) in
@@ -265,8 +294,7 @@ class LoadRequests {
             }
             let user = self?.pullUserFromFirebase(snapshot)
             RequestPageViewController.userName = user
-            self?.listenForRequest()
-            self?.listenForRequestDeleted()
+            self?.startListening()
             self?.requestPage.rideRequestList.reloadData()
         })
     }
@@ -290,10 +318,15 @@ class LoadRequests {
             user.unique = firebaseID
             self?.ref.child("Users").child(firebaseID).setValue(user.keyValues)
             RequestPageViewController.userName = user
-            self?.listenForRequest()
-            self?.listenForRequestDeleted()
+            self?.startListening()
             self?.requestPage.rideRequestList.reloadData()
         }
+    }
+    
+    func startListening() {
+        listenForRequest()
+        listenForRequestDeleted()
+        listenForRequestEdited()
     }
     
     static func uploadCollage(_ image: UIImage, delegate: BottomProfileViewController) {
@@ -329,11 +362,13 @@ class LoadRequests {
                 }
                 LoadRequests.removeOfferListener(requestNumber: ride.unique!)
             }
+            if ride.keyValues["State"] == "#Resolved" {
+                ride.rider?.decrementVariable("Rides Resolved")
+                ride.resolvedBy?.decrementVariable("Rides Given")
+            }
             removeRequestInList(ride.unique!)
             LoadRequests.gRef.child("Requests").child(ride.unique!).removeValue()
             LoadRequests.gRef.child("Requests by Users/\((ride.rider?.unique)!)/Requests/\(ride.unique!)").removeValue()
-            print(LoadRequests.requestList.count)
-            
             LoadRequests.rideDetailPage.performSegue(withIdentifier: "deleteRequest", sender: nil)
         })
     }
@@ -353,43 +388,29 @@ class LoadRequests {
         dateFormatter.dateFormat = "MM-dd-yyyy hh:mm:ss a"
         let date = dateFormatter.date(from: "07-07-2017 10:08:13 am")
         
-        var rider = User(url: URL(string: "http://i.imgur.com/CO5oZG1.jpg")!, name: "Booker T Washington")
-        rider.keyValues["Profile Pic URL"] = "http://i.imgur.com/CO5oZG1.jpg"
-        rider.phone = "512 686-7920"
-        rider.keyValues["Name"] = rider.name
-        var request = RideRequest(rider: rider)
-        request.text = "Pickup domain to riveride"
-        request.keyValues["Text"] = "Pickup domain to riveride"
-        request.date = date
-        request.keyValues["Date"] = "07-07-2017 10:08:13 am"
-        request.ETA = "ETA: 9 min"
-        request.state = RideRequest.State.resolved
-        request.keyValues["State"] = "#Resolved"
-        LoadRequests.requestList.append(request)
-        
-        rider = User(url: URL(string: "http://i.imgur.com/ezZRRss.jpg")!, name: "Donald J Trump")
+        var rider = User(url: URL(string: "http://i.imgur.com/ezZRRss.jpg")!, name: "Donald J Trump")
         rider.keyValues["Profile Pic URL"] = "http://i.imgur.com/ezZRRss.jpg"
         rider.phone = "512 686-7920"
         rider.keyValues["Name"] = rider.name
-        request = RideRequest(rider: rider)
+        var request = RideRequest(rider: rider)
         request.text = "Airport to Capitol please"
         request.keyValues["Text"] = "Airport to Capitol please"
         request.date = date
-        request.keyValues["Date"] = "07-07-2017 10:08:13 am"
+        request.keyValues["Date"] = "07-07-2017 2:52:33 pm"
         request.ETA = "ETA: 9 min"
         request.state = RideRequest.State.canceled
         request.keyValues["State"] = "#Canceled"
         LoadRequests.requestList.append(request)
         
-        rider = User(url: URL(string: "http://i.imgur.com/1jP1Zwv.jpg")!, name: "Wolverine")
-        rider.keyValues["Profile Pic URL"] = "http://i.imgur.com/1jP1Zwv.jpg"
+        rider = User(url: URL(string: "http://i.imgur.com/1jP1Zwv.jpg")!, name: "Asher Lostak")
+        rider.keyValues["Profile Pic URL"] = "http://i.imgur.com/qbMs1s6.jpg"
         rider.phone = "512 686-7920"
         rider.keyValues["Name"] = rider.name
         request = RideRequest(rider: rider)
         request.text = "Hey guys I have a favor to ask. I don't know if this is the right place but is it possible for someone to pick up my dog from my apartment and bring him to the vet? I'm so worried about him please help!"
-        request.keyValues["Text"] = "Hey guys I have a favor to ask. I don't know if this is the right place but is it possible for someone to pick up my dog from my apartment and bring him to the vet? I'm so worried about him please help!"
+        request.keyValues["Text"] = "Riverside to Airport\nAnyone nearby? I'm late for my flight! ✈️"
         request.date = date
-        request.keyValues["Date"] = "07-07-2017 10:08:13 am"
+        request.keyValues["Date"] = "07-07-2017 1:01:13 pm"
         request.ETA = "ETA: 9 min"
         request.state = RideRequest.State.resolved
         request.keyValues["State"] = "#Resolved"
@@ -403,13 +424,27 @@ class LoadRequests {
         request.text = "Redbud to UT asap"
         request.keyValues["Text"] = "Redbud to UT asap"
         request.date = date
-        request.keyValues["Date"] = "07-07-2017 10:08:13 am"
+        request.keyValues["Date"] = "07-07-2017 11:49:10 am"
         request.ETA = "ETA: 9 min"
         request.keyValues["State"] = "Unresolved"
         LoadRequests.requestList.append(request)
         
-        rider = User(url: URL(string: "http://i.imgur.com/nnCNDRO.jpg")!, name: "Doggy")
-        rider.keyValues["Profile Pic URL"] = "http://i.imgur.com/nnCNDRO.jpg"
+        rider = User(url: URL(string: "http://i.imgur.com/dSFFSzV.jpg")!, name: "Bobby Carlisle")
+        rider.keyValues["Profile Pic URL"] = "http://i.imgur.com/dSFFSzV.jpg"
+        rider.phone = "512 686-7920"
+        rider.keyValues["Name"] = rider.name
+        request = RideRequest(rider: rider)
+        request.text = "Pickup domain to riveride"
+        request.keyValues["Text"] = "Pickup domain to downtown\nGot a big day today, lets roll 😎"
+        request.date = date
+        request.keyValues["Date"] = "07-07-2017 11:48:41 am"
+        request.ETA = "ETA: 9 min"
+        request.state = RideRequest.State.resolved
+        request.keyValues["State"] = "#Resolved"
+        LoadRequests.requestList.append(request)
+        
+        rider = User(url: URL(string: "http://i.imgur.com/BLlMnuQ.jpg")!, name: "Jennifer Bezos")
+        rider.keyValues["Profile Pic URL"] = "http://i.imgur.com/BLlMnuQ.jpg"
         rider.phone = "512 686-7920"
         rider.keyValues["Name"] = rider.name
         request = RideRequest(rider: rider)
