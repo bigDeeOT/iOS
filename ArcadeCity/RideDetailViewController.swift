@@ -31,6 +31,7 @@ class RideDetailViewController: UIViewController, UITableViewDelegate, UITableVi
             LoadRequests.requestEditedLocally = rideRequest?.unique
             rideRequest?.resolvedBy = RequestPageViewController.userName
             rideRequest?.keyValues["Resolved By"] = RequestPageViewController.userName?.unique
+            rideRequest?.keyValues["State"] = "#Resolved"
             sender.setTitle("#Resolved by \(rideRequest?.resolvedBy?.keyValues["Name"] ?? "error")", for: .normal)
             LoadRequests.changeRideRequestStatus(rideRequest!, status: "#Resolved")
             rideRequest?.rider?.incrementVariable("Rides Resolved")
