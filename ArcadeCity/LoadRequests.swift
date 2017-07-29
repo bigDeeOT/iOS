@@ -21,6 +21,7 @@ class LoadRequests {
     static var rideDetailPage: RideDetailViewController!
     var numberOfRequestsInFirebase = 0
     var numberOfRequestsLoaded = 0
+    static var requestEditedLocally: String?
     static var recentlyDeletedRequest: String?
     
     init() {
@@ -65,13 +66,20 @@ class LoadRequests {
     }
     
     static func changeRideRequestStatus(_ request: RideRequest, status: String) {
-        LoadRequests.gRef.child("Requests/\(request.unique!)/State").setValue(status)
+        let key1 = "State"
+        let value1 = status
+        let key2 = "Resolved By"
+        var value2: String?
         if status == "#Resolved" {
-            LoadRequests.gRef.child("Requests/\(request.unique!)/Resolved By").setValue(RequestPageViewController.userName?.unique ?? "unknown")
+            value2 = RequestPageViewController.userName?.unique ?? "unknown"
+        } else if status == "Unresolved" {
+            value2 = nil
         }
-        if status == "Unresolved" {
-            LoadRequests.gRef.child("Requests/\(request.unique!)/Resolved By").removeValue()
-        }
+        let updateData = [
+            key1 : value1,
+            key2 : value2
+        ]
+        LoadRequests.gRef.child("Requests/\(request.unique!)").updateChildValues(updateData)
     }
     
     static func addOffer(_ offer: Offer, for rideRequest: RideRequest) {
@@ -87,6 +95,7 @@ class LoadRequests {
             "Ride Request"  : rideRequest.unique,
             ])
         offer.unique = offerID
+        rideRequest.delegate?.updateUI()
         LoadRequests.gRef.child("Requests/\(rideRequest.unique!)/Offers/\(offerID)").setValue("True")
     }
     
@@ -168,14 +177,20 @@ class LoadRequests {
         request.unique = snapshot.key
         LoadRequests.addRequestToList(request)
         //if request is resolved, get user who resolved it
-        if request.keyValues["Resolved By"] != nil {
-            ref.child("Users").child(request.keyValues["Resolved By"]!).observeSingleEvent(of: .value, with: { [weak self] (snapshotUser) in
-                request.resolvedBy = self?.pullUserFromFirebase(snapshotUser)
-            })
-        }
+        addResolvedBy(request)
         return request
     }
     
+    func addResolvedBy(_ request: RideRequest) {
+        print("in addresolveby")
+        if request.keyValues["Resolved By"] != nil {
+            ref.child("Users").child(request.keyValues["Resolved By"]!).observeSingleEvent(of: .value, with: { [weak self] (snapshotUser) in
+                request.resolvedBy = self?.pullUserFromFirebase(snapshotUser)
+                self?.requestPage.rideRequestList.reloadData()
+                request.delegate?.updateUI()
+            })
+        }
+    }
     
     func listenForOffer(_ request: RideRequest) {
         self.ref.child("Requests/\(request.unique!)/Offers").observe(.childAdded, with: { [weak self] (offerSnapshot) in
@@ -200,6 +215,7 @@ class LoadRequests {
                     request.offers?.append(offer)
                     request.delegate?.reload()
                     self?.requestPage.rideRequestList.reloadData()
+                    request.delegate?.updateUI()
                 })
             })
         })
@@ -230,10 +246,15 @@ class LoadRequests {
     
     func listenForRequestEdited() {
         ref.child("Requests").observe(.childChanged, with: { [weak self] (snapshot) in
+            print("request edited was called")
             let detail = snapshot.value as! [String:Any]
-            
             var request: RideRequest?
             let id = snapshot.key
+            guard LoadRequests.requestEditedLocally != id else {
+                print("Trying to update a request that was edited locally. Now returning")
+                LoadRequests.requestEditedLocally = nil
+                return
+            }
             for req in LoadRequests.requestList {
                 if req.unique == id {
                     request = req
@@ -246,6 +267,14 @@ class LoadRequests {
                     request?.keyValues[key] = value
                 }
             }
+            self?.addResolvedBy(request!)
+            //Now update the user
+            self?.ref.child("Users").child((request?.rider?.unique)!).observeSingleEvent(of: .value, with: { [weak self] (snapshotUser) in
+                let profileDetails = request?.rider?.profileDetails
+                request?.rider = self?.pullUserFromFirebase(snapshotUser)
+                request?.rider?.profileDetails = profileDetails
+                request?.rider?.profileDetails?.updateUI()
+            })
             self?.requestPage.rideRequestList.reloadData()
             request?.delegate?.updateUI()
         })

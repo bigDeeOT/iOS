@@ -14,18 +14,19 @@ class MiddleProfileTableViewController: UITableViewController {
     var user: User? {
         didSet {
             updateUI()
+            user?.profileDetails = self
         }
     }
     override func viewDidLoad() {
         super.viewDidLoad()
     tableView.separatorStyle = .none
-    
     }
     
     func updateUI() {
         data = user?.getViewableData()
         dataIndex = user?.keysToDisplay
         dataIndex?.remove(at: (dataIndex?.index(of: "Bio"))!)
+        tableView.reloadData()
     }
     
     // MARK: - Table view data source

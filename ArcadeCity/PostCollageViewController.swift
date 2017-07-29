@@ -27,7 +27,7 @@ class PostCollageViewController: UIViewController {
 
         
         //we don't want user to go "back" to this page
-        
+      
         //if coming from the rideDetail vc
         for nvc in (navigationController?.viewControllers)! {
             if nvc is RideDetailViewController {
@@ -36,7 +36,9 @@ class PostCollageViewController: UIViewController {
             }
         }
         //if coming from requestPage vc
-        performSegue(withIdentifier: "unwindToRequestPage", sender: nil)
+        performSegue(withIdentifier: "unwindToRequestPage", sender: rideRequest)
+        
+ 
     }
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -59,8 +61,11 @@ class PostCollageViewController: UIViewController {
     }
     
        override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        let vc = segue.destination as? RideDetailViewController
-        vc?.rideRequest = sender as? RideRequest
+        if let vc = segue.destination as? RideDetailViewController {
+            vc.rideRequest = sender as? RideRequest
+        } else if let vc = segue.destination as? RequestPageViewController {
+            vc.pendingRequest = sender as? RideRequest
+        }
         
     }
    

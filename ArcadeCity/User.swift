@@ -20,6 +20,7 @@ class User {
     var phone: String?
     var privilege: Privilege = .rider
     var delegate: RideDetailViewController?
+    var profileDetails: MiddleProfileTableViewController?
     var keyValues: [String: String] = [:]
     //if adding a key, also add default value below
     var keys = ["Name", "Phone", "Class", "Profile Pic URL", "Rides Requested", "Rides Resolved", "Rides Offered", "Rides Given", "Collage URL", "Bio"]
@@ -108,11 +109,13 @@ class User {
     func incrementVariable(_ variableToIncrease: String) {
         keyValues[variableToIncrease] = String(describing: Int(keyValues[variableToIncrease]!)! + 1)
         LoadRequests.gRef.child("Users").child(unique!).child(variableToIncrease).setValue(keyValues[variableToIncrease])
+        profileDetails?.updateUI()
     }
     
-    func decrementVariable(_ variableToIncrease: String) {
-        keyValues[variableToIncrease] = String(describing: Int(keyValues[variableToIncrease]!)! - 1)
-        LoadRequests.gRef.child("Users").child(unique!).child(variableToIncrease).setValue(keyValues[variableToIncrease])
+    func decrementVariable(_ variableToDecrease: String) {
+        keyValues[variableToDecrease] = String(describing: Int(keyValues[variableToDecrease]!)! - 1)
+        LoadRequests.gRef.child("Users").child(unique!).child(variableToDecrease).setValue(keyValues[variableToDecrease])
+        profileDetails?.updateUI()
     }
 }
 

@@ -21,26 +21,30 @@ class RideDetailViewController: UIViewController, UITableViewDelegate, UITableVi
     @IBOutlet weak var eta: UILabel!
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var offerRideButton: UIButton!
+    var justClickOfferRide = false
     var loadedImage = false
     @IBAction func offerRide(_ sender: UIButton) {
         if sender.currentTitle == "Offer Ride" {    //post collage
             sender.setTitle("Resolve?", for: .normal)
             performSegue(withIdentifier: "postCollage", sender: rideRequest)
         } else if sender.currentTitle == "Resolve?" {  //resolve the request
+            LoadRequests.requestEditedLocally = rideRequest?.unique
             rideRequest?.resolvedBy = RequestPageViewController.userName
             rideRequest?.keyValues["Resolved By"] = RequestPageViewController.userName?.unique
             sender.setTitle("#Resolved by \(rideRequest?.resolvedBy?.keyValues["Name"] ?? "error")", for: .normal)
             LoadRequests.changeRideRequestStatus(rideRequest!, status: "#Resolved")
             rideRequest?.rider?.incrementVariable("Rides Resolved")
-            RequestPageViewController.userName?.incrementVariable("Rides Given")
+            rideRequest?.resolvedBy?.incrementVariable("Rides Given")
             sender.setTitleColor(UIColor.red, for: .normal)
         } else if (sender.currentTitle?.contains("#Resolved"))! {  //unresolve the request
+            LoadRequests.requestEditedLocally = rideRequest?.unique
             if rideRequest?.resolvedBy?.keyValues["Name"] == RequestPageViewController.userName?.keyValues["Name"] {
                 sender.setTitle("Resolve?", for: .normal)
                 sender.setTitleColor(UIColor(red:0.02, green:0.32, blue:0.54, alpha:1.0), for: .normal)
-                rideRequest?.resolvedBy = nil
                 rideRequest?.keyValues["State"] = "Unresolved"
                 rideRequest?.resolvedBy?.decrementVariable("Rides Given")
+                rideRequest?.resolvedBy = nil
+                rideRequest?.rider?.decrementVariable("Rides Resolved")
                 LoadRequests.changeRideRequestStatus(rideRequest!, status: "Unresolved")
             }
         }
@@ -62,6 +66,10 @@ class RideDetailViewController: UIViewController, UITableViewDelegate, UITableVi
         etaLogic()
         setOfferButton()
         seperatorLogic()
+        if justClickOfferRide == true {
+            justClickOfferRide = false
+            offerRideButton.setTitle("Resolve?", for: .normal)
+        }
     }
     
     func reload() {
@@ -105,14 +113,14 @@ class RideDetailViewController: UIViewController, UITableViewDelegate, UITableVi
         //if driver viewing has posted an offer
         if rideRequest?.keyValues["State"] == "Unresolved" {
             for offer in (rideRequest?.offers)! {
-                if offer.driver?.name == RequestPageViewController.userName?.name {
+                if offer.driver?.keyValues["Name"] == RequestPageViewController.userName?.keyValues["Name"] {
                     offerRideButton.setTitle("Resolve?", for: .normal)
                 }
             }
         }
         //if ride is resolved
         if rideRequest?.keyValues["State"] == "#Resolved" {
-            offerRideButton.setTitle("#Resolved by \(rideRequest?.keyValues["Resolved By"] ?? "Linda")", for: .normal)
+            offerRideButton.setTitle("#Resolved by \(rideRequest?.resolvedBy?.keyValues["Name"] ?? "Linda")", for: .normal)
             offerRideButton.setTitleColor(UIColor.red, for: .normal)
         }
         //if ride is canceled
@@ -121,7 +129,7 @@ class RideDetailViewController: UIViewController, UITableViewDelegate, UITableVi
             offerRideButton.setTitleColor(UIColor.red, for: .normal)
         }
         //if viewer only has rider privilege, or if viwer is original requester of ride, remove the button until it's resolved
-        if ((RequestPageViewController.userName?.privilege)! == .rider) || ((RequestPageViewController.userName?.name)! == rideRequest?.rider?.name) {
+        if ((RequestPageViewController.userName?.keyValues["Class"])! == "Rider") || ((RequestPageViewController.userName?.keyValues["Name"])! == rideRequest?.rider?.keyValues["Name"]) {
             if (rideRequest?.keyValues["State"] != "#Resolved") && (rideRequest?.keyValues["State"] != "#Canceled") {
                 //offerRideButton.removeFromSuperview()
                 offerRideButton.isHidden = true
@@ -181,6 +189,7 @@ class RideDetailViewController: UIViewController, UITableViewDelegate, UITableVi
     }
     
     override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(false)
         tableView.reloadData()
         seperatorLogic()
     }

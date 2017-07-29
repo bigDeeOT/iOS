@@ -29,6 +29,8 @@ class RequestPageViewController: UIViewController, UITableViewDelegate, UITableV
     var menuButton: UIBarButtonItem!
     var addButton: UIBarButtonItem!
     var hadToLogIn = false
+    var unwindedNowGoToRideDetail = false
+    var justClickOfferRide = false
     
     
     override func viewDidLoad() {
@@ -169,17 +171,15 @@ class RequestPageViewController: UIViewController, UITableViewDelegate, UITableV
     
     
     override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        //menuButtonLogic()
+        super.viewWillAppear(false)
         addRequestButtonLogic()
         rideRequestList.reloadData()
-      /*
-        if (RequestPageViewController.userName != nil) {
-            print("adding request observer in view will appear")
-            loadRequests.listenForRequest()
-            isListening = true
+        if unwindedNowGoToRideDetail == true {
+            
+            unwindedNowGoToRideDetail = false
+            justClickOfferRide = true
+            performSegue(withIdentifier: "rideRequestDetails", sender: pendingRequest)
         }
- */
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -264,7 +264,7 @@ class RequestPageViewController: UIViewController, UITableViewDelegate, UITableV
      func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         if let cell = tableView.cellForRow(at: indexPath) as? RequestPageTableViewCell {
             if RequestPageViewController.userName != nil {
-                performSegue(withIdentifier: "rideRequestDetails", sender: cell)
+                performSegue(withIdentifier: "rideRequestDetails", sender: cell.rideRequest)
             }
         }
     }
@@ -276,8 +276,12 @@ class RequestPageViewController: UIViewController, UITableViewDelegate, UITableV
     }
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if let vc = segue.destination as? RideDetailViewController {
-            if let cell = sender as? RequestPageTableViewCell {
-                vc.rideRequest = cell.rideRequest
+            if let request = sender as? RideRequest {
+                vc.rideRequest = request
+                if justClickOfferRide == true {
+                    justClickOfferRide = false
+                    vc.justClickOfferRide = true
+                }
             }
         }
         if let vc = segue.destination as? PostCollageViewController {
@@ -293,6 +297,9 @@ class RequestPageViewController: UIViewController, UITableViewDelegate, UITableV
 
     @IBAction func unwindToRequestPage(segue: UIStoryboardSegue) {
         navigationController?.isNavigationBarHidden = false
+        if segue.source is PostCollageViewController {
+            unwindedNowGoToRideDetail = true
+        }
     }
 
 }
