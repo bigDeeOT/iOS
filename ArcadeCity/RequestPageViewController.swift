@@ -18,12 +18,15 @@ class RequestPageViewController: UIViewController, UITableViewDelegate, UITableV
     var requestList = [RideRequest]()
     var loadRequests = LoadRequests()
     static var userName: User?
+    static var profileDetails: MiddleProfileTableViewController?
     var pendingRequest: RideRequest?
+    var requestJustAdded: RideRequest?
     var cellWasViewed = [Bool]()
      @IBOutlet weak var rideRequestList: UITableView!
     @IBOutlet weak var addRequest: UIBarButtonItem!
     var reuseIdentifier = "rideRequest"
-    var tableBackgroundColor = UIColor(red:0.86, green:0.87, blue:0.87, alpha:1.0)
+   // var tableBackgroundColor = UIColor(red:0.86, green:0.87, blue:0.87, alpha:1.0)
+    var tableBackgroundColor = UIColor.clear
     var justSignedIn: Bool = false
     var fbButton: UIBarButtonItem!
     var menuButton: UIBarButtonItem!
@@ -31,15 +34,16 @@ class RequestPageViewController: UIViewController, UITableViewDelegate, UITableV
     var hadToLogIn = false
     var unwindedNowGoToRideDetail = false
     var justClickOfferRide = false
+    var navBarColor = UIColor(red:0.16, green:0.46, blue:0.75, alpha:1.0)
+    static var this: RequestPageViewController?
     
     
     override func viewDidLoad() {
         super.viewDidLoad()
         rideRequestList.delegate = self
         rideRequestList.dataSource = self
-        requestList = loadRequests.get()
-        setNavBarButton()
         style()
+        requestList = loadRequests.get()
         addRequestButtonLogic()
         loadRequests.requestPage = self
         loadRequests.getNumberOfRideRequests()
@@ -50,6 +54,8 @@ class RequestPageViewController: UIViewController, UITableViewDelegate, UITableV
             hadToLogIn = true
         }
         tabBarNavBarLogic()
+        navigationController?.navigationBar.titleTextAttributes = [NSForegroundColorAttributeName : UIColor.black]
+        RequestPageViewController.this = self
     }
     
     func tabBarNavBarLogic() {
@@ -66,10 +72,10 @@ class RequestPageViewController: UIViewController, UITableViewDelegate, UITableV
         } else {
             tabBarController?.tabBar.isHidden = false
            // navigationController?.navigationBar.isHidden = false
-            navigationItem.leftBarButtonItem = menuButton
+           // navigationItem.leftBarButtonItem = menuButton
             navigationItem.rightBarButtonItem = addButton
-            navigationController?.navigationBar.barTintColor = UIColor(red:0.16, green:0.46, blue:0.75, alpha:1.0)
-            navigationController?.navigationBar.isTranslucent = true
+            navigationController?.navigationBar.barTintColor = navBarColor
+            navigationController?.navigationBar.isTranslucent = false
 
         }
     }
@@ -80,49 +86,37 @@ class RequestPageViewController: UIViewController, UITableViewDelegate, UITableV
             loginPageView.isHidden = true
             tabBarNavBarLogic()
             addRequestButtonLogic()
+            navigationController?.navigationBar.titleTextAttributes = [NSForegroundColorAttributeName : UIColor.white]
             rideRequestList.reloadData() //may have to delete this
         }
     }
     
     private func style() {
+        print("style called")
         let navBar = navigationController?.navigationBar
-        view.backgroundColor = tableBackgroundColor
-        navBar?.isTranslucent = true
-        navBar?.barTintColor = UIColor(red:0.16, green:0.46, blue:0.75, alpha:1.0)
+        //view.backgroundColor = tableBackgroundColor
+        view.backgroundColor = UIColor(patternImage: UIImage(named: "background")!)
+        //navBar?.barTintColor = UIColor(red:0.16, green:0.46, blue:0.75, alpha:1.0)
+        navBar?.barTintColor = navBarColor
+        navBar?.tintColor = UIColor.white
+        navBar?.titleTextAttributes = [NSForegroundColorAttributeName : UIColor.white]
+        navBar?.setValue(true, forKey: "hidesShadow")
+        navBar?.isTranslucent = false
         let tabBar = tabBarController?.tabBar
         tabBar?.barTintColor = UIColor.white
-        
         rideRequestList.backgroundColor = tableBackgroundColor
         rideRequestList.showsVerticalScrollIndicator = false
         rideRequestList.rowHeight = UITableViewAutomaticDimension
         rideRequestList.estimatedRowHeight = 128
-       // let image = UIImage(named: "logo")
-      //  navigationItem.titleView = UIImageView(image: image)
-    }
-    
-    private func setNavBarButton() {
-        let fb = UIButton()
-        fb.frame = CGRect(x: 0, y: 0, width: 30, height: 30)
-        fb.setImage(UIImage(named: "fbLoginNavBar"), for: .normal)
-        fb.addTarget(self, action: #selector(login), for: .touchUpInside)
-        fbButton = UIBarButtonItem()
-        fbButton.customView = fb
-        
-        let menu = UIButton()
-        menu.frame = CGRect(x: 0, y: 0, width: 30, height: 30)
-        menu.setImage(UIImage(named: "menuNavBar"), for: .normal)
-        menu.addTarget(self, action: #selector(menuNavBar), for: .touchUpInside)
-        menuButton = UIBarButtonItem()
-        menuButton.customView = menu
-        menuButtonLogic()
-        
-        navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .plain, target: nil, action: nil)
+       //let image = UIImage(named: "logo")
+      //navigationItem.titleView = UIImageView(image: image)
     }
     
     func login() {
         loadRequests.login(self)
         loginPage?.spinner.startAnimating()
         loginPage?.loginButton.isHidden = true
+        
        // Timer.scheduledTimer(timeInterval: 2, target: self, selector: #selector(RequestPageViewController.fixLoginIfUserCanceled), userInfo: nil, repeats: false)
        // isListening = true
     }
@@ -146,11 +140,14 @@ class RequestPageViewController: UIViewController, UITableViewDelegate, UITableV
         } catch { print("error with firebase logout")}
         RequestPageViewController.userName = nil
         addRequest.isEnabled = false
-        menuButtonLogic()
         LoadRequests.gRef.child("Requests").removeAllObservers()
-       // isListening = false
         LoadRequests.clear()
         rideRequestList.reloadData()
+        loginPageView.isHidden = false
+        loginPage?.loginButton.isHidden = false
+        tabBarNavBarLogic()
+        navigationController?.navigationBar.titleTextAttributes = [NSForegroundColorAttributeName : UIColor.black]
+        tabBarController?.selectedIndex = 0
     }
     
     private func addRequestButtonLogic() {
@@ -161,21 +158,12 @@ class RequestPageViewController: UIViewController, UITableViewDelegate, UITableV
         }
     }
     
-    private func menuButtonLogic() {
-        if Auth.auth().currentUser?.uid == nil {
-            navigationItem.leftBarButtonItem = fbButton
-        } else {
-            navigationItem.leftBarButtonItem = menuButton
-        }
-    }
-    
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(false)
         addRequestButtonLogic()
         rideRequestList.reloadData()
         if unwindedNowGoToRideDetail == true {
-            
             unwindedNowGoToRideDetail = false
             justClickOfferRide = true
             performSegue(withIdentifier: "rideRequestDetails", sender: pendingRequest)
@@ -242,6 +230,19 @@ class RequestPageViewController: UIViewController, UITableViewDelegate, UITableV
             cell.layer.shadowColor = UIColor.black.cgColor
             cell.layer.shadowOffset = CGSize(width: 1, height: 1)
             cell.layer.shadowOpacity = 0.3
+            if LoadRequests.requestList.count > (LoadRequests.numberOfRequestsInFirebase + 5) {
+                if (rideRequest.unique == requestJustAdded?.unique) && (rideRequest.unique != nil) {
+                    
+                    cell.layer.borderWidth = 1
+                    
+                    cell.layer.borderColor = UIColor.black.cgColor
+                    requestJustAdded = nil
+                    Timer.scheduledTimer(withTimeInterval: 1, repeats: false, block: { (time) in
+                        cell.layer.borderWidth = 0
+                        cell.layer.borderColor = UIColor.white.cgColor
+                    })
+                }
+            }
             if !loginPageView.isHidden {
                 checkIfLastRequestLoaded(indexPath.section)
             }
@@ -252,7 +253,7 @@ class RequestPageViewController: UIViewController, UITableViewDelegate, UITableV
     
     
     func checkIfLastRequestLoaded(_ section: Int) {
-        if loadRequests.numberOfRequestsLoaded >= loadRequests.numberOfRequestsInFirebase {
+        if LoadRequests.numberOfRequestsLoaded >= LoadRequests.numberOfRequestsInFirebase {
             if section == 4 {
                 var time = 2.0
                 if hadToLogIn {time = 3.0} else {time = 2.0}

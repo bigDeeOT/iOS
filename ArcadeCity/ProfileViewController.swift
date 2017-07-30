@@ -18,7 +18,7 @@ class ProfileViewController: UIViewController {
         super.viewDidLoad()
         navigationController?.navigationBar.isHidden = true
         collageView.isHidden = false
-        if RequestPageViewController.userName?.keyValues["Class"] == "Rider" {
+        if RequestPageViewController.userName?.info["Class"] == "Rider" {
             collageView.isHidden = true
             fixMiddleViewHeight()
         }

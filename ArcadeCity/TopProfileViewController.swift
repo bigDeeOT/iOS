@@ -17,14 +17,14 @@ class TopProfileViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         loadImage()
-        bio.text = user?.keyValues["Bio"]
+        bio.text = user?.info["Bio"]
         bio.lineBreakMode = .byWordWrapping
         bio.numberOfLines = 0
         // Do any additional setup after loading the view.
     }
 
     private func loadImage() {
-        if let url = URL(string: (RequestPageViewController.userName?.keyValues["Profile Pic URL"])!) {
+        if let url = URL(string: (RequestPageViewController.userName?.info["Profile Pic URL"])!) {
             DispatchQueue.global(qos: .default).async {
                 [weak self] in
                 if let imageData = NSData(contentsOf: url) {

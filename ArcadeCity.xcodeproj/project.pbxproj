@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		5708175B1F2989120062DB68 /* ImageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5708175A1F2989120062DB68 /* ImageViewController.swift */; };
 		573FEC4F1F2B0AB6007A001F /* PreselectedDrivers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 573FEC4E1F2B0AB6007A001F /* PreselectedDrivers.swift */; };
+		574724CD1F2D6619003EFFC6 /* SettingsTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 574724CC1F2D6619003EFFC6 /* SettingsTableViewController.swift */; };
 		575E7B681F266DCC00C1DD70 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 575E7B671F266DCC00C1DD70 /* LoginViewController.swift */; };
 		57A00B1E1F27149F00842DDF /* TopProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57A00B1D1F27149F00842DDF /* TopProfileViewController.swift */; };
 		57A00B221F2714BD00842DDF /* BottomProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57A00B211F2714BC00842DDF /* BottomProfileViewController.swift */; };
@@ -43,6 +44,7 @@
 		5708175A1F2989120062DB68 /* ImageViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ImageViewController.swift; sourceTree = "<group>"; };
 		5712C8281F22400A00442110 /* ArcadeCity.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = ArcadeCity.entitlements; sourceTree = "<group>"; };
 		573FEC4E1F2B0AB6007A001F /* PreselectedDrivers.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PreselectedDrivers.swift; sourceTree = "<group>"; };
+		574724CC1F2D6619003EFFC6 /* SettingsTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingsTableViewController.swift; sourceTree = "<group>"; };
 		575E7B671F266DCC00C1DD70 /* LoginViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 		57A00B1D1F27149F00842DDF /* TopProfileViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TopProfileViewController.swift; sourceTree = "<group>"; };
 		57A00B211F2714BC00842DDF /* BottomProfileViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BottomProfileViewController.swift; sourceTree = "<group>"; };
@@ -148,12 +150,13 @@
 			children = (
 				5712C8281F22400A00442110 /* ArcadeCity.entitlements */,
 				57E65E9F1F15D59000B39AF4 /* Main.storyboard */,
-				57D195D81F1AA11600F27BB7 /* Request Page */,
-				57D195D91F1AA15000F27BB7 /* Ride Request Detail */,
-				57A00B1C1F27145800842DDF /* Profile */,
+				574724CC1F2D6619003EFFC6 /* SettingsTableViewController.swift */,
 				57D195CF1F19604F00F27BB7 /* AddRideTableViewController.swift */,
 				575E7B671F266DCC00C1DD70 /* LoginViewController.swift */,
 				57D195CB1F19444300F27BB7 /* LoadRequests.swift */,
+				57D195D81F1AA11600F27BB7 /* Request Page */,
+				57D195D91F1AA15000F27BB7 /* Ride Request Detail */,
+				57A00B1C1F27145800842DDF /* Profile */,
 				57A00B231F271CFC00842DDF /* Help Functions */,
 				57E65EC41F18679700B39AF4 /* Types */,
 				57E65EB91F18246C00B39AF4 /* Supporting Files */,
@@ -354,6 +357,7 @@
 				57A00B1E1F27149F00842DDF /* TopProfileViewController.swift in Sources */,
 				57E65E9C1F15D59000B39AF4 /* AppDelegate.swift in Sources */,
 				57A00B271F2726DF00842DDF /* ProfileViewController.swift in Sources */,
+				574724CD1F2D6619003EFFC6 /* SettingsTableViewController.swift in Sources */,
 				57A00B291F27D43D00842DDF /* MiddleProfileTableViewController.swift in Sources */,
 				5708175B1F2989120062DB68 /* ImageViewController.swift in Sources */,
 				57E65EC11F185C3A00B39AF4 /* Driver.swift in Sources */,

@@ -29,18 +29,18 @@ class RequestPageTableViewCell: UITableViewCell {
     let cellWidthFactor: CGFloat = 0.92
     
     private func updateUI() {
-        riderName.text = rideRequest?.rider?.keyValues["Name"]
-        pickUp.text = rideRequest?.keyValues["Text"]
+        riderName.text = rideRequest?.rider?.info["Name"]
+        pickUp.text = rideRequest?.info["Text"]
         pickUp.lineBreakMode = .byWordWrapping
         pickUp.numberOfLines = 0
         loadPicture()
         offerRideButtonLogic()
         etaLogic()
-        timePosted.text = TimeAgo.get((rideRequest?.keyValues["Date"])!)
+        timePosted.text = TimeAgo.get((rideRequest?.info["Date"])!)
     }
     
     private func etaLogic() {
-        if (rideRequest?.isOld)! || (RequestPageViewController.userName?.name == rideRequest?.rider?.name) || (rideRequest?.keyValues["Show ETA"] == "False") || (RequestPageViewController.userName?.keyValues["Class"] == "Rider")  {
+        if (rideRequest?.isOld)! || (RequestPageViewController.userName?.name == rideRequest?.rider?.name) || (rideRequest?.info["Show ETA"] == "False") || (RequestPageViewController.userName?.info["Class"] == "Rider")  {
             eta.isHidden = true
         } else {
             eta.isHidden = false
@@ -48,7 +48,7 @@ class RequestPageTableViewCell: UITableViewCell {
     }
     
     private func loadPicture() {
-        if let url = URL(string: (rideRequest?.rider?.keyValues["Profile Pic URL"])!) {
+        if let url = URL(string: (rideRequest?.rider?.info["Profile Pic URL"])!) {
             DispatchQueue.global(qos: .default).async {
                 [weak self] in
                 if let imageData = NSData(contentsOf: url) {
@@ -73,9 +73,9 @@ class RequestPageTableViewCell: UITableViewCell {
             //don't show offer button if not signed in
             offerRideButton?.isHidden = true
         } else {
-            if rideRequest?.keyValues["State"] == "Unresolved" {
+            if rideRequest?.info["State"] == "Unresolved" {
                 //can't post if you don't have a collage
-                if (RequestPageViewController.userName?.keyValues["Collage URL"] == nil) {
+                if (RequestPageViewController.userName?.info["Collage URL"] == nil) {
                     offerRideButton?.isHidden = true
                     return
                 }
@@ -84,11 +84,11 @@ class RequestPageTableViewCell: UITableViewCell {
                     return
                 }
                 //don't show "offer ride" to riders
-                if RequestPageViewController.userName?.keyValues["Class"] == "Rider" {
+                if RequestPageViewController.userName?.info["Class"] == "Rider" {
                     offerRideButton?.isHidden = true
                 } else {
                     //dont show "offer ride" if it's your own request
-                    if RequestPageViewController.userName?.keyValues["Name"] == rideRequest?.rider?.keyValues["Name"] {
+                    if RequestPageViewController.userName?.info["Name"] == rideRequest?.rider?.info["Name"] {
                         offerRideButton?.isHidden = true
                     } else {
                         offerRideButton?.isHidden = false
@@ -97,7 +97,7 @@ class RequestPageTableViewCell: UITableViewCell {
                 //don't show "offer ride" if already made offer
                 if let offers = rideRequest?.offers {
                     for offer in offers {
-                        if RequestPageViewController.userName?.keyValues["Name"] == offer.driver?.keyValues["Name"] {
+                        if RequestPageViewController.userName?.info["Name"] == offer.driver?.info["Name"] {
                             offerRideButton?.setTitle("Collage Posted", for: .normal)
                             offerRideButton?.setTitleColor(UIColor.black, for: .normal)
                             offerRideButton?.isEnabled = false
@@ -105,11 +105,11 @@ class RequestPageTableViewCell: UITableViewCell {
                         }
                     }
                 }
-            } else if rideRequest?.keyValues["State"] == "#Resolved" {
+            } else if rideRequest?.info["State"] == "#Resolved" {
                 offerRideButton.isHidden = false
                 offerRideButton.setTitle("#Resolved", for: .normal)
                 offerRideButton.setTitleColor(UIColor.black, for: .normal)
-            } else if rideRequest?.keyValues["State"] == "#Canceled" {
+            } else if rideRequest?.info["State"] == "#Canceled" {
                 offerRideButton.isHidden = false
                 offerRideButton.setTitle("#Canceled", for: .normal)
                 offerRideButton.setTitleColor(UIColor.black, for: .normal)

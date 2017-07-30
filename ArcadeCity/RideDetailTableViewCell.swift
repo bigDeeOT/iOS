@@ -25,9 +25,9 @@ class RideDetailTableViewCell: UITableViewCell {
     var maxCollageSize = CGSize(width: 250, height: 115)
     
     private func updateUI() {
-        name.text = offer.driver?.keyValues["Name"]
+        name.text = offer.driver?.info["Name"]
         eta.text = offer.eta
-        phone.text = offer.driver?.keyValues["Phone"]
+        phone.text = offer.driver?.info["Phone"]
         comment.text = offer.comment
         date.text = TimeAgo.get(offer.date ?? Date())
         loadImage()
@@ -43,7 +43,7 @@ class RideDetailTableViewCell: UITableViewCell {
     }
     
     private func loadImage() {
-        if let url = URL(string:(offer.driver?.keyValues["Collage URL"])!) {
+        if let url = URL(string:(offer.driver?.info["Collage URL"])!) {
             DispatchQueue.global(qos: .default).async {
                 [weak self] in
                 if let imageData = NSData(contentsOf: url) {

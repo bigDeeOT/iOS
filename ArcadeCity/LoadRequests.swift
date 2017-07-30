@@ -19,8 +19,8 @@ class LoadRequests {
     var userInfo: [String:String] = [:]
     var requestPage: RequestPageViewController!
     static var rideDetailPage: RideDetailViewController!
-    var numberOfRequestsInFirebase = 0
-    var numberOfRequestsLoaded = 0
+    static var numberOfRequestsInFirebase = 0
+    static var numberOfRequestsLoaded = 0
     static var requestEditedLocally: String?
     static var recentlyDeletedRequest: String?
     
@@ -60,7 +60,7 @@ class LoadRequests {
     static func add(request: RideRequest) {
         addRequestToList(request)
         let autoID = LoadRequests.gRef.child("Requests").childByAutoId().key
-        LoadRequests.gRef.child("Requests/\(autoID)").setValue(request.keyValues)
+        LoadRequests.gRef.child("Requests/\(autoID)").setValue(request.info)
         LoadRequests.gRef.child("Requests by Users/\((request.rider?.unique)!)/Requests/\(autoID)").setValue("True")
         request.unique = autoID
     }
@@ -103,46 +103,11 @@ class LoadRequests {
         self.ref.child("Requests").queryLimited(toLast: 95).observeSingleEvent(of: .value, with: { (snapshot) in
             guard snapshot.exists() else {return}
             let requests = snapshot.value as! [String:Any?]
-            self.numberOfRequestsInFirebase = requests.count
+            LoadRequests.numberOfRequestsInFirebase = requests.count
             print("numberOfRequestsInFirebase is ", requests.count)
         })
 
     }
-    /*
-    func listenForRequest() {
-        self.ref.child("Requests").queryLimited(toLast: 95).observe(.childAdded, with: { [weak self] (snapshot) in
-            
-            
-            let unique = snapshot.key
-            guard LoadRequests.requestList.last?.unique != unique else {
-                self?.listenForOffer((LoadRequests.requestList.last)!)
-                return
-            }
-            let details = snapshot.value as! [String:Any]
-            let request = RideRequest()
-            LoadRequests.addRequestToList(request)
-            request.text = details["Text"] as? String
-            if details["Show ETA"] as! String == "True" {
-                request.showETA = true } else { request.showETA = false }
-            let dateFormatter = DateFormatter()
-            dateFormatter.dateFormat = "MM-dd-yyyy HH:mm:ss"
-            let date = dateFormatter.date(from: details["Date"] as! String)
-            request.date = date
-            let riderUnique = details["Rider"] as! String
-            request.unique = unique
-            //get rider
-            self?.ref.child("Users/\(riderUnique)").observeSingleEvent(of: .value, with: { [weak self] (snapShotUser) in
-                self?.numberOfRequestsLoaded = (self?.numberOfRequestsLoaded)! + 1
-                guard snapShotUser.exists() else {return}
-                let user = self?.pullUserFromFirebase(snapShotUser)
-                request.rider = user
-                //get offers
-                self?.listenForOffer(request)
-                self?.requestPage.rideRequestList.reloadData()
-            })
-        })
-    }
- */
     
     func listenForRequest() {
         self.ref.child("Requests").queryLimited(toLast: 95).observe(.childAdded, with: { [weak self] (snapshot) in
@@ -154,13 +119,14 @@ class LoadRequests {
             let request = self?.pullRequestFromFirebase(snapshot)
             //get rider
             self?.ref.child("Users/\(riderUnique)").observeSingleEvent(of: .value, with: { [weak self] (snapShotUser) in
-                self?.numberOfRequestsLoaded = (self?.numberOfRequestsLoaded)! + 1
+                LoadRequests.numberOfRequestsLoaded = LoadRequests.numberOfRequestsLoaded + 1
                 guard snapShotUser.exists() else {return}
                 let user = self?.pullUserFromFirebase(snapShotUser)
                 request?.rider = user
                 //get offers
                 self?.listenForOffer(request!)
                 self?.requestPage.rideRequestList.reloadData()
+                self?.requestPage.requestJustAdded = request
             })
         })
     }
@@ -171,7 +137,7 @@ class LoadRequests {
         let request = RideRequest()
         for (key, value) in details {
             if let value = value as? String {
-                request.keyValues[key] = value
+                request.info[key] = value
             }
         }
         request.unique = snapshot.key
@@ -183,8 +149,8 @@ class LoadRequests {
     
     func addResolvedBy(_ request: RideRequest) {
         print("in addresolveby")
-        if request.keyValues["Resolved By"] != nil {
-            ref.child("Users").child(request.keyValues["Resolved By"]!).observeSingleEvent(of: .value, with: { [weak self] (snapshotUser) in
+        if request.info["Resolved By"] != nil {
+            ref.child("Users").child(request.info["Resolved By"]!).observeSingleEvent(of: .value, with: { [weak self] (snapshotUser) in
                 request.resolvedBy = self?.pullUserFromFirebase(snapshotUser)
                 self?.requestPage.rideRequestList.reloadData()
                 request.delegate?.updateUI()
@@ -207,6 +173,10 @@ class LoadRequests {
                 if offerETA == "none" { offer.eta = nil }
                 offer.comment = offerDetails["Comment"] as? String
                 offer.unique = offerUnique
+                Timer.scheduledTimer(withTimeInterval: 60*20, repeats: false, block: { (time) in
+                   // Doesn't work for some reason
+                    self?.ref.child("Requests/\(request.unique!)/Offers").removeAllObservers()
+                })
                 //get user who made offer
                 let offerDriverUnique = offerDetails["Driver"] as! String
                 self?.ref.child("Users/\(offerDriverUnique)").observeSingleEvent(of: .value, with: { (offerDriverSnapshot) in
@@ -264,7 +234,7 @@ class LoadRequests {
             guard request != nil else {print("bad edit observe");return}
             for (key, value) in detail {
                 if let value = value as? String {
-                    request?.keyValues[key] = value
+                    request?.info[key] = value
                 }
             }
             self?.addResolvedBy(request!)
@@ -345,7 +315,7 @@ class LoadRequests {
             let picURL = "http://graph.facebook.com/\(fbInfo["id"]!)/picture?type=large"
             let user = User(url: picURL, name: fbInfo["name"]!)
             user.unique = firebaseID
-            self?.ref.child("Users").child(firebaseID).setValue(user.keyValues)
+            self?.ref.child("Users").child(firebaseID).setValue(user.info)
             RequestPageViewController.userName = user
             self?.startListening()
             self?.requestPage.rideRequestList.reloadData()
@@ -376,7 +346,7 @@ class LoadRequests {
             let url = String(describing: (meta?.downloadURL())!)
             LoadRequests.gRef.child("Users").child(uid).child("Collage URL").setValue(url)
 
-            RequestPageViewController.userName?.keyValues["Collage URL"] = url
+            RequestPageViewController.userName?.info["Collage URL"] = url
         }
     }
     
@@ -391,7 +361,7 @@ class LoadRequests {
                 }
                 LoadRequests.removeOfferListener(requestNumber: ride.unique!)
             }
-            if ride.keyValues["State"] == "#Resolved" {
+            if ride.info["State"] == "#Resolved" {
                 ride.rider?.decrementVariable("Rides Resolved")
                 ride.resolvedBy?.decrementVariable("Rides Given")
             }
@@ -418,72 +388,72 @@ class LoadRequests {
         let date = dateFormatter.date(from: "07-07-2017 10:08:13 am")
         
         var rider = User(url: URL(string: "http://i.imgur.com/ezZRRss.jpg")!, name: "Donald J Trump")
-        rider.keyValues["Profile Pic URL"] = "http://i.imgur.com/ezZRRss.jpg"
+        rider.info["Profile Pic URL"] = "http://i.imgur.com/ezZRRss.jpg"
         rider.phone = "512 686-7920"
-        rider.keyValues["Name"] = rider.name
+        rider.info["Name"] = rider.name
         var request = RideRequest(rider: rider)
         request.text = "Airport to Capitol please"
-        request.keyValues["Text"] = "Airport to Capitol please"
+        request.info["Text"] = "Airport to Capitol please"
         request.date = date
-        request.keyValues["Date"] = "07-07-2017 2:52:33 pm"
+        request.info["Date"] = "07-07-2017 2:52:33 pm"
         request.ETA = "ETA: 9 min"
         request.state = RideRequest.State.canceled
-        request.keyValues["State"] = "#Canceled"
+        request.info["State"] = "#Canceled"
         LoadRequests.requestList.append(request)
         
         rider = User(url: URL(string: "http://i.imgur.com/1jP1Zwv.jpg")!, name: "Asher Lostak")
-        rider.keyValues["Profile Pic URL"] = "http://i.imgur.com/qbMs1s6.jpg"
+        rider.info["Profile Pic URL"] = "http://i.imgur.com/qbMs1s6.jpg"
         rider.phone = "512 686-7920"
-        rider.keyValues["Name"] = rider.name
+        rider.info["Name"] = rider.name
         request = RideRequest(rider: rider)
         request.text = "Hey guys I have a favor to ask. I don't know if this is the right place but is it possible for someone to pick up my dog from my apartment and bring him to the vet? I'm so worried about him please help!"
-        request.keyValues["Text"] = "Riverside to Airport\nAnyone nearby? I'm late for my flight! ✈️"
+        request.info["Text"] = "Riverside to Airport\nAnyone nearby? I'm late for my flight! ✈️"
         request.date = date
-        request.keyValues["Date"] = "07-07-2017 1:01:13 pm"
+        request.info["Date"] = "07-07-2017 1:01:13 pm"
         request.ETA = "ETA: 9 min"
         request.state = RideRequest.State.resolved
-        request.keyValues["State"] = "#Resolved"
+        request.info["State"] = "#Resolved"
         LoadRequests.requestList.append(request)
         
         rider = User(url: URL(string: "http://i.imgur.com/9QBGS2m.jpg")!, name: "Gregory Fenves")
-        rider.keyValues["Profile Pic URL"] = "http://i.imgur.com/9QBGS2m.jpg"
+        rider.info["Profile Pic URL"] = "http://i.imgur.com/9QBGS2m.jpg"
         rider.phone = "512 686-7920"
-        rider.keyValues["Name"] = rider.name
+        rider.info["Name"] = rider.name
         request = RideRequest(rider: rider)
         request.text = "Redbud to UT asap"
-        request.keyValues["Text"] = "Redbud to UT asap"
+        request.info["Text"] = "Redbud to UT asap"
         request.date = date
-        request.keyValues["Date"] = "07-07-2017 11:49:10 am"
+        request.info["Date"] = "07-07-2017 11:49:10 am"
         request.ETA = "ETA: 9 min"
-        request.keyValues["State"] = "Unresolved"
+        request.info["State"] = "Unresolved"
         LoadRequests.requestList.append(request)
         
         rider = User(url: URL(string: "http://i.imgur.com/dSFFSzV.jpg")!, name: "Bobby Carlisle")
-        rider.keyValues["Profile Pic URL"] = "http://i.imgur.com/dSFFSzV.jpg"
+        rider.info["Profile Pic URL"] = "http://i.imgur.com/dSFFSzV.jpg"
         rider.phone = "512 686-7920"
-        rider.keyValues["Name"] = rider.name
+        rider.info["Name"] = rider.name
         request = RideRequest(rider: rider)
         request.text = "Pickup domain to riveride"
-        request.keyValues["Text"] = "Pickup domain to downtown\nGot a big day today, lets roll 😎"
+        request.info["Text"] = "Pickup domain to downtown\nGot a big day today, lets roll 😎"
         request.date = date
-        request.keyValues["Date"] = "07-07-2017 11:48:41 am"
+        request.info["Date"] = "07-07-2017 11:48:41 am"
         request.ETA = "ETA: 9 min"
         request.state = RideRequest.State.resolved
-        request.keyValues["State"] = "#Resolved"
+        request.info["State"] = "#Resolved"
         LoadRequests.requestList.append(request)
         
         rider = User(url: URL(string: "http://i.imgur.com/BLlMnuQ.jpg")!, name: "Jennifer Bezos")
-        rider.keyValues["Profile Pic URL"] = "http://i.imgur.com/BLlMnuQ.jpg"
+        rider.info["Profile Pic URL"] = "http://i.imgur.com/BLlMnuQ.jpg"
         rider.phone = "512 686-7920"
-        rider.keyValues["Name"] = rider.name
+        rider.info["Name"] = rider.name
         request = RideRequest(rider: rider)
         request.text = "Hyde Park to Zilker"
-        request.keyValues["Text"] = "Hyde Park to Zilker"
+        request.info["Text"] = "Hyde Park to Zilker"
         request.date = date
-        request.keyValues["Date"] = "07-07-2017 10:08:13 am"
+        request.info["Date"] = "07-07-2017 10:08:13 am"
         request.ETA = "ETA: 9 min"
         request.state = RideRequest.State.resolved
-        request.keyValues["State"] = "#Resolved"
+        request.info["State"] = "#Resolved"
         LoadRequests.requestList.append(request)
     }
 

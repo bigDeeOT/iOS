@@ -7,10 +7,12 @@
 //
 
 import UIKit
+import Firebase
 
 class MiddleProfileTableViewController: UITableViewController {
     var data: [String : String]?
     var dataIndex: [String]?
+    var useGlobalUser = true
     var user: User? {
         didSet {
             updateUI()
@@ -19,7 +21,19 @@ class MiddleProfileTableViewController: UITableViewController {
     }
     override func viewDidLoad() {
         super.viewDidLoad()
-    tableView.separatorStyle = .none
+        tableView.separatorStyle = .none
+        if useGlobalUser == true {
+            userListener()
+        }
+    }
+    
+    func userListener() {
+        LoadRequests.gRef.child("Users").child((RequestPageViewController.userName?.unique)!).observe(.childChanged, with: { (snapshot) in
+            print("userListener called")
+            RequestPageViewController.userName?.info[snapshot.key] = snapshot.value as? String
+            self.user = RequestPageViewController.userName
+            self.updateUI()
+        })
     }
     
     func updateUI() {

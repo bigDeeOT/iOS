@@ -31,7 +31,7 @@ class AddRideTableViewController: UITableViewController {
                 return
             }
             ride.text = "\(pickUpText)"
-            ride.keyValues["Text"] = pickUpText
+            ride.info["Text"] = pickUpText
         } else {
             //invalid pickup
             return
@@ -39,25 +39,26 @@ class AddRideTableViewController: UITableViewController {
         if let dropOffText = dropOff.text{
             if dropOffText.characters.count >= 2 {
                 ride.text = ride.text! + " to \(dropOffText)"
-                ride.keyValues["Text"] = ride.keyValues["Text"]! + " to \(dropOffText)"
+                ride.info["Text"] = ride.info["Text"]! + " to \(dropOffText)"
             }
         }
         if let otherInfoText = otherInfo.text {
             if otherInfoText.characters.count >= 3 {
                 ride.text = ride.text! + "\n" + otherInfoText
-                ride.keyValues["Text"] = ride.keyValues["Text"]! + "\n" + otherInfoText
+                ride.info["Text"] = ride.info["Text"]! + "\n" + otherInfoText
             }
         }
         ride.date = Date.init()
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "MM-dd-yyyy hh:mm:ss a"
         let date = dateFormatter.string(from: Date())
-        ride.keyValues["Date"] = date
-        ride.keyValues["Rider"] = RequestPageViewController.userName?.unique
-        ride.keyValues["State"] = "Unresolved"
-        ride.keyValues["Show ETA"] = "True"
+        ride.info["Date"] = date
+        ride.info["Rider"] = RequestPageViewController.userName?.unique
+        ride.info["State"] = "Unresolved"
+        ride.info["Show ETA"] = "True"
+       // ride.rider?.profileDetails
         if currentLocation.selectedSegmentIndex == 1 {
-            ride.keyValues["Show ETA"] = "False"
+            ride.info["Show ETA"] = "False"
         }
         ride.rider?.incrementVariable("Rides Requested")
         performSegue(withIdentifier: identifier, sender: ride)
@@ -74,12 +75,18 @@ class AddRideTableViewController: UITableViewController {
         dropOff.tintColor = UIColor(red:0.16, green:0.46, blue:0.75, alpha:1.0)
         pickUp.tintColor = UIColor(red:0.16, green:0.46, blue:0.75, alpha:1.0)
         otherInfo.tintColor = UIColor(red:0.16, green:0.46, blue:0.75, alpha:1.0)
+        pickUp.becomeFirstResponder()
+        pickUp.addTarget(dropOff, action: #selector(becomeFirstResponder), for: UIControlEvents.editingDidEndOnExit)
+        dropOff.addTarget(otherInfo, action: #selector(becomeFirstResponder), for: UIControlEvents.editingDidEndOnExit)
     }
     
     func dismissKeyboard() {
         otherInfo.endEditing(true)
+        pickUp.endEditing(true)
+        dropOff.endEditing(true)
     }
-        
+    
+    
     override func numberOfSections(in tableView: UITableView) -> Int {
         return 1
     }

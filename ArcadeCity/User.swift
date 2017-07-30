@@ -21,7 +21,7 @@ class User {
     var privilege: Privilege = .rider
     var delegate: RideDetailViewController?
     var profileDetails: MiddleProfileTableViewController?
-    var keyValues: [String: String] = [:]
+    var info: [String: String] = [:]
     //if adding a key, also add default value below
     var keys = ["Name", "Phone", "Class", "Profile Pic URL", "Rides Requested", "Rides Resolved", "Rides Offered", "Rides Given", "Collage URL", "Bio"]
     var keysToNotDisplay: Set = ["Profile Pic URL", "Collage URL"]
@@ -31,7 +31,7 @@ class User {
         get {
             var newKeys = keys
             var badKeys = keysToNotDisplay
-            if keyValues["Class"] == "Rider" {
+            if info["Class"] == "Rider" {
                 badKeys = badKeys.union(keysOnlyForDrivers)
             }
             //sure it's O(n^2) but it's not like these keys will scale to large numbers
@@ -61,43 +61,42 @@ class User {
         print("trying to put collage")
         collage = URL(string: "http://i.imgur.com/TkcP25X.jpg")
         print("collage is ", collage ?? "no collage")
-        keyValues["Name"] = name
-        keyValues["Profile Pic URL"] = url
+        info["Name"] = name
+        info["Profile Pic URL"] = url
         
         //hard coded default values
-       // keyValues["Collage URL"] =          "http://i.imgur.com/TkcP25X.jpg"
-        keyValues["Phone"] =                "469-279-0127"
-        keyValues["Bio"] = "I'm just an ordinary person doing ordinary things. My favorite food truck is Arlos cause they have the best tacos. And Austin, Texas is the best city in the world 🙌😎💯"
-        keyValues["Rides Requested"] =      "0"
-        keyValues["Rides Resolved"] =       "0"
-        keyValues["Rides Offered"] =        "0"
-        keyValues["Rides Given"] =          "0"
-        keyValues["Class"] =                "Rider"
+       // info["Collage URL"] =          "http://i.imgur.com/TkcP25X.jpg"
+        info["Phone"] =                "469-279-0127"
+        info["Bio"] = "I'm just an ordinary person doing ordinary things. My favorite food truck is Arlos cause they have the best tacos. And Austin, Texas is the best city in the world 🙌😎💯"
+        info["Rides Requested"] =      "0"
+        info["Rides Resolved"] =       "0"
+        info["Rides Offered"] =        "0"
+        info["Rides Given"] =          "0"
+        info["Class"] =                "Rider"
         for driver in PreselectedDrivers.drivers {
-            if keyValues["Name"] == driver {
-                keyValues["Class"] = "Driver"
+            if info["Name"] == driver {
+                info["Class"] = "Driver"
+            }
+        }
+        for mod in PreselectedModerators.mods {
+            if info["Name"] == mod {
+                info["Class"] = "Moderator"
+            }
+        }
+        for admin in PreselectedAdmins.admins {
+            if info["Name"] == admin {
+                info["Class"] = "Admin"
             }
         }
         
     }
-    init(_ info: [String: String]) {
-        for (key, value) in info {
-            keyValues[key] = value
-            //all of this below should be removed once whole app adapts to the keyValue system
-            if key == "Name" {
-                self.name = value
-            }
-            if key == "Profile Pic URL" {
-                self.profilePicURL = URL(string: value)
-            }
-            if value != "Rider" {
-                self.privilege = User.Privilege.driver
-            }
-            collage = URL(string: "http://i.imgur.com/TkcP25X.jpg")
+    init(_ information: [String: String]) {
+        for (key, value) in information {
+            info[key] = value
         }
     }
     func getViewableData() -> [String:String] {
-        var data = keyValues
+        var data = info
         for (key, _) in data  {
             if keysToNotDisplay.contains(key) {
                 data.removeValue(forKey: key)
@@ -107,14 +106,14 @@ class User {
     }
     
     func incrementVariable(_ variableToIncrease: String) {
-        keyValues[variableToIncrease] = String(describing: Int(keyValues[variableToIncrease]!)! + 1)
-        LoadRequests.gRef.child("Users").child(unique!).child(variableToIncrease).setValue(keyValues[variableToIncrease])
+        info[variableToIncrease] = String(describing: Int(info[variableToIncrease]!)! + 1)
+        LoadRequests.gRef.child("Users").child(unique!).child(variableToIncrease).setValue(info[variableToIncrease])
         profileDetails?.updateUI()
     }
     
     func decrementVariable(_ variableToDecrease: String) {
-        keyValues[variableToDecrease] = String(describing: Int(keyValues[variableToDecrease]!)! - 1)
-        LoadRequests.gRef.child("Users").child(unique!).child(variableToDecrease).setValue(keyValues[variableToDecrease])
+        info[variableToDecrease] = String(describing: Int(info[variableToDecrease]!)! - 1)
+        LoadRequests.gRef.child("Users").child(unique!).child(variableToDecrease).setValue(info[variableToDecrease])
         profileDetails?.updateUI()
     }
 }

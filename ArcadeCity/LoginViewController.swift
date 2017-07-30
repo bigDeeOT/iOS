@@ -37,6 +37,7 @@ class LoginViewController: UIViewController {
         super.viewDidAppear(false)
         print(Auth.auth().currentUser?.uid ?? "not logged in")
         if Auth.auth().currentUser?.uid != nil {
+            
         }
     }
     

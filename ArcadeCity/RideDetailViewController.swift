@@ -30,19 +30,19 @@ class RideDetailViewController: UIViewController, UITableViewDelegate, UITableVi
         } else if sender.currentTitle == "Resolve?" {  //resolve the request
             LoadRequests.requestEditedLocally = rideRequest?.unique
             rideRequest?.resolvedBy = RequestPageViewController.userName
-            rideRequest?.keyValues["Resolved By"] = RequestPageViewController.userName?.unique
-            rideRequest?.keyValues["State"] = "#Resolved"
-            sender.setTitle("#Resolved by \(rideRequest?.resolvedBy?.keyValues["Name"] ?? "error")", for: .normal)
+            rideRequest?.info["Resolved By"] = RequestPageViewController.userName?.unique
+            rideRequest?.info["State"] = "#Resolved"
+            sender.setTitle("#Resolved by \(rideRequest?.resolvedBy?.info["Name"] ?? "error")", for: .normal)
             LoadRequests.changeRideRequestStatus(rideRequest!, status: "#Resolved")
             rideRequest?.rider?.incrementVariable("Rides Resolved")
             rideRequest?.resolvedBy?.incrementVariable("Rides Given")
             sender.setTitleColor(UIColor.red, for: .normal)
         } else if (sender.currentTitle?.contains("#Resolved"))! {  //unresolve the request
             LoadRequests.requestEditedLocally = rideRequest?.unique
-            if rideRequest?.resolvedBy?.keyValues["Name"] == RequestPageViewController.userName?.keyValues["Name"] {
+            if rideRequest?.resolvedBy?.info["Name"] == RequestPageViewController.userName?.info["Name"] {
                 sender.setTitle("Resolve?", for: .normal)
                 sender.setTitleColor(UIColor(red:0.02, green:0.32, blue:0.54, alpha:1.0), for: .normal)
-                rideRequest?.keyValues["State"] = "Unresolved"
+                rideRequest?.info["State"] = "Unresolved"
                 rideRequest?.resolvedBy?.decrementVariable("Rides Given")
                 rideRequest?.resolvedBy = nil
                 rideRequest?.rider?.decrementVariable("Rides Resolved")
@@ -58,15 +58,16 @@ class RideDetailViewController: UIViewController, UITableViewDelegate, UITableVi
             loadImage()
             loadedImage = true
         }
-        name.text = rideRequest?.rider?.keyValues["Name"]
-        date.text = TimeAgo.get((rideRequest?.keyValues["Date"])!)
-        pickUpText.text = rideRequest?.keyValues["Text"]
+        name.text = rideRequest?.rider?.info["Name"]
+        date.text = TimeAgo.get((rideRequest?.info["Date"])!)
+        pickUpText.text = rideRequest?.info["Text"]
         pickUpText.lineBreakMode = .byWordWrapping
         pickUpText.numberOfLines = 0
         tableView.tableFooterView = UIView()
         etaLogic()
         setOfferButton()
         seperatorLogic()
+        configureDeleteButton()
         if justClickOfferRide == true {
             justClickOfferRide = false
             offerRideButton.setTitle("Resolve?", for: .normal)
@@ -80,7 +81,7 @@ class RideDetailViewController: UIViewController, UITableViewDelegate, UITableVi
     }
     
     private func etaLogic() {
-        if (rideRequest?.isOld)! || ((rideRequest?.keyValues["Show ETA"])! == "False") || (RequestPageViewController.userName?.keyValues["Name"] == rideRequest?.rider?.keyValues["Name"] || (RequestPageViewController.userName?.keyValues["Class"] == "Rider")) {
+        if (rideRequest?.isOld)! || ((rideRequest?.info["Show ETA"])! == "False") || (RequestPageViewController.userName?.info["Name"] == rideRequest?.rider?.info["Name"] || (RequestPageViewController.userName?.info["Class"] == "Rider")) {
             eta.isHidden = true
         } else {
             eta.isHidden = false
@@ -112,35 +113,35 @@ class RideDetailViewController: UIViewController, UITableViewDelegate, UITableVi
     private func setOfferButton() {
         offerRideButton.isHidden = false
         //if driver viewing has posted an offer
-        if rideRequest?.keyValues["State"] == "Unresolved" {
+        if rideRequest?.info["State"] == "Unresolved" {
             for offer in (rideRequest?.offers)! {
-                if offer.driver?.keyValues["Name"] == RequestPageViewController.userName?.keyValues["Name"] {
+                if offer.driver?.info["Name"] == RequestPageViewController.userName?.info["Name"] {
                     offerRideButton.setTitle("Resolve?", for: .normal)
                 }
             }
         }
         //if ride is resolved
-        if rideRequest?.keyValues["State"] == "#Resolved" {
-            offerRideButton.setTitle("#Resolved by \(rideRequest?.resolvedBy?.keyValues["Name"] ?? "Linda")", for: .normal)
+        if rideRequest?.info["State"] == "#Resolved" {
+            offerRideButton.setTitle("#Resolved by \(rideRequest?.resolvedBy?.info["Name"] ?? "Linda")", for: .normal)
             offerRideButton.setTitleColor(UIColor.red, for: .normal)
         }
         //if ride is canceled
-        if rideRequest?.keyValues["State"] == "#Canceled" {
+        if rideRequest?.info["State"] == "#Canceled" {
             offerRideButton.setTitle("#Canceled", for: .normal)
             offerRideButton.setTitleColor(UIColor.red, for: .normal)
         }
         //if viewer only has rider privilege, or if viwer is original requester of ride, remove the button until it's resolved
-        if ((RequestPageViewController.userName?.keyValues["Class"])! == "Rider") || ((RequestPageViewController.userName?.keyValues["Name"])! == rideRequest?.rider?.keyValues["Name"]) {
-            if (rideRequest?.keyValues["State"] != "#Resolved") && (rideRequest?.keyValues["State"] != "#Canceled") {
+        if ((RequestPageViewController.userName?.info["Class"])! == "Rider") || ((RequestPageViewController.userName?.info["Name"])! == rideRequest?.rider?.info["Name"]) {
+            if (rideRequest?.info["State"] != "#Resolved") && (rideRequest?.info["State"] != "#Canceled") {
                 //offerRideButton.removeFromSuperview()
                 offerRideButton.isHidden = true
             }
         }
         //if ride is old, don't allow offer ride
-        if (rideRequest?.isOld)! && (rideRequest?.keyValues["State"] == "Unresolved") {
+        if (rideRequest?.isOld)! && (rideRequest?.info["State"] == "Unresolved") {
             offerRideButton.isHidden = true
         }
-        if RequestPageViewController.userName?.keyValues["Collage URL"] == nil {
+        if RequestPageViewController.userName?.info["Collage URL"] == nil {
             offerRideButton.isHidden = true
         }
     }
@@ -154,7 +155,6 @@ class RideDetailViewController: UIViewController, UITableViewDelegate, UITableVi
         self.tableView.rowHeight = UITableViewAutomaticDimension
         self.tableView.estimatedRowHeight = 208
         rideRequest?.delegate = self
-        configureDeleteButton()
         LoadRequests.rideDetailPage = self
     }
     
@@ -167,9 +167,14 @@ class RideDetailViewController: UIViewController, UITableViewDelegate, UITableVi
         } else {
             delete.isHidden = false
         }
-        if rideRequest?.state == RideRequest.State.resolved {
+        /*
+        if rideRequest?.info["State"] == "#Resolved" {
             delete.isHidden = true
+        } else {
+            delete.isHidden = faulse
         }
+         
+ */
         
     }
     
@@ -229,7 +234,7 @@ class RideDetailViewController: UIViewController, UITableViewDelegate, UITableVi
     }
     
     private func loadImage() {
-        if let url = rideRequest?.rider?.profilePicURL {
+        if let url = URL(string: (rideRequest?.rider?.info["Profile Pic URL"])!) {
             DispatchQueue.global(qos: .default).async {
                 [weak self] in
                 if let imageData = NSData(contentsOf: url) {
