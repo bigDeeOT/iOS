@@ -39,11 +39,12 @@ class RequestPageTableViewCell: UITableViewCell {
         timePosted.text = TimeAgo.get((rideRequest?.info["Date"])!)
     }
     
-    private func etaLogic() {
-        if (rideRequest?.isOld)! || (RequestPageViewController.userName?.name == rideRequest?.rider?.name) || (rideRequest?.info["Show ETA"] == "False") || (RequestPageViewController.userName?.info["Class"] == "Rider")  {
+     func etaLogic() {
+        if ETA.shouldHideEta(rideRequest!)  {
             eta.isHidden = true
         } else {
             eta.isHidden = false
+            eta.text = rideRequest?.ETA
         }
     }
     

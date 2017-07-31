@@ -22,6 +22,9 @@ class AddRideTableViewController: UITableViewController {
     @IBOutlet weak var currentLocation: UISegmentedControl!
     
     @IBOutlet weak var otherInfo: UITextView!
+    var setLocation = SetLocation()
+    
+    var location: String!
         
     @IBAction func requestRide(_ sender: UIButton) {
         let ride = RideRequest()
@@ -56,16 +59,18 @@ class AddRideTableViewController: UITableViewController {
         ride.info["Rider"] = RequestPageViewController.userName?.unique
         ride.info["State"] = "Unresolved"
         ride.info["Show ETA"] = "True"
-       // ride.rider?.profileDetails
         if currentLocation.selectedSegmentIndex == 1 {
             ride.info["Show ETA"] = "False"
         }
         ride.rider?.incrementVariable("Rides Requested")
+        ride.info["Location"] = setLocation.latLog ?? "false"
+       // print(setLocation.latLog ?? "false")
         performSegue(withIdentifier: identifier, sender: ride)
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        setLocation.set()
         tableView.tableFooterView = UIView()
         otherInfo.layer.borderWidth = 1
         otherInfo.layer.borderColor = UIColor.lightGray.cgColor

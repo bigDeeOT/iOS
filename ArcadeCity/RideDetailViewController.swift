@@ -81,9 +81,10 @@ class RideDetailViewController: UIViewController, UITableViewDelegate, UITableVi
     }
     
     private func etaLogic() {
-        if (rideRequest?.isOld)! || ((rideRequest?.info["Show ETA"])! == "False") || (RequestPageViewController.userName?.info["Name"] == rideRequest?.rider?.info["Name"] || (RequestPageViewController.userName?.info["Class"] == "Rider")) {
+        if ETA.shouldHideEta(rideRequest!) {
             eta.isHidden = true
         } else {
+            rideRequest?.ETA
             eta.isHidden = false
         }
     }
@@ -162,7 +163,7 @@ class RideDetailViewController: UIViewController, UITableViewDelegate, UITableVi
         delete.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(deleteOptions)))
         delete.isUserInteractionEnabled = true
         delete.frame.size = ImageResize.getNewSize(currentSize: delete.frame.size, maxSize: CGSize(width: 20, height: 20))
-        if rideRequest?.rider?.name != RequestPageViewController.userName?.name {
+        if rideRequest?.rider?.info["Name"] != RequestPageViewController.userName?.info["Name"] {
             delete.isHidden = true
         } else {
             delete.isHidden = false

@@ -148,7 +148,6 @@ class LoadRequests {
     }
     
     func addResolvedBy(_ request: RideRequest) {
-        print("in addresolveby")
         if request.info["Resolved By"] != nil {
             ref.child("Users").child(request.info["Resolved By"]!).observeSingleEvent(of: .value, with: { [weak self] (snapshotUser) in
                 request.resolvedBy = self?.pullUserFromFirebase(snapshotUser)
@@ -216,7 +215,6 @@ class LoadRequests {
     
     func listenForRequestEdited() {
         ref.child("Requests").observe(.childChanged, with: { [weak self] (snapshot) in
-            print("request edited was called")
             let detail = snapshot.value as! [String:Any]
             var request: RideRequest?
             let id = snapshot.key

@@ -36,6 +36,8 @@ class RequestPageViewController: UIViewController, UITableViewDelegate, UITableV
     var justClickOfferRide = false
     var navBarColor = UIColor(red:0.16, green:0.46, blue:0.75, alpha:1.0)
     static var this: RequestPageViewController?
+    var setLocation = SetLocation()
+    var secondsWaitingForETAToLoad = 0
     
     
     override func viewDidLoad() {
@@ -230,16 +232,33 @@ class RequestPageViewController: UIViewController, UITableViewDelegate, UITableV
             cell.layer.shadowColor = UIColor.black.cgColor
             cell.layer.shadowOffset = CGSize(width: 1, height: 1)
             cell.layer.shadowOpacity = 0.3
+            //highlight new ride requests
             if LoadRequests.requestList.count > (LoadRequests.numberOfRequestsInFirebase + 5) {
                 if (rideRequest.unique == requestJustAdded?.unique) && (rideRequest.unique != nil) {
-                    
                     cell.layer.borderWidth = 1
-                    
                     cell.layer.borderColor = UIColor.black.cgColor
                     requestJustAdded = nil
                     Timer.scheduledTimer(withTimeInterval: 1, repeats: false, block: { (time) in
                         cell.layer.borderWidth = 0
                         cell.layer.borderColor = UIColor.white.cgColor
+                    })
+                }
+            }
+            //calculate eta?
+            if rideRequest.info["Location"] != nil {
+                if !ETA.shouldHideEta(rideRequest) && (rideRequest.ETA == nil) {
+                    setLocation.setETA(rideRequest)
+                    Timer.scheduledTimer(withTimeInterval: 1, repeats: true, block: { (time) in
+                        self.secondsWaitingForETAToLoad = self.secondsWaitingForETAToLoad + 1
+                        print("trying to get eta for the \(self.secondsWaitingForETAToLoad) time")
+                        if rideRequest.ETA != nil {
+                            time.invalidate()
+                            cell.etaLogic()
+                            self.secondsWaitingForETAToLoad = 0
+                        } else if self.secondsWaitingForETAToLoad >= 10 {
+                            time.invalidate()
+                            self.secondsWaitingForETAToLoad = 0
+                        }
                     })
                 }
             }
