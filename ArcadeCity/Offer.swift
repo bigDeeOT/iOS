@@ -14,6 +14,7 @@ class Offer {
     var eta: String?
     var comment: String?
     var unique: String?
+    var location: String?
     
     init (user: User, comment: String, date: Date) {
         driver = user

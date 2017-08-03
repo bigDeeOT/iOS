@@ -244,7 +244,7 @@ class RequestPageViewController: UIViewController, UITableViewDelegate, UITableV
                     })
                 }
             }
-            //calculate eta?
+            //calculate eta
             if rideRequest.info["Location"] != nil {
                 if !ETA.shouldHideEta(rideRequest) && (rideRequest.ETA == nil) {
                     setLocation.setETA(rideRequest)

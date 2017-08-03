@@ -10,6 +10,7 @@ import UIKit
 
 class PostCollageViewController: UIViewController {
     var rideRequest: RideRequest?
+    let setLocation = SetLocation()
     @IBOutlet weak var eta: UILabel!
   
     @IBOutlet weak var comment: UITextView!
@@ -19,9 +20,12 @@ class PostCollageViewController: UIViewController {
         if let rideRequest = rideRequest {
             //need to get updated rideRequest state here
             if rideRequest.info["State"] == "Unresolved" {
+                offer.location = setLocation.latLog
+                offer.eta = rideRequest.ETA
                 LoadRequests.addOffer(offer, for: rideRequest)
                 RequestPageViewController.userName?.incrementVariable("Rides Offered")
             }
+            
         }
         
 
@@ -42,10 +46,14 @@ class PostCollageViewController: UIViewController {
     }
     override func viewDidLoad() {
         super.viewDidLoad()
-        if rideRequest?.showETA == false {
+        if rideRequest?.info["Show ETA"] == "False" {
             print("removed eta")
             eta.isHidden = true
         } else {
+            setLocation.setETA(rideRequest!)
+            Timer.scheduledTimer(withTimeInterval: 1, repeats: false, block: { (time) in
+                self.eta.text = self.rideRequest?.ETA
+            })
             eta.text = rideRequest?.ETA
             print("riderequest eta is \(rideRequest?.ETA ?? "no ride request eta found")")
         }

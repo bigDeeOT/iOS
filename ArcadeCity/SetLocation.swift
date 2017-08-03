@@ -32,7 +32,7 @@ class SetLocation: UIViewController, CLLocationManagerDelegate {
         let longitude = location.coordinate.longitude
         latLog = String(describing: latitude) + "," + String(describing: longitude)
         manager.stopUpdatingLocation()
-        print("in set location ", rideRequest)
+       // print("in set location ", rideRequest!)
         if let rideRequest = rideRequest {
             print("about to call ETA.set")
             ETA.set(latLog!, rideRequest)

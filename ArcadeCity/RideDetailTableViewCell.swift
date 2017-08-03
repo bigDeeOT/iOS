@@ -26,7 +26,7 @@ class RideDetailTableViewCell: UITableViewCell {
     
     private func updateUI() {
         name.text = offer.driver?.info["Name"]
-        eta.text = offer.eta
+        etaLogic()
         phone.text = offer.driver?.info["Phone"]
         comment.text = offer.comment
         date.text = TimeAgo.get(offer.date ?? Date())
@@ -35,6 +35,16 @@ class RideDetailTableViewCell: UITableViewCell {
         comment.numberOfLines = 0
         collage.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(viewImage)))
         collage.isUserInteractionEnabled = true
+    }
+    
+    func etaLogic() {
+        eta.text = offer.eta
+        eta.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(goToMap)))
+        eta.isUserInteractionEnabled = true
+    }
+    
+    func goToMap() {
+        controller?.seeMapWithDrivers()
     }
     
     func viewImage() {

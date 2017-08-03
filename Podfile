@@ -11,5 +11,5 @@ target 'ArcadeCity' do
   pod 'FBSDKShareKit'
   pod 'FBSDKLoginKit'
   pod 'Firebase/Auth'
-
+  pod 'GoogleMaps', '= 2.3.0'
 end

@@ -55,8 +55,10 @@ class RequestPageTableViewCell: UITableViewCell {
                 if let imageData = NSData(contentsOf: url) {
                     DispatchQueue.main.async {
                         self?.profilePic.image = UIImage(data: imageData as Data)
-                        self?.profilePic.layer.borderWidth = 1
-                        self?.profilePic.layer.borderColor = UIColor.lightGray.cgColor
+                        self?.profilePic.layer.cornerRadius = 4
+                        self?.profilePic.layer.masksToBounds = true
+                       // self?.profilePic.layer.borderWidth = 1
+                        //self?.profilePic.layer.borderColor = UIColor.lightGray.cgColor
                     }
                 }
             }

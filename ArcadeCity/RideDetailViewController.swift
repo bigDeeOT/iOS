@@ -34,7 +34,7 @@ class RideDetailViewController: UIViewController, UITableViewDelegate, UITableVi
             rideRequest?.info["State"] = "#Resolved"
             sender.setTitle("#Resolved by \(rideRequest?.resolvedBy?.info["Name"] ?? "error")", for: .normal)
             LoadRequests.changeRideRequestStatus(rideRequest!, status: "#Resolved")
-            rideRequest?.rider?.incrementVariable("Rides Resolved")
+            rideRequest?.rider?.incrementVariable("Rides Taken")
             rideRequest?.resolvedBy?.incrementVariable("Rides Given")
             sender.setTitleColor(UIColor.red, for: .normal)
         } else if (sender.currentTitle?.contains("#Resolved"))! {  //unresolve the request
@@ -45,7 +45,7 @@ class RideDetailViewController: UIViewController, UITableViewDelegate, UITableVi
                 rideRequest?.info["State"] = "Unresolved"
                 rideRequest?.resolvedBy?.decrementVariable("Rides Given")
                 rideRequest?.resolvedBy = nil
-                rideRequest?.rider?.decrementVariable("Rides Resolved")
+                rideRequest?.rider?.decrementVariable("Rides Taken")
                 LoadRequests.changeRideRequestStatus(rideRequest!, status: "Unresolved")
             }
         }
@@ -84,7 +84,9 @@ class RideDetailViewController: UIViewController, UITableViewDelegate, UITableVi
         if ETA.shouldHideEta(rideRequest!) {
             eta.isHidden = true
         } else {
-            rideRequest?.ETA
+            eta.text = "Navigate"
+            eta.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(navigate)))
+            eta.isUserInteractionEnabled = true
             eta.isHidden = false
         }
     }
@@ -105,7 +107,6 @@ class RideDetailViewController: UIViewController, UITableViewDelegate, UITableVi
         view.addSubview(deleteLabel)
         deleteLabel.sizeToFit()
         deleteLabel.frame.origin = CGPoint(x: UIScreen.main.bounds.width / 2 - (deleteLabel.frame.width / 2), y: UIScreen.main.bounds.height / 5 - (deleteLabel.frame.height / 2))
-        print("about to execute timer")
         Timer.scheduledTimer(withTimeInterval: 2, repeats: false) { (timer) in
             self.performSegue(withIdentifier: "deleteRequest", sender: nil)
         }
@@ -190,9 +191,21 @@ class RideDetailViewController: UIViewController, UITableViewDelegate, UITableVi
         present(actionSheet, animated: true, completion: nil)
     }
     
-    
     func deleteRequest() {
         LoadRequests.removeRideRequest(rideRequest!)
+    }
+    /*
+    func seeMap() {
+        performSegue(withIdentifier: "GoogleMaps", sender: nil)
+    }
+ */
+    func navigate() {
+        if let location = rideRequest?.info["Location"] {
+        UIApplication.shared.open(URL(string:"comgooglemaps://?saddr=&daddr=\(location)&directionsmode=driving")!, options: [:], completionHandler: nil)
+        }
+    }
+    func seeMapWithDrivers() {
+        performSegue(withIdentifier: "GoogleMaps", sender: true)
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -231,6 +244,22 @@ class RideDetailViewController: UIViewController, UITableViewDelegate, UITableVi
         if let vc = segue.destination as? RequestPageViewController {
             print("ride detail, prepare for segue")
             vc.rideRequestList.reloadData()
+        }
+        if let vc = segue.destination as? GoogleMapsViewController {
+            /*
+            let coord = rideRequest?.info["Location"]
+            var indexOfComma = coord?.startIndex
+            while (indexOfComma! != (coord?.endIndex)!) {
+                if coord?[indexOfComma!] == "," {break}
+                indexOfComma = coord?.index(after: indexOfComma!)
+            }
+            vc.latitude = coord?.substring(to: (coord?.index(before: indexOfComma!))!)
+            vc.longitude = coord?.substring(from: (coord?.index(after: indexOfComma!))!)
+ */
+            vc.rideRequest = rideRequest
+            if let _ = sender as? Bool {
+                vc.showDrivers = true
+            }
         }
     }
     

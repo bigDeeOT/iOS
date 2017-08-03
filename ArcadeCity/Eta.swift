@@ -47,6 +47,6 @@ class ETA {
     }
     
     static func shouldHideEta(_ rideRequest: RideRequest) -> Bool {
-    return rideRequest.isOld || (RequestPageViewController.userName?.info["Name"] == rideRequest.rider?.info["Next"]) || (rideRequest.info["Show ETA"] == "False") || (RequestPageViewController.userName?.info["Class"] == "Rider")
+    return rideRequest.isOld || (RequestPageViewController.userName?.info["Name"] == rideRequest.rider?.info["Name"]) || (rideRequest.info["Show ETA"] == "False") || (RequestPageViewController.userName?.info["Class"] == "Rider")
     }
 }

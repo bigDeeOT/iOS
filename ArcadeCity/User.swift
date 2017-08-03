@@ -23,9 +23,9 @@ class User {
     var profileDetails: MiddleProfileTableViewController?
     var info: [String: String] = [:]
     //if adding a key, also add default value below
-    var keys = ["Name", "Phone", "Class", "Profile Pic URL", "Rides Requested", "Rides Resolved", "Rides Offered", "Rides Given", "Collage URL", "Bio"]
+    var keys = ["Name", "Phone", "Class", "Profile Pic URL", "Rides Requested", "Rides Taken", "Rides Offered", "Rides Given", "Collage URL", "Bio"]
     var keysToNotDisplay: Set = ["Profile Pic URL", "Collage URL"]
-    var keysOnlyForDrivers: Set = ["Rides Resolved", "Rides Offered"]
+    var keysOnlyForDrivers: Set = ["Rides Taken", "Rides Offered"]
     var keysForEditing = ["Phone" : 12, "Bio" : 175]
     var keysToDisplay: [String] {
         get {
@@ -69,7 +69,7 @@ class User {
         info["Phone"] =                "469-279-0127"
         info["Bio"] = "I'm just an ordinary person doing ordinary things. My favorite food truck is Arlos cause they have the best tacos. And Austin, Texas is the best city in the world 🙌😎💯"
         info["Rides Requested"] =      "0"
-        info["Rides Resolved"] =       "0"
+        info["Rides Taken"] =       "0"
         info["Rides Offered"] =        "0"
         info["Rides Given"] =          "0"
         info["Class"] =                "Rider"

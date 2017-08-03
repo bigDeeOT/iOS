@@ -91,6 +91,7 @@ class LoadRequests {
             "Driver"        : offer.driver?.unique,
             "Date"          : date,
             "ETA"           : offer.eta ?? "none",
+            "Location"      : offer.location ?? "none",
             "Comment"       : offer.comment ?? "none",
             "Ride Request"  : rideRequest.unique,
             ])
@@ -168,6 +169,8 @@ class LoadRequests {
                 dateFormatter.dateFormat = "MM-dd-yyyy hh:mm:ss a"
                 offer.date = dateFormatter.date(from: offerDetails["Date"] as! String)
                 let offerETA = offerDetails["ETA"] as? String
+                let location = offerDetails["Location"] as? String
+                offer.location = location
                 offer.eta = offerETA
                 if offerETA == "none" { offer.eta = nil }
                 offer.comment = offerDetails["Comment"] as? String
@@ -360,7 +363,7 @@ class LoadRequests {
                 LoadRequests.removeOfferListener(requestNumber: ride.unique!)
             }
             if ride.info["State"] == "#Resolved" {
-                ride.rider?.decrementVariable("Rides Resolved")
+                ride.rider?.decrementVariable("Rides Taken")
                 ride.resolvedBy?.decrementVariable("Rides Given")
             }
             removeRequestInList(ride.unique!)
@@ -399,6 +402,19 @@ class LoadRequests {
         request.info["State"] = "#Canceled"
         LoadRequests.requestList.append(request)
         
+        rider = User(url: URL(string: "http://i.imgur.com/9QBGS2m.jpg")!, name: "Gregory Fenves")
+        rider.info["Profile Pic URL"] = "http://i.imgur.com/9QBGS2m.jpg"
+        rider.phone = "512 686-7920"
+        rider.info["Name"] = rider.name
+        request = RideRequest(rider: rider)
+        request.text = "Redbud to UT asap"
+        request.info["Text"] = "Redbud to UT asap"
+        request.date = date
+        request.info["Date"] = "07-07-2017 11:49:10 am"
+        request.ETA = "ETA: 9 min"
+        request.info["State"] = "Unresolved"
+        LoadRequests.requestList.append(request)
+        
         rider = User(url: URL(string: "http://i.imgur.com/1jP1Zwv.jpg")!, name: "Asher Lostak")
         rider.info["Profile Pic URL"] = "http://i.imgur.com/qbMs1s6.jpg"
         rider.phone = "512 686-7920"
@@ -413,18 +429,7 @@ class LoadRequests {
         request.info["State"] = "#Resolved"
         LoadRequests.requestList.append(request)
         
-        rider = User(url: URL(string: "http://i.imgur.com/9QBGS2m.jpg")!, name: "Gregory Fenves")
-        rider.info["Profile Pic URL"] = "http://i.imgur.com/9QBGS2m.jpg"
-        rider.phone = "512 686-7920"
-        rider.info["Name"] = rider.name
-        request = RideRequest(rider: rider)
-        request.text = "Redbud to UT asap"
-        request.info["Text"] = "Redbud to UT asap"
-        request.date = date
-        request.info["Date"] = "07-07-2017 11:49:10 am"
-        request.ETA = "ETA: 9 min"
-        request.info["State"] = "Unresolved"
-        LoadRequests.requestList.append(request)
+
         
         rider = User(url: URL(string: "http://i.imgur.com/dSFFSzV.jpg")!, name: "Bobby Carlisle")
         rider.info["Profile Pic URL"] = "http://i.imgur.com/dSFFSzV.jpg"

@@ -9,6 +9,8 @@
 /* Begin PBXBuildFile section */
 		5708175B1F2989120062DB68 /* ImageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5708175A1F2989120062DB68 /* ImageViewController.swift */; };
 		573853C31F2EBE6100B37228 /* SetLocation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 573853C21F2EBE6100B37228 /* SetLocation.swift */; };
+		573853C51F3006E700B37228 /* GoogleMapsTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 573853C41F3006E700B37228 /* GoogleMapsTableViewController.swift */; };
+		573853C71F31038100B37228 /* GoogleMapsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 573853C61F31038100B37228 /* GoogleMapsViewController.swift */; };
 		573FEC4F1F2B0AB6007A001F /* PreselectedDrivers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 573FEC4E1F2B0AB6007A001F /* PreselectedDrivers.swift */; };
 		574724CD1F2D6619003EFFC6 /* SettingsTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 574724CC1F2D6619003EFFC6 /* SettingsTableViewController.swift */; };
 		574724F01F2E9C17003EFFC6 /* Eta.swift in Sources */ = {isa = PBXBuildFile; fileRef = 574724EF1F2E9C17003EFFC6 /* Eta.swift */; };
@@ -47,6 +49,8 @@
 		5708175A1F2989120062DB68 /* ImageViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ImageViewController.swift; sourceTree = "<group>"; };
 		5712C8281F22400A00442110 /* ArcadeCity.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = ArcadeCity.entitlements; sourceTree = "<group>"; };
 		573853C21F2EBE6100B37228 /* SetLocation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SetLocation.swift; sourceTree = "<group>"; };
+		573853C41F3006E700B37228 /* GoogleMapsTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = GoogleMapsTableViewController.swift; path = ../GoogleMapsTableViewController.swift; sourceTree = "<group>"; };
+		573853C61F31038100B37228 /* GoogleMapsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GoogleMapsViewController.swift; sourceTree = "<group>"; };
 		573FEC4E1F2B0AB6007A001F /* PreselectedDrivers.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PreselectedDrivers.swift; sourceTree = "<group>"; };
 		574724CC1F2D6619003EFFC6 /* SettingsTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingsTableViewController.swift; sourceTree = "<group>"; };
 		574724EF1F2E9C17003EFFC6 /* Eta.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Eta.swift; sourceTree = "<group>"; };
@@ -158,6 +162,8 @@
 			isa = PBXGroup;
 			children = (
 				5712C8281F22400A00442110 /* ArcadeCity.entitlements */,
+				573853C41F3006E700B37228 /* GoogleMapsTableViewController.swift */,
+				573853C61F31038100B37228 /* GoogleMapsViewController.swift */,
 				57E65E9F1F15D59000B39AF4 /* Main.storyboard */,
 				574724CC1F2D6619003EFFC6 /* SettingsTableViewController.swift */,
 				57D195CF1F19604F00F27BB7 /* AddRideTableViewController.swift */,
@@ -364,6 +370,8 @@
 				57A00B221F2714BD00842DDF /* BottomProfileViewController.swift in Sources */,
 				575E7B681F266DCC00C1DD70 /* LoginViewController.swift in Sources */,
 				57D195D31F1A728B00F27BB7 /* RideDetailViewController.swift in Sources */,
+				573853C51F3006E700B37228 /* GoogleMapsTableViewController.swift in Sources */,
+				573853C71F31038100B37228 /* GoogleMapsViewController.swift in Sources */,
 				573853C31F2EBE6100B37228 /* SetLocation.swift in Sources */,
 				57A00B1E1F27149F00842DDF /* TopProfileViewController.swift in Sources */,
 				57E65E9C1F15D59000B39AF4 /* AppDelegate.swift in Sources */,

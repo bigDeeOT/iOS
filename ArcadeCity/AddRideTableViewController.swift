@@ -33,7 +33,6 @@ class AddRideTableViewController: UITableViewController {
                 //invalid pickup
                 return
             }
-            ride.text = "\(pickUpText)"
             ride.info["Text"] = pickUpText
         } else {
             //invalid pickup
@@ -41,7 +40,6 @@ class AddRideTableViewController: UITableViewController {
         }
         if let dropOffText = dropOff.text{
             if dropOffText.characters.count >= 2 {
-                ride.text = ride.text! + " to \(dropOffText)"
                 ride.info["Text"] = ride.info["Text"]! + " to \(dropOffText)"
             }
         }
@@ -51,6 +49,7 @@ class AddRideTableViewController: UITableViewController {
                 ride.info["Text"] = ride.info["Text"]! + "\n" + otherInfoText
             }
         }
+        ride.info["Text"] = ride.info["Text"]?.replacingOccurrences(of: " And ", with: " & ")
         ride.date = Date.init()
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "MM-dd-yyyy hh:mm:ss a"
@@ -107,6 +106,5 @@ class AddRideTableViewController: UITableViewController {
             }
         }
     }
-
 
 }
