@@ -38,6 +38,7 @@ class RequestPageViewController: UIViewController, UITableViewDelegate, UITableV
     static var this: RequestPageViewController?
     var setLocation = SetLocation()
     var secondsWaitingForETAToLoad = 0
+    var profilePicsCache: [String : UIImage] = [:]
     
     
     override func viewDidLoad() {
@@ -139,7 +140,8 @@ class RequestPageViewController: UIViewController, UITableViewDelegate, UITableV
         FBSDKLoginManager().logOut()
         do {
             try Auth.auth().signOut()
-        } catch { print("error with firebase logout")}
+        } catch { print("error with firebase logout") }
+        
         RequestPageViewController.userName = nil
         addRequest.isEnabled = false
         LoadRequests.gRef.child("Requests").removeAllObservers()
@@ -163,7 +165,7 @@ class RequestPageViewController: UIViewController, UITableViewDelegate, UITableV
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(false)
-        addRequestButtonLogic()
+       // addRequestButtonLogic()
         rideRequestList.reloadData()
         if unwindedNowGoToRideDetail == true {
             unwindedNowGoToRideDetail = false
@@ -222,11 +224,10 @@ class RequestPageViewController: UIViewController, UITableViewDelegate, UITableV
         let cell = tableView.dequeueReusableCell(withIdentifier: reuseIdentifier, for: indexPath)
         if let cell = cell as? RequestPageTableViewCell {
             guard indexPath.section <= (LoadRequests.requestList.count - 1) else {return cell}
-            
             let rideRequest = LoadRequests.requestList[LoadRequests.requestList.count - 1 - indexPath.section]
+            cell.requestPageDelegate = self
             cell.rideRequest = rideRequest
             cell.selectionStyle = UITableViewCellSelectionStyle.none
-            cell.requestPageDelegate = self
             cell.layer.cornerRadius = 4
             cell.layer.masksToBounds = false
             cell.layer.shadowColor = UIColor.black.cgColor
@@ -250,7 +251,6 @@ class RequestPageViewController: UIViewController, UITableViewDelegate, UITableV
                     setLocation.setETA(rideRequest)
                     Timer.scheduledTimer(withTimeInterval: 1, repeats: true, block: { (time) in
                         self.secondsWaitingForETAToLoad = self.secondsWaitingForETAToLoad + 1
-                        print("trying to get eta for the \(self.secondsWaitingForETAToLoad) time")
                         if rideRequest.ETA != nil {
                             time.invalidate()
                             cell.etaLogic()

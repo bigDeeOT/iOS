@@ -22,7 +22,7 @@ class RideDetailTableViewCell: UITableViewCell {
     @IBOutlet weak var collage: UIImageView!
     @IBOutlet weak var date: UILabel!
     var controller: RideDetailViewController?
-    var maxCollageSize = CGSize(width: 250, height: 115)
+    var maxCollageSize = CGSize(width: UIScreen.main.bounds.width * 0.9, height: 175)
     
     private func updateUI() {
         name.text = offer.driver?.info["Name"]
@@ -53,15 +53,25 @@ class RideDetailTableViewCell: UITableViewCell {
     }
     
     private func loadImage() {
+        
+        if let picture = controller?.collagePicsCache[(offer?.driver?.unique)!] {
+            collage.image = picture
+            print((collage?.frame.size)!)
+            collage?.frame.size = ImageResize.getNewSize(currentSize: collage?.image?.size, maxSize: maxCollageSize)
+            print((collage?.frame.size)!)
+            return
+        }
         if let url = URL(string:(offer.driver?.info["Collage URL"])!) {
             DispatchQueue.global(qos: .default).async {
                 [weak self] in
                 if let imageData = NSData(contentsOf: url) {
                     DispatchQueue.main.async {
                         self?.collage?.image = UIImage(data: imageData as Data)
-                        self?.collage?.layer.borderWidth = 1
-                        self?.collage?.layer.borderColor = UIColor.lightGray.cgColor
+                        print("image curent size: \((self?.collage?.image?.size)!)")
+                        print("image max size: \((self?.maxCollageSize)!)")
                         self?.collage?.frame.size = ImageResize.getNewSize(currentSize: self?.collage?.image?.size, maxSize: self?.maxCollageSize)
+                        print("image new size: \((self?.collage?.frame.size)!)")
+                        self?.controller?.collagePicsCache[(self?.offer?.driver?.unique)!] = UIImage(data: imageData as Data)
                     }
                 }
             }

@@ -43,7 +43,6 @@ class ETA {
         let duration = leg1["duration"] as AnyObject
         let time = duration["text"] as! String
         rideRequest?.ETA = time + " away"
-        print("ETA should be set now. It's ", time)
     }
     
     static func shouldHideEta(_ rideRequest: RideRequest) -> Bool {

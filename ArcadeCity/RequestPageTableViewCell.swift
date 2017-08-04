@@ -20,6 +20,7 @@ class RequestPageTableViewCell: UITableViewCell {
         requestPageDelegate?.segueToAddCollage(rideRequest: rideRequest!)
     }
     var requestPageDelegate: OfferRide?
+    var requestPage: RequestPageViewController?
     @IBOutlet weak var profilePic: UIImageView!
     @IBOutlet weak var pickUp: UILabel!
     @IBOutlet weak var timePosted: UILabel!
@@ -27,8 +28,10 @@ class RequestPageTableViewCell: UITableViewCell {
     @IBOutlet weak var offerRideButton: UIButton!
     @IBOutlet weak var eta: UILabel!
     let cellWidthFactor: CGFloat = 0.92
+    var imageWasDownloaded = false
     
     private func updateUI() {
+        requestPage = requestPageDelegate as? RequestPageViewController
         riderName.text = rideRequest?.rider?.info["Name"]
         pickUp.text = rideRequest?.info["Text"]
         pickUp.lineBreakMode = .byWordWrapping
@@ -49,6 +52,10 @@ class RequestPageTableViewCell: UITableViewCell {
     }
     
     private func loadPicture() {
+            if let pictureID = requestPage?.profilePicsCache[(rideRequest?.unique)!] {
+                profilePic.image = pictureID
+                return
+            }
         if let url = URL(string: (rideRequest?.rider?.info["Profile Pic URL"])!) {
             DispatchQueue.global(qos: .default).async {
                 [weak self] in
@@ -57,8 +64,8 @@ class RequestPageTableViewCell: UITableViewCell {
                         self?.profilePic.image = UIImage(data: imageData as Data)
                         self?.profilePic.layer.cornerRadius = 4
                         self?.profilePic.layer.masksToBounds = true
-                       // self?.profilePic.layer.borderWidth = 1
-                        //self?.profilePic.layer.borderColor = UIColor.lightGray.cgColor
+                        self?.imageWasDownloaded = true
+                        self?.requestPage?.profilePicsCache[(self?.rideRequest?.unique)!] = UIImage(data: imageData as Data)
                     }
                 }
             }
@@ -104,7 +111,6 @@ class RequestPageTableViewCell: UITableViewCell {
                             offerRideButton?.setTitle("Collage Posted", for: .normal)
                             offerRideButton?.setTitleColor(UIColor.black, for: .normal)
                             offerRideButton?.isEnabled = false
-                            
                         }
                     }
                 }

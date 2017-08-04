@@ -21,6 +21,7 @@ class RideDetailViewController: UIViewController, UITableViewDelegate, UITableVi
     @IBOutlet weak var eta: UILabel!
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var offerRideButton: UIButton!
+    var collagePicsCache: [String : UIImage] = [:]
     var justClickOfferRide = false
     var loadedImage = false
     @IBAction func offerRide(_ sender: UIButton) {
@@ -51,6 +52,17 @@ class RideDetailViewController: UIViewController, UITableViewDelegate, UITableVi
         }
     }
     
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        navigationController?.navigationBar.isTranslucent = false
+        tableView.delegate = self
+        tableView.dataSource = self
+        updateUI()
+        tableView.rowHeight = UITableViewAutomaticDimension
+        tableView.estimatedRowHeight = 600 //208
+        rideRequest?.delegate = self
+        LoadRequests.rideDetailPage = self
+    }
 
 
     func updateUI() {
@@ -75,6 +87,7 @@ class RideDetailViewController: UIViewController, UITableViewDelegate, UITableVi
     }
     
     func reload() {
+        tableView.rowHeight = UITableViewAutomaticDimension
         tableView.reloadData()
         seperatorLogic()
         date.text = TimeAgo.get(rideRequest?.date ?? Date())
@@ -147,18 +160,7 @@ class RideDetailViewController: UIViewController, UITableViewDelegate, UITableVi
             offerRideButton.isHidden = true
         }
     }
-    
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        self.navigationController?.navigationBar.isTranslucent = false
-        tableView.delegate = self
-        tableView.dataSource = self
-        updateUI()
-        self.tableView.rowHeight = UITableViewAutomaticDimension
-        self.tableView.estimatedRowHeight = 208
-        rideRequest?.delegate = self
-        LoadRequests.rideDetailPage = self
-    }
+
     
     func configureDeleteButton() {
         delete.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(deleteOptions)))
@@ -223,14 +225,23 @@ class RideDetailViewController: UIViewController, UITableViewDelegate, UITableVi
         return 0
     }
     
-    //@available(iOS 2.0, *)
     public func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: cellIdentifier, for: indexPath) as! RideDetailTableViewCell
-            cell.offer = rideRequest?.offers?[indexPath.row]
+        print("in cell for row at index path")
+        cell.offer = rideRequest?.offers?[indexPath.row]
+        print(cell.comment.frame)
         cell.controller = self
+       
+        if let collageHeight = cell.offer.driver?.info["Collage Height"] {
+           var height = CGFloat(Double(collageHeight)!)
+            if height > 175 {height = 175}
+            let heightConstraint = NSLayoutConstraint(item: cell.collage, attribute: .height, relatedBy: .equal, toItem: nil, attribute: .notAnAttribute, multiplier: 1, constant: height)
+            NSLayoutConstraint.activate([heightConstraint])
+        }
+       
         return cell
     }
-    
+
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "postCollage" {
             if let vc = segue.destination as? PostCollageViewController {

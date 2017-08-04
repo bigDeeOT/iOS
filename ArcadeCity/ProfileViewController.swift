@@ -24,6 +24,8 @@ class ProfileViewController: UIViewController {
         }
     }
     
+    
+    
     func fixMiddleViewHeight() {
         let widthOfMiddle = middleView.frame.size.width
         let heightOfMiddle = middleView.frame.size.height

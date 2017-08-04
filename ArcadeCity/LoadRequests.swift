@@ -279,6 +279,15 @@ class LoadRequests {
     }
     
     func checkIfUserExists() {
+        Auth.auth().addStateDidChangeListener { (auth, user) in
+            print("user status changed")
+            print(auth)
+            if user != nil {
+                print(user)
+            } else {
+                print("no user")
+            }
+        }
         guard let firebaseID = Auth.auth().currentUser?.uid else {
             print("not logged in to firebase. huge error")
             return
@@ -346,8 +355,12 @@ class LoadRequests {
             print(meta ?? "no meta")
             let url = String(describing: (meta?.downloadURL())!)
             LoadRequests.gRef.child("Users").child(uid).child("Collage URL").setValue(url)
-
             RequestPageViewController.userName?.info["Collage URL"] = url
+            let collageHeight = String(describing: image.size.height)
+            LoadRequests.gRef.child("Users").child(uid).child("Collage Height").setValue(collageHeight)
+            RequestPageViewController.userName?.info["Collage Height"] = collageHeight
+            let collageWidth = String(describing: image.size.width)
+            LoadRequests.gRef.child("Users").child(uid).child("Collage Width").setValue(collageWidth)
         }
     }
     
@@ -400,6 +413,7 @@ class LoadRequests {
         request.ETA = "ETA: 9 min"
         request.state = RideRequest.State.canceled
         request.info["State"] = "#Canceled"
+        request.unique = "E"
         LoadRequests.requestList.append(request)
         
         rider = User(url: URL(string: "http://i.imgur.com/9QBGS2m.jpg")!, name: "Gregory Fenves")
@@ -413,6 +427,7 @@ class LoadRequests {
         request.info["Date"] = "07-07-2017 11:49:10 am"
         request.ETA = "ETA: 9 min"
         request.info["State"] = "Unresolved"
+        request.unique = "D"
         LoadRequests.requestList.append(request)
         
         rider = User(url: URL(string: "http://i.imgur.com/1jP1Zwv.jpg")!, name: "Asher Lostak")
@@ -427,6 +442,7 @@ class LoadRequests {
         request.ETA = "ETA: 9 min"
         request.state = RideRequest.State.resolved
         request.info["State"] = "#Resolved"
+        request.unique = "C"
         LoadRequests.requestList.append(request)
         
 
@@ -443,6 +459,7 @@ class LoadRequests {
         request.ETA = "ETA: 9 min"
         request.state = RideRequest.State.resolved
         request.info["State"] = "#Resolved"
+        request.unique = "B"
         LoadRequests.requestList.append(request)
         
         rider = User(url: URL(string: "http://i.imgur.com/BLlMnuQ.jpg")!, name: "Jennifer Bezos")
@@ -457,6 +474,7 @@ class LoadRequests {
         request.ETA = "ETA: 9 min"
         request.state = RideRequest.State.resolved
         request.info["State"] = "#Resolved"
+        request.unique = "A"
         LoadRequests.requestList.append(request)
     }
 

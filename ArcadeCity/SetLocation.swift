@@ -34,7 +34,6 @@ class SetLocation: UIViewController, CLLocationManagerDelegate {
         manager.stopUpdatingLocation()
        // print("in set location ", rideRequest!)
         if let rideRequest = rideRequest {
-            print("about to call ETA.set")
             ETA.set(latLog!, rideRequest)
         }
     }
