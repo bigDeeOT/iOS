@@ -13,6 +13,7 @@ class ProfileViewController: UIViewController {
     @IBOutlet weak var middleView: UIView!
     @IBOutlet weak var collageView: UIView!
     
+    @IBOutlet weak var profilePic: UIImageView!
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -22,9 +23,26 @@ class ProfileViewController: UIViewController {
             collageView.isHidden = true
             fixMiddleViewHeight()
         }
+        loadImage()
     }
     
-    
+    private func loadImage() {
+        if let url = URL(string: (RequestPageViewController.userName?.info["Profile Pic URL"])!) {
+            DispatchQueue.global(qos: .default).async {
+                [weak self] in
+                if let imageData = NSData(contentsOf: url) {
+                    DispatchQueue.main.async {
+                        self?.profilePic?.image = UIImage(data: imageData as Data)
+                        self?.profilePic?.layer.borderWidth = 3
+                        self?.profilePic?.layer.borderColor = UIColor.white.cgColor
+                        self?.profilePic?.layer.cornerRadius = (self?.profilePic?.frame.width)! / 2
+                        self?.profilePic?.clipsToBounds = true
+                        
+                    }
+                }
+            }
+        }
+    }
     
     func fixMiddleViewHeight() {
         let widthOfMiddle = middleView.frame.size.width

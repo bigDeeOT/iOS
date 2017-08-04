@@ -23,7 +23,7 @@ class User {
     var profileDetails: MiddleProfileTableViewController?
     var info: [String: String] = [:]
     //if adding a key, also add default value below
-    var keys = ["Name", "Phone", "Class", "Profile Pic URL", "Rides Requested", "Rides Taken", "Rides Offered", "Rides Given", "Collage URL", "Bio"]
+    var keys = ["Name", "Class", "Bio", "Phone", "Profile Pic URL", "Rides Requested", "Rides Taken", "Rides Offered", "Rides Given", "Collage URL"]
     var keysToNotDisplay: Set = ["Profile Pic URL", "Collage URL"]
     var keysOnlyForDrivers: Set = ["Rides Taken", "Rides Offered"]
     var keysForEditing = ["Phone" : 12, "Bio" : 175]

@@ -25,6 +25,9 @@ class MiddleProfileTableViewController: UITableViewController {
         if useGlobalUser == true {
             userListener()
         }
+        tableView.contentInset = UIEdgeInsetsMake(50, 0, 0, 0)
+        tableView.rowHeight = UITableViewAutomaticDimension
+        tableView.estimatedRowHeight = 30
     }
     
     func userListener() {
@@ -39,7 +42,6 @@ class MiddleProfileTableViewController: UITableViewController {
     func updateUI() {
         data = user?.getViewableData()
         dataIndex = user?.keysToDisplay
-        dataIndex?.remove(at: (dataIndex?.index(of: "Bio"))!)
         tableView.reloadData()
     }
     
@@ -55,13 +57,32 @@ class MiddleProfileTableViewController: UITableViewController {
 
 
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "cellIdentifier", for: indexPath)
+        var cell: UITableViewCell
         let key = dataIndex?[indexPath.row]
-        cell.textLabel?.text = key
-        cell.detailTextLabel?.text = data?[key!]
+        if (key == "Name") || (key == "Class") {
+            cell = tableView.dequeueReusableCell(withIdentifier: "centerAligned", for: indexPath)
+            cell.textLabel?.text = data?[key!]
+        } else if key == "Bio" {
+            cell = tableView.dequeueReusableCell(withIdentifier: "leftAligned", for: indexPath)
+            cell.textLabel?.text = data?[key!]
+            cell.textLabel?.lineBreakMode = .byWordWrapping
+            cell.textLabel?.numberOfLines = 0
+        } else  {
+            cell = tableView.dequeueReusableCell(withIdentifier: "plainProperty", for: indexPath)
+            cell.textLabel?.text = key
+            cell.detailTextLabel?.text = data?[key!]
+        }
         cell.layer.backgroundColor = UIColor.clear.cgColor
         cell.tintColor = UIColor.clear
         return cell
+    }
+    
+    override func tableView(_ tableView: UITableView, editingStyleForRowAt indexPath: IndexPath) -> UITableViewCellEditingStyle {
+        return .insert
+    }
+    
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        tableView.setEditing(true, animated: true)
     }
     
     /*
