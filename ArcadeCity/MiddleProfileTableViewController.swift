@@ -11,8 +11,13 @@ import Firebase
 
 class MiddleProfileTableViewController: UITableViewController {
     var data: [String : String]?
-    var dataIndex: [String]?
+    var keys: [String]?
+    var keysForEditing: [String]?
     var useGlobalUser = true
+    var cellToDismissKeyboard: userInfoDelegate?
+    var gestureToDismissKeyboard: UIGestureRecognizer?
+    var singleTapGestureWaitsForDoubleTap: UIGestureRecognizer?
+    var allowCellSelection = true
     var user: User? {
         didSet {
             updateUI()
@@ -28,6 +33,33 @@ class MiddleProfileTableViewController: UITableViewController {
         tableView.contentInset = UIEdgeInsetsMake(50, 0, 0, 0)
         tableView.rowHeight = UITableViewAutomaticDimension
         tableView.estimatedRowHeight = 30
+        if RequestPageViewController.userName?.info["Class"] == "Rider" {
+            tableView.tableFooterView = nil
+        }
+    }
+    
+    func addAbilityToDismissKeyboard(tapsRequired taps: Int) {
+        if taps == 2 {
+            gestureToDismissKeyboard = UITapGestureRecognizer(target: self, action: #selector(prepareToDismissKeyboard))
+            (gestureToDismissKeyboard as! UITapGestureRecognizer).numberOfTapsRequired = 2
+            gestureToDismissKeyboard?.cancelsTouchesInView = true
+            //singleTapGestureWaitsForDoubleTap = UITapGestureRecognizer(target: self, action: nil)
+            //view.addGestureRecognizer(singleTapGestureWaitsForDoubleTap!)
+            tableView.allowsSelection = false
+        } else {
+            gestureToDismissKeyboard = UITapGestureRecognizer(target: self, action: #selector(prepareToDismissKeyboard))
+        }
+        view.addGestureRecognizer(gestureToDismissKeyboard!)
+    }
+    
+    func prepareToDismissKeyboard() {
+        cellToDismissKeyboard?.dismissKeyboard()
+        view.removeGestureRecognizer(gestureToDismissKeyboard!)
+        /*
+        if singleTapGestureWaitsForDoubleTap != nil {
+            view.removeGestureRecognizer(singleTapGestureWaitsForDoubleTap!)
+        }*/
+        tableView.allowsSelection = true
     }
     
     func userListener() {
@@ -41,7 +73,8 @@ class MiddleProfileTableViewController: UITableViewController {
     
     func updateUI() {
         data = user?.getViewableData()
-        dataIndex = user?.keysToDisplay
+        keys = user?.keysToDisplay
+        keysForEditing = user?.keysForEditing
         tableView.reloadData()
     }
     
@@ -52,47 +85,48 @@ class MiddleProfileTableViewController: UITableViewController {
     }
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return (dataIndex?.count)!
+        return (keys?.count)!
     }
 
 
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        var cell: UITableViewCell
-        let key = dataIndex?[indexPath.row]
+        var cell: UITableViewCell!
+        let key = keys?[indexPath.row]
         if (key == "Name") || (key == "Class") {
             cell = tableView.dequeueReusableCell(withIdentifier: "centerAligned", for: indexPath)
             cell.textLabel?.text = data?[key!]
+            
         } else if key == "Bio" {
             cell = tableView.dequeueReusableCell(withIdentifier: "leftAligned", for: indexPath)
-            cell.textLabel?.text = data?[key!]
-            cell.textLabel?.lineBreakMode = .byWordWrapping
-            cell.textLabel?.numberOfLines = 0
-        } else  {
-            cell = tableView.dequeueReusableCell(withIdentifier: "plainProperty", for: indexPath)
-            cell.textLabel?.text = key
-            cell.detailTextLabel?.text = data?[key!]
+            if let cell = cell as? BioTableViewCell {
+                cell.bio?.text = data?["Bio"]
+               if data?[key!] == "" {cell.bio?.text = "Enter Bio"}
+                cell.bio?.lineBreakMode = .byWordWrapping
+                cell.bio?.numberOfLines = 0
+                cell.controller = self
+            }
+        } else if key == "Payments" {
+            cell = tableView.dequeueReusableCell(withIdentifier: "payments", for: indexPath)
+            if let cell = cell as? PaymentsTableViewCell {
+                cell.payments = (data?["Payments"])!
+                cell.controller = self
+            }
+        } else {
+            cell = tableView.dequeueReusableCell(withIdentifier: "keyValue", for: indexPath) as? KeyValueTableViewCell
+            if let cell = cell as? KeyValueTableViewCell {
+                cell.key.text = key
+                cell.value.text = data?[key!]
+                cell.controller = self
+                if (keysForEditing?.contains(key!))! {
+                    if data?[key!] == "" {cell.value?.text = "Enter Info"}
+                    if data?[key!] == nil {cell.value?.text = "Enter Info"}
+                    cell.cellCanBeEdited = true
+                }
+            }
         }
         cell.layer.backgroundColor = UIColor.clear.cgColor
         cell.tintColor = UIColor.clear
         return cell
     }
-    
-    override func tableView(_ tableView: UITableView, editingStyleForRowAt indexPath: IndexPath) -> UITableViewCellEditingStyle {
-        return .insert
-    }
-    
-    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        tableView.setEditing(true, animated: true)
-    }
-    
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
-    }
-    */
 
 }

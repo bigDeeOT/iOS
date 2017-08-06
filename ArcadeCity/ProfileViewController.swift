@@ -10,19 +10,12 @@ import UIKit
 
 class ProfileViewController: UIViewController {
 
-    @IBOutlet weak var middleView: UIView!
-    @IBOutlet weak var collageView: UIView!
-    
+    @IBOutlet weak var middleView: UIView!    
     @IBOutlet weak var profilePic: UIImageView!
 
     override func viewDidLoad() {
         super.viewDidLoad()
         navigationController?.navigationBar.isHidden = true
-        collageView.isHidden = false
-        if RequestPageViewController.userName?.info["Class"] == "Rider" {
-            collageView.isHidden = true
-            fixMiddleViewHeight()
-        }
         loadImage()
     }
     
@@ -55,9 +48,7 @@ class ProfileViewController: UIViewController {
 
 
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        if let vc = segue.destination as? TopProfileViewController {
-            vc.user = RequestPageViewController.userName
-        } else if let vc = segue.destination as? MiddleProfileTableViewController {
+        if let vc = segue.destination as? MiddleProfileTableViewController {
             vc.user = RequestPageViewController.userName
         } else if let vc = segue.destination as? BottomProfileViewController {
             vc.user = RequestPageViewController.userName

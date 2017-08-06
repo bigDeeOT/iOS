@@ -9,14 +9,15 @@
 /* Begin PBXBuildFile section */
 		5708175B1F2989120062DB68 /* ImageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5708175A1F2989120062DB68 /* ImageViewController.swift */; };
 		573853C31F2EBE6100B37228 /* SetLocation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 573853C21F2EBE6100B37228 /* SetLocation.swift */; };
-		573853C51F3006E700B37228 /* GoogleMapsTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 573853C41F3006E700B37228 /* GoogleMapsTableViewController.swift */; };
 		573853C71F31038100B37228 /* GoogleMapsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 573853C61F31038100B37228 /* GoogleMapsViewController.swift */; };
 		573FEC4F1F2B0AB6007A001F /* PreselectedDrivers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 573FEC4E1F2B0AB6007A001F /* PreselectedDrivers.swift */; };
 		574724CD1F2D6619003EFFC6 /* SettingsTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 574724CC1F2D6619003EFFC6 /* SettingsTableViewController.swift */; };
 		574724F01F2E9C17003EFFC6 /* Eta.swift in Sources */ = {isa = PBXBuildFile; fileRef = 574724EF1F2E9C17003EFFC6 /* Eta.swift */; };
 		574724F51F2EA71D003EFFC6 /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 574724F41F2EA71D003EFFC6 /* CoreLocation.framework */; };
 		575E7B681F266DCC00C1DD70 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 575E7B671F266DCC00C1DD70 /* LoginViewController.swift */; };
-		57A00B1E1F27149F00842DDF /* TopProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57A00B1D1F27149F00842DDF /* TopProfileViewController.swift */; };
+		57954CB31F3529FF00516A61 /* KeyValueTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57954CB21F3529FF00516A61 /* KeyValueTableViewCell.swift */; };
+		57954CB61F35750100516A61 /* BioTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57954CB51F35750100516A61 /* BioTableViewCell.swift */; };
+		57954CB81F36309500516A61 /* PaymentsTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57954CB71F36309500516A61 /* PaymentsTableViewCell.swift */; };
 		57A00B221F2714BD00842DDF /* BottomProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57A00B211F2714BC00842DDF /* BottomProfileViewController.swift */; };
 		57A00B251F271D8800842DDF /* ImageResize.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57A00B241F271D8800842DDF /* ImageResize.swift */; };
 		57A00B271F2726DF00842DDF /* ProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57A00B261F2726DF00842DDF /* ProfileViewController.swift */; };
@@ -49,14 +50,15 @@
 		5708175A1F2989120062DB68 /* ImageViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ImageViewController.swift; sourceTree = "<group>"; };
 		5712C8281F22400A00442110 /* ArcadeCity.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = ArcadeCity.entitlements; sourceTree = "<group>"; };
 		573853C21F2EBE6100B37228 /* SetLocation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SetLocation.swift; sourceTree = "<group>"; };
-		573853C41F3006E700B37228 /* GoogleMapsTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = GoogleMapsTableViewController.swift; path = ../GoogleMapsTableViewController.swift; sourceTree = "<group>"; };
 		573853C61F31038100B37228 /* GoogleMapsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GoogleMapsViewController.swift; sourceTree = "<group>"; };
 		573FEC4E1F2B0AB6007A001F /* PreselectedDrivers.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PreselectedDrivers.swift; sourceTree = "<group>"; };
 		574724CC1F2D6619003EFFC6 /* SettingsTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingsTableViewController.swift; sourceTree = "<group>"; };
 		574724EF1F2E9C17003EFFC6 /* Eta.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Eta.swift; sourceTree = "<group>"; };
 		574724F41F2EA71D003EFFC6 /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
 		575E7B671F266DCC00C1DD70 /* LoginViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
-		57A00B1D1F27149F00842DDF /* TopProfileViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TopProfileViewController.swift; sourceTree = "<group>"; };
+		57954CB21F3529FF00516A61 /* KeyValueTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = KeyValueTableViewCell.swift; path = ../KeyValueTableViewCell.swift; sourceTree = "<group>"; };
+		57954CB51F35750100516A61 /* BioTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BioTableViewCell.swift; sourceTree = "<group>"; };
+		57954CB71F36309500516A61 /* PaymentsTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PaymentsTableViewCell.swift; sourceTree = "<group>"; };
 		57A00B211F2714BC00842DDF /* BottomProfileViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BottomProfileViewController.swift; sourceTree = "<group>"; };
 		57A00B241F271D8800842DDF /* ImageResize.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ImageResize.swift; sourceTree = "<group>"; };
 		57A00B261F2726DF00842DDF /* ProfileViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProfileViewController.swift; sourceTree = "<group>"; };
@@ -98,11 +100,21 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		57954CB41F352A7300516A61 /* Table */ = {
+			isa = PBXGroup;
+			children = (
+				57954CB71F36309500516A61 /* PaymentsTableViewCell.swift */,
+				57954CB21F3529FF00516A61 /* KeyValueTableViewCell.swift */,
+				57954CB51F35750100516A61 /* BioTableViewCell.swift */,
+			);
+			name = Table;
+			sourceTree = "<group>";
+		};
 		57A00B1C1F27145800842DDF /* Profile */ = {
 			isa = PBXGroup;
 			children = (
+				57954CB41F352A7300516A61 /* Table */,
 				57A00B261F2726DF00842DDF /* ProfileViewController.swift */,
-				57A00B1D1F27149F00842DDF /* TopProfileViewController.swift */,
 				57A00B211F2714BC00842DDF /* BottomProfileViewController.swift */,
 				57A00B281F27D43C00842DDF /* MiddleProfileTableViewController.swift */,
 			);
@@ -135,6 +147,7 @@
 			children = (
 				57D195D41F1A756000F27BB7 /* RideDetailTableViewCell.swift */,
 				57D195D21F1A728B00F27BB7 /* RideDetailViewController.swift */,
+				573853C61F31038100B37228 /* GoogleMapsViewController.swift */,
 				57D195DB1F1AE50900F27BB7 /* PostCollageViewController.swift */,
 			);
 			name = "Ride Request Detail";
@@ -162,8 +175,6 @@
 			isa = PBXGroup;
 			children = (
 				5712C8281F22400A00442110 /* ArcadeCity.entitlements */,
-				573853C41F3006E700B37228 /* GoogleMapsTableViewController.swift */,
-				573853C61F31038100B37228 /* GoogleMapsViewController.swift */,
 				57E65E9F1F15D59000B39AF4 /* Main.storyboard */,
 				574724CC1F2D6619003EFFC6 /* SettingsTableViewController.swift */,
 				57D195CF1F19604F00F27BB7 /* AddRideTableViewController.swift */,
@@ -359,6 +370,7 @@
 				57D195CC1F19444300F27BB7 /* LoadRequests.swift in Sources */,
 				57E65EA41F15D59000B39AF4 /* ArcadeCity.xcdatamodeld in Sources */,
 				57A00B251F271D8800842DDF /* ImageResize.swift in Sources */,
+				57954CB61F35750100516A61 /* BioTableViewCell.swift in Sources */,
 				57E65EBD1F185A1200B39AF4 /* RideRequest.swift in Sources */,
 				57D195D51F1A756000F27BB7 /* RideDetailTableViewCell.swift in Sources */,
 				57BB52C81F241F0700736291 /* TimeAgo.swift in Sources */,
@@ -368,12 +380,11 @@
 				57D195D01F19604F00F27BB7 /* AddRideTableViewController.swift in Sources */,
 				57E65EB81F181B3200B39AF4 /* Rider.swift in Sources */,
 				57A00B221F2714BD00842DDF /* BottomProfileViewController.swift in Sources */,
+				57954CB31F3529FF00516A61 /* KeyValueTableViewCell.swift in Sources */,
 				575E7B681F266DCC00C1DD70 /* LoginViewController.swift in Sources */,
 				57D195D31F1A728B00F27BB7 /* RideDetailViewController.swift in Sources */,
-				573853C51F3006E700B37228 /* GoogleMapsTableViewController.swift in Sources */,
 				573853C71F31038100B37228 /* GoogleMapsViewController.swift in Sources */,
 				573853C31F2EBE6100B37228 /* SetLocation.swift in Sources */,
-				57A00B1E1F27149F00842DDF /* TopProfileViewController.swift in Sources */,
 				57E65E9C1F15D59000B39AF4 /* AppDelegate.swift in Sources */,
 				57A00B271F2726DF00842DDF /* ProfileViewController.swift in Sources */,
 				574724F01F2E9C17003EFFC6 /* Eta.swift in Sources */,
@@ -381,6 +392,7 @@
 				57A00B291F27D43D00842DDF /* MiddleProfileTableViewController.swift in Sources */,
 				5708175B1F2989120062DB68 /* ImageViewController.swift in Sources */,
 				57E65EC11F185C3A00B39AF4 /* Driver.swift in Sources */,
+				57954CB81F36309500516A61 /* PaymentsTableViewCell.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

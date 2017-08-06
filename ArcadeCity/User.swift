@@ -23,10 +23,10 @@ class User {
     var profileDetails: MiddleProfileTableViewController?
     var info: [String: String] = [:]
     //if adding a key, also add default value below
-    var keys = ["Name", "Class", "Bio", "Phone", "Profile Pic URL", "Rides Requested", "Rides Taken", "Rides Offered", "Rides Given", "Collage URL"]
+    var keys = ["Name", "Class", "Bio", "Phone", "Car", "Payments", "Profile Pic URL", "Rides Requested", "Rides Taken", "Rides Offered", "Rides Given", "Collage URL"]
     var keysToNotDisplay: Set = ["Profile Pic URL", "Collage URL"]
-    var keysOnlyForDrivers: Set = ["Rides Taken", "Rides Offered"]
-    var keysForEditing = ["Phone" : 12, "Bio" : 175]
+    var keysOnlyForDrivers: Set = ["Rides Taken", "Rides Offered", "Car", "Phone"]
+    var keysForEditing = ["Phone", "Bio", "Car", "Payments"]
     var keysToDisplay: [String] {
         get {
             var newKeys = keys
@@ -66,13 +66,15 @@ class User {
         
         //hard coded default values
        // info["Collage URL"] =          "http://i.imgur.com/TkcP25X.jpg"
-        info["Phone"] =                "469-279-0127"
-        info["Bio"] = "I'm just an ordinary person doing ordinary things. My favorite food truck is Arlos cause they have the best tacos. And Austin, Texas is the best city in the world 🙌😎💯"
+        info["Phone"] =                "512-867-5309"
+        info["Bio"] = "I'm just an ordinary person doing ordinary things. \nClick to add your own bio\n😎💥"
         info["Rides Requested"] =      "0"
-        info["Rides Taken"] =       "0"
+        info["Rides Taken"] =          "0"
         info["Rides Offered"] =        "0"
         info["Rides Given"] =          "0"
         info["Class"] =                "Rider"
+        info["Class"] =                "Rider"
+        info["Car"]  =                 "Year Color Make Model"
         for driver in PreselectedDrivers.drivers {
             if info["Name"] == driver {
                 info["Class"] = "Driver"

@@ -13,7 +13,7 @@ class BottomProfileViewController: UIViewController, UIImagePickerControllerDele
     @IBOutlet weak var spinner: UIActivityIndicatorView!
     @IBOutlet weak var collage: UIImageView!
     var user: User?
-    var maxImageSize = CGSize(width: 250, height: 110)
+    var maxImageSize = CGSize(width: UIScreen.main.bounds.width, height: 115)
     var containingView: ProfileViewController?
     
     override func viewDidLoad() {
@@ -94,15 +94,5 @@ class BottomProfileViewController: UIViewController, UIImagePickerControllerDele
             }
         }
     }
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
-    }
-    */
 
 }
