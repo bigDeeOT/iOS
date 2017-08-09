@@ -12,6 +12,7 @@ class KeyValueTableViewCell: UITableViewCell, userInfoDelegate, UITextFieldDeleg
 
     //@IBOutlet weak var editValue: UITextField!
     
+    @IBOutlet weak var message: UIImageView!
     @IBOutlet weak var editValue: UITextField!
    // @IBOutlet weak var editValue: UITextView!
     @IBOutlet weak var value: UILabel!
@@ -20,6 +21,13 @@ class KeyValueTableViewCell: UITableViewCell, userInfoDelegate, UITextFieldDeleg
     var controller: MiddleProfileTableViewController?
     override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
+        message.isHidden = true
+        if key.text == "Phone" {
+            key.text = "Contact"
+        }
+        if key.text == "Contact" {
+            message.isHidden = false
+        }
         controller?.cellToDismissKeyboard = self
         editValue.isHidden = true
         guard cellCanBeEdited == true else {return}
@@ -29,10 +37,11 @@ class KeyValueTableViewCell: UITableViewCell, userInfoDelegate, UITextFieldDeleg
                 return
             }
             editValue.delegate = self
-            if key.text == "Phone" {
+            if key.text == "Contact" {
                 editValue.keyboardType = .numbersAndPunctuation
+                message.isHidden = true
             }
-            editValue.frame.origin.x = value.frame.origin.x + 17
+           // editValue.frame.origin.x = value.frame.origin.x + 17
             editValue.frame.size.width = value.frame.size.width
             editValue.textAlignment = .right
             controller?.addAbilityToDismissKeyboard(tapsRequired: 1)
@@ -50,6 +59,9 @@ class KeyValueTableViewCell: UITableViewCell, userInfoDelegate, UITextFieldDeleg
         editValue.isHidden = true
         editValue.endEditing(true)
         value.isHidden = false
+        if key.text == "Contact" {
+            message.isHidden = false
+        }
         updateUserInfo()
     }
     

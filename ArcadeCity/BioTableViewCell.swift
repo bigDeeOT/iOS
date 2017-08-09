@@ -56,8 +56,12 @@ class BioTableViewCell: UITableViewCell, userInfoDelegate, UITextViewDelegate {
     }
     
     func textViewDidBeginEditing(_ textView: UITextView) {
-        DispatchQueue.main.async {
-            textView.selectAll(nil)
+        print(editBio.text)
+        print(User.defaultBio)
+        if bio.text == User.defaultBio {
+            DispatchQueue.main.async {
+                textView.selectAll(nil)
+            }
         }
     }
 

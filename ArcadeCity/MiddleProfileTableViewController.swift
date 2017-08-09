@@ -108,7 +108,9 @@ class MiddleProfileTableViewController: UITableViewController {
         } else if key == "Payments" {
             cell = tableView.dequeueReusableCell(withIdentifier: "payments", for: indexPath)
             if let cell = cell as? PaymentsTableViewCell {
-                cell.payments = (data?["Payments"])!
+                if let payments = data?["Payments"] {
+                cell.payments = payments
+                }
                 cell.controller = self
             }
         } else {

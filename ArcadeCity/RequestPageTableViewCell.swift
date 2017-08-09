@@ -52,10 +52,11 @@ class RequestPageTableViewCell: UITableViewCell {
     }
     
     private func loadPicture() {
-            if let pictureID = requestPage?.profilePicsCache[(rideRequest?.unique)!] {
-                profilePic.image = pictureID
-                return
-            }
+        if let pictureID = requestPage?.profilePicsCache[(rideRequest?.unique)!] {
+            profilePic.image = pictureID
+            return
+        }
+        profilePic.image = #imageLiteral(resourceName: "profilePicPlaceHolder")
         if let url = URL(string: (rideRequest?.rider?.info["Profile Pic URL"])!) {
             DispatchQueue.global(qos: .default).async {
                 [weak self] in

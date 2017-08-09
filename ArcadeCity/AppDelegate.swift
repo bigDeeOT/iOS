@@ -26,6 +26,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
         FBSDKApplicationDelegate.sharedInstance().application(application, didFinishLaunchingWithOptions: launchOptions)
         GMSServices.provideAPIKey("AIzaSyAJxvbSc0wd1jJYCpqEC0iAB4PPlMu03UE")
+        UITabBar.appearance().tintColor = UIColor(red:0.02, green:0.44, blue:0.75, alpha:1.0)
         return true
     }
 

@@ -14,7 +14,11 @@
 		574724CD1F2D6619003EFFC6 /* SettingsTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 574724CC1F2D6619003EFFC6 /* SettingsTableViewController.swift */; };
 		574724F01F2E9C17003EFFC6 /* Eta.swift in Sources */ = {isa = PBXBuildFile; fileRef = 574724EF1F2E9C17003EFFC6 /* Eta.swift */; };
 		574724F51F2EA71D003EFFC6 /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 574724F41F2EA71D003EFFC6 /* CoreLocation.framework */; };
-		575E7B681F266DCC00C1DD70 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 575E7B671F266DCC00C1DD70 /* LoginViewController.swift */; };
+		5753E31C1F379EF000B930E7 /* MightLoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5753E31B1F379EF000B930E7 /* MightLoginViewController.swift */; };
+		575E7B681F266DCC00C1DD70 /* LoadingPageMain.swift in Sources */ = {isa = PBXBuildFile; fileRef = 575E7B671F266DCC00C1DD70 /* LoadingPageMain.swift */; };
+		5770B5771F3A25C100E23C51 /* MessagingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5770B5761F3A25C100E23C51 /* MessagingViewController.swift */; };
+		5770B5791F3A25FC00E23C51 /* MessagingBackend.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5770B5781F3A25FC00E23C51 /* MessagingBackend.swift */; };
+		5770B57B1F3AB83D00E23C51 /* Message.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5770B57A1F3AB83D00E23C51 /* Message.swift */; };
 		57954CB31F3529FF00516A61 /* KeyValueTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57954CB21F3529FF00516A61 /* KeyValueTableViewCell.swift */; };
 		57954CB61F35750100516A61 /* BioTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57954CB51F35750100516A61 /* BioTableViewCell.swift */; };
 		57954CB81F36309500516A61 /* PaymentsTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57954CB71F36309500516A61 /* PaymentsTableViewCell.swift */; };
@@ -55,7 +59,11 @@
 		574724CC1F2D6619003EFFC6 /* SettingsTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingsTableViewController.swift; sourceTree = "<group>"; };
 		574724EF1F2E9C17003EFFC6 /* Eta.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Eta.swift; sourceTree = "<group>"; };
 		574724F41F2EA71D003EFFC6 /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
-		575E7B671F266DCC00C1DD70 /* LoginViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
+		5753E31B1F379EF000B930E7 /* MightLoginViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MightLoginViewController.swift; sourceTree = "<group>"; };
+		575E7B671F266DCC00C1DD70 /* LoadingPageMain.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoadingPageMain.swift; sourceTree = "<group>"; };
+		5770B5761F3A25C100E23C51 /* MessagingViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MessagingViewController.swift; sourceTree = "<group>"; };
+		5770B5781F3A25FC00E23C51 /* MessagingBackend.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MessagingBackend.swift; sourceTree = "<group>"; };
+		5770B57A1F3AB83D00E23C51 /* Message.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Message.swift; sourceTree = "<group>"; };
 		57954CB21F3529FF00516A61 /* KeyValueTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = KeyValueTableViewCell.swift; path = ../KeyValueTableViewCell.swift; sourceTree = "<group>"; };
 		57954CB51F35750100516A61 /* BioTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BioTableViewCell.swift; sourceTree = "<group>"; };
 		57954CB71F36309500516A61 /* PaymentsTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PaymentsTableViewCell.swift; sourceTree = "<group>"; };
@@ -100,23 +108,33 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		57954CB41F352A7300516A61 /* Table */ = {
+		5770B5751F3A259500E23C51 /* Messaging */ = {
+			isa = PBXGroup;
+			children = (
+				5770B5761F3A25C100E23C51 /* MessagingViewController.swift */,
+				5770B57A1F3AB83D00E23C51 /* Message.swift */,
+				5770B5781F3A25FC00E23C51 /* MessagingBackend.swift */,
+			);
+			name = Messaging;
+			sourceTree = "<group>";
+		};
+		57954CB41F352A7300516A61 /* Tableview Cells */ = {
 			isa = PBXGroup;
 			children = (
 				57954CB71F36309500516A61 /* PaymentsTableViewCell.swift */,
 				57954CB21F3529FF00516A61 /* KeyValueTableViewCell.swift */,
 				57954CB51F35750100516A61 /* BioTableViewCell.swift */,
 			);
-			name = Table;
+			name = "Tableview Cells";
 			sourceTree = "<group>";
 		};
 		57A00B1C1F27145800842DDF /* Profile */ = {
 			isa = PBXGroup;
 			children = (
-				57954CB41F352A7300516A61 /* Table */,
+				57954CB41F352A7300516A61 /* Tableview Cells */,
+				57A00B281F27D43C00842DDF /* MiddleProfileTableViewController.swift */,
 				57A00B261F2726DF00842DDF /* ProfileViewController.swift */,
 				57A00B211F2714BC00842DDF /* BottomProfileViewController.swift */,
-				57A00B281F27D43C00842DDF /* MiddleProfileTableViewController.swift */,
 			);
 			name = Profile;
 			sourceTree = "<group>";
@@ -178,8 +196,10 @@
 				57E65E9F1F15D59000B39AF4 /* Main.storyboard */,
 				574724CC1F2D6619003EFFC6 /* SettingsTableViewController.swift */,
 				57D195CF1F19604F00F27BB7 /* AddRideTableViewController.swift */,
-				575E7B671F266DCC00C1DD70 /* LoginViewController.swift */,
+				5753E31B1F379EF000B930E7 /* MightLoginViewController.swift */,
+				575E7B671F266DCC00C1DD70 /* LoadingPageMain.swift */,
 				57D195CB1F19444300F27BB7 /* LoadRequests.swift */,
+				5770B5751F3A259500E23C51 /* Messaging */,
 				57D195D81F1AA11600F27BB7 /* Request Page */,
 				57D195D91F1AA15000F27BB7 /* Ride Request Detail */,
 				57A00B1C1F27145800842DDF /* Profile */,
@@ -370,9 +390,12 @@
 				57D195CC1F19444300F27BB7 /* LoadRequests.swift in Sources */,
 				57E65EA41F15D59000B39AF4 /* ArcadeCity.xcdatamodeld in Sources */,
 				57A00B251F271D8800842DDF /* ImageResize.swift in Sources */,
+				5770B57B1F3AB83D00E23C51 /* Message.swift in Sources */,
+				5753E31C1F379EF000B930E7 /* MightLoginViewController.swift in Sources */,
 				57954CB61F35750100516A61 /* BioTableViewCell.swift in Sources */,
 				57E65EBD1F185A1200B39AF4 /* RideRequest.swift in Sources */,
 				57D195D51F1A756000F27BB7 /* RideDetailTableViewCell.swift in Sources */,
+				5770B5771F3A25C100E23C51 /* MessagingViewController.swift in Sources */,
 				57BB52C81F241F0700736291 /* TimeAgo.swift in Sources */,
 				57D195DC1F1AE50900F27BB7 /* PostCollageViewController.swift in Sources */,
 				573FEC4F1F2B0AB6007A001F /* PreselectedDrivers.swift in Sources */,
@@ -381,10 +404,11 @@
 				57E65EB81F181B3200B39AF4 /* Rider.swift in Sources */,
 				57A00B221F2714BD00842DDF /* BottomProfileViewController.swift in Sources */,
 				57954CB31F3529FF00516A61 /* KeyValueTableViewCell.swift in Sources */,
-				575E7B681F266DCC00C1DD70 /* LoginViewController.swift in Sources */,
+				575E7B681F266DCC00C1DD70 /* LoadingPageMain.swift in Sources */,
 				57D195D31F1A728B00F27BB7 /* RideDetailViewController.swift in Sources */,
 				573853C71F31038100B37228 /* GoogleMapsViewController.swift in Sources */,
 				573853C31F2EBE6100B37228 /* SetLocation.swift in Sources */,
+				5770B5791F3A25FC00E23C51 /* MessagingBackend.swift in Sources */,
 				57E65E9C1F15D59000B39AF4 /* AppDelegate.swift in Sources */,
 				57A00B271F2726DF00842DDF /* ProfileViewController.swift in Sources */,
 				574724F01F2E9C17003EFFC6 /* Eta.swift in Sources */,

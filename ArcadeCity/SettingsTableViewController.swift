@@ -7,6 +7,8 @@
 //
 
 import UIKit
+import Firebase
+import FBSDKLoginKit
 
 class SettingsTableViewController: UITableViewController {
     
@@ -55,19 +57,26 @@ class SettingsTableViewController: UITableViewController {
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         if indexPath.section == (settings.count - 1) {
             print("logout")
-            RequestPageViewController.this?.logout()
-
+            logout()
         }
     }
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
+    
+    private func logout() {
+        FBSDKLoginManager().logOut()
+        do {
+            try Auth.auth().signOut()
+        } catch { print("error with firebase logout") }
+        RequestPageViewController.userName = nil
+        LoadRequests.gRef.child("Requests").removeAllObservers()
+        LoadRequests.clear()
+        LoadRequests.numberOfRequestsLoaded = 0
+        performSegue(withIdentifier: "logout", sender: nil)
     }
-    */
+
+  
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        
+    }
+    
 
 }

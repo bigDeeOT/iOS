@@ -27,6 +27,7 @@ class User {
     var keysToNotDisplay: Set = ["Profile Pic URL", "Collage URL"]
     var keysOnlyForDrivers: Set = ["Rides Taken", "Rides Offered", "Car", "Phone"]
     var keysForEditing = ["Phone", "Bio", "Car", "Payments"]
+    static let defaultBio = "I'm just an ordinary person doing ordinary things. \nClick to add your own bio\n😎💥"
     var keysToDisplay: [String] {
         get {
             var newKeys = keys
@@ -67,7 +68,7 @@ class User {
         //hard coded default values
        // info["Collage URL"] =          "http://i.imgur.com/TkcP25X.jpg"
         info["Phone"] =                "512-867-5309"
-        info["Bio"] = "I'm just an ordinary person doing ordinary things. \nClick to add your own bio\n😎💥"
+        info["Bio"] = User.defaultBio
         info["Rides Requested"] =      "0"
         info["Rides Taken"] =          "0"
         info["Rides Offered"] =        "0"

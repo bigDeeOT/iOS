@@ -18,6 +18,7 @@ class LoadRequests {
     static var needToLoad = true
     var userInfo: [String:String] = [:]
     var requestPage: RequestPageViewController!
+    var loginPageDelegate:  MightLoginViewController!
     static var rideDetailPage: RideDetailViewController!
     static var numberOfRequestsInFirebase = 0
     static var numberOfRequestsLoaded = 0
@@ -252,18 +253,17 @@ class LoadRequests {
     }
     
     
-    func login(_ vc: UIViewController) {
+    func login(fromViewController vc: UIViewController) {
         FBSDKLoginManager().logIn(withReadPermissions: ["email", "public_profile"], from: vc) {[weak self]  (result, err) in
             if err != nil {
-                print("Custom FB login failed", err ?? "")
+                print("FB login failed with error: ", err ?? "")
                 return
             }
             guard let accessToken = FBSDKAccessToken.current()?.tokenString else {
-                print("accessToken is nil")
-                self?.requestPage.fixLoginIfUserCanceled()
-                //self?.waitingPage?.go()
+                print("Facebook accessToken is nil")
                 return
             }
+            self?.loginPageDelegate.finishedLogin()
             let credential = FacebookAuthProvider.credential(withAccessToken: accessToken)
             //sign in with firebase
             Auth.auth().signIn(with: credential) { [weak self] (user, err) in
@@ -273,21 +273,11 @@ class LoadRequests {
                 }
                 print("Firebase user ID is ",Auth.auth().currentUser?.uid ?? "error with firebase login ID in LoadRequest.login()")
                 self?.checkIfUserExists()
-                
             }
         }
     }
     
     func checkIfUserExists() {
-        Auth.auth().addStateDidChangeListener { (auth, user) in
-            print("user status changed")
-            print(auth)
-            if user != nil {
-                print(user)
-            } else {
-                print("no user")
-            }
-        }
         guard let firebaseID = Auth.auth().currentUser?.uid else {
             print("not logged in to firebase. huge error")
             return
@@ -298,13 +288,10 @@ class LoadRequests {
                 self?.createNewUserInFirebase(firebaseID)
                 return
             }
-            if self == nil {
-                print("self is nil in chekifuserexists")
-            }
             let user = self?.pullUserFromFirebase(snapshot)
             RequestPageViewController.userName = user
             self?.startListening()
-            self?.requestPage.rideRequestList.reloadData()
+            self?.requestPage?.rideRequestList.reloadData()
         })
     }
     
