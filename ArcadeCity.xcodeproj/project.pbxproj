@@ -19,6 +19,8 @@
 		5770B5771F3A25C100E23C51 /* MessagingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5770B5761F3A25C100E23C51 /* MessagingViewController.swift */; };
 		5770B5791F3A25FC00E23C51 /* MessagingBackend.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5770B5781F3A25FC00E23C51 /* MessagingBackend.swift */; };
 		5770B57B1F3AB83D00E23C51 /* Message.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5770B57A1F3AB83D00E23C51 /* Message.swift */; };
+		5770B57D1F3B57A900E23C51 /* MyMessageTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5770B57C1F3B57A900E23C51 /* MyMessageTableViewCell.swift */; };
+		5770B57F1F3B57E500E23C51 /* TheirMessageTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5770B57E1F3B57E500E23C51 /* TheirMessageTableViewCell.swift */; };
 		57954CB31F3529FF00516A61 /* KeyValueTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57954CB21F3529FF00516A61 /* KeyValueTableViewCell.swift */; };
 		57954CB61F35750100516A61 /* BioTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57954CB51F35750100516A61 /* BioTableViewCell.swift */; };
 		57954CB81F36309500516A61 /* PaymentsTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57954CB71F36309500516A61 /* PaymentsTableViewCell.swift */; };
@@ -64,6 +66,8 @@
 		5770B5761F3A25C100E23C51 /* MessagingViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MessagingViewController.swift; sourceTree = "<group>"; };
 		5770B5781F3A25FC00E23C51 /* MessagingBackend.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MessagingBackend.swift; sourceTree = "<group>"; };
 		5770B57A1F3AB83D00E23C51 /* Message.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Message.swift; sourceTree = "<group>"; };
+		5770B57C1F3B57A900E23C51 /* MyMessageTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MyMessageTableViewCell.swift; sourceTree = "<group>"; };
+		5770B57E1F3B57E500E23C51 /* TheirMessageTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TheirMessageTableViewCell.swift; sourceTree = "<group>"; };
 		57954CB21F3529FF00516A61 /* KeyValueTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = KeyValueTableViewCell.swift; path = ../KeyValueTableViewCell.swift; sourceTree = "<group>"; };
 		57954CB51F35750100516A61 /* BioTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BioTableViewCell.swift; sourceTree = "<group>"; };
 		57954CB71F36309500516A61 /* PaymentsTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PaymentsTableViewCell.swift; sourceTree = "<group>"; };
@@ -112,6 +116,8 @@
 			isa = PBXGroup;
 			children = (
 				5770B5761F3A25C100E23C51 /* MessagingViewController.swift */,
+				5770B57C1F3B57A900E23C51 /* MyMessageTableViewCell.swift */,
+				5770B57E1F3B57E500E23C51 /* TheirMessageTableViewCell.swift */,
 				5770B57A1F3AB83D00E23C51 /* Message.swift */,
 				5770B5781F3A25FC00E23C51 /* MessagingBackend.swift */,
 			);
@@ -393,7 +399,9 @@
 				5770B57B1F3AB83D00E23C51 /* Message.swift in Sources */,
 				5753E31C1F379EF000B930E7 /* MightLoginViewController.swift in Sources */,
 				57954CB61F35750100516A61 /* BioTableViewCell.swift in Sources */,
+				5770B57D1F3B57A900E23C51 /* MyMessageTableViewCell.swift in Sources */,
 				57E65EBD1F185A1200B39AF4 /* RideRequest.swift in Sources */,
+				5770B57F1F3B57E500E23C51 /* TheirMessageTableViewCell.swift in Sources */,
 				57D195D51F1A756000F27BB7 /* RideDetailTableViewCell.swift in Sources */,
 				5770B5771F3A25C100E23C51 /* MessagingViewController.swift in Sources */,
 				57BB52C81F241F0700736291 /* TimeAgo.swift in Sources */,

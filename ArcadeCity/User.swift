@@ -25,7 +25,7 @@ class User {
     //if adding a key, also add default value below
     var keys = ["Name", "Class", "Bio", "Phone", "Car", "Payments", "Profile Pic URL", "Rides Requested", "Rides Taken", "Rides Offered", "Rides Given", "Collage URL"]
     var keysToNotDisplay: Set = ["Profile Pic URL", "Collage URL"]
-    var keysOnlyForDrivers: Set = ["Rides Taken", "Rides Offered", "Car", "Phone"]
+    var keysOnlyForDrivers: Set = ["Rides Given", "Rides Offered", "Car", "Phone"]
     var keysForEditing = ["Phone", "Bio", "Car", "Payments"]
     static let defaultBio = "I'm just an ordinary person doing ordinary things. \nClick to add your own bio\n😎💥"
     var keysToDisplay: [String] {
@@ -75,7 +75,7 @@ class User {
         info["Rides Given"] =          "0"
         info["Class"] =                "Rider"
         info["Class"] =                "Rider"
-        info["Car"]  =                 "Year Color Make Model"
+        info["Car"]  =                 "Color Make Model"
         for driver in PreselectedDrivers.drivers {
             if info["Name"] == driver {
                 info["Class"] = "Driver"

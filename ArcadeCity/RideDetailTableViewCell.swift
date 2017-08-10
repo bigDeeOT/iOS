@@ -8,6 +8,8 @@
 
 import UIKit
 
+
+
 class RideDetailTableViewCell: UITableViewCell {
 
     var offer: Offer! {
@@ -17,7 +19,8 @@ class RideDetailTableViewCell: UITableViewCell {
     }
     @IBOutlet weak var name: UILabel!
     @IBOutlet weak var eta: UILabel!
-    @IBOutlet weak var phone: UILabel!
+    @IBOutlet weak var phone: UIImageView!
+    @IBOutlet weak var message: UIImageView!
     @IBOutlet weak var comment: UILabel!
     @IBOutlet weak var collage: UIImageView!
     @IBOutlet weak var date: UILabel!
@@ -27,7 +30,7 @@ class RideDetailTableViewCell: UITableViewCell {
     private func updateUI() {
         name.text = offer.driver?.info["Name"]
         etaLogic()
-        phone.text = offer.driver?.info["Phone"]
+        //phone.text = offer.driver?.info["Phone"]
         comment.text = offer.comment
         date.text = TimeAgo.get(offer.date ?? Date())
         loadImage()
@@ -35,6 +38,12 @@ class RideDetailTableViewCell: UITableViewCell {
         comment.numberOfLines = 0
         collage.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(viewImage)))
         collage.isUserInteractionEnabled = true
+        message.isUserInteractionEnabled = true
+        message.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(messageUser)))
+    }
+    
+    func messageUser() {
+        controller?.performSegue(withIdentifier: "messageUser", sender: offer.driver)
     }
     
     func etaLogic() {

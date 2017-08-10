@@ -34,15 +34,15 @@ class TimeAgo {
         if time < 3 {
             timeAgo = "Just now"
         } else if time < minute {
-            timeAgo = String(describing: time) + " secs"
+            timeAgo = String(describing: time) + " secs ago"
         } else if (time >= minute) && (time <= 2 * minute) {
-            timeAgo = "1 min"
+            timeAgo = "1 min ago"
         } else if (time >= minute) && (time < hour) {
-            timeAgo = String(describing: time / minute) + " mins"
+            timeAgo = String(describing: time / minute) + " mins ago"
         }  else if (time >= hour) && (time < 2 * hour) {
             timeAgo = "1 hour"
         } else if (time >= hour) && (time < day) {
-            timeAgo = String(describing: time / hour) + " hours"
+            timeAgo = String(describing: time / hour) + " hours ago"
         } else if (time >= day) && (time < 2 * day) {
             timeAgo = "Yesterday" + dateInTime
         } else if (time >= day) && (time < week) {

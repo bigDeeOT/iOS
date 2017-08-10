@@ -257,19 +257,14 @@ class RideDetailViewController: UIViewController, UITableViewDelegate, UITableVi
             vc.rideRequestList.reloadData()
         }
         if let vc = segue.destination as? GoogleMapsViewController {
-            /*
-            let coord = rideRequest?.info["Location"]
-            var indexOfComma = coord?.startIndex
-            while (indexOfComma! != (coord?.endIndex)!) {
-                if coord?[indexOfComma!] == "," {break}
-                indexOfComma = coord?.index(after: indexOfComma!)
-            }
-            vc.latitude = coord?.substring(to: (coord?.index(before: indexOfComma!))!)
-            vc.longitude = coord?.substring(from: (coord?.index(after: indexOfComma!))!)
- */
             vc.rideRequest = rideRequest
             if let _ = sender as? Bool {
                 vc.showDrivers = true
+            }
+        }
+        if let vc = segue.destination as? MessagingViewController {
+            if let user = sender as? User {
+                vc.otherUser = user
             }
         }
     }

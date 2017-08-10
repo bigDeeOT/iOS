@@ -43,8 +43,6 @@ class MiddleProfileTableViewController: UITableViewController {
             gestureToDismissKeyboard = UITapGestureRecognizer(target: self, action: #selector(prepareToDismissKeyboard))
             (gestureToDismissKeyboard as! UITapGestureRecognizer).numberOfTapsRequired = 2
             gestureToDismissKeyboard?.cancelsTouchesInView = true
-            //singleTapGestureWaitsForDoubleTap = UITapGestureRecognizer(target: self, action: nil)
-            //view.addGestureRecognizer(singleTapGestureWaitsForDoubleTap!)
             tableView.allowsSelection = false
         } else {
             gestureToDismissKeyboard = UITapGestureRecognizer(target: self, action: #selector(prepareToDismissKeyboard))
@@ -55,10 +53,6 @@ class MiddleProfileTableViewController: UITableViewController {
     func prepareToDismissKeyboard() {
         cellToDismissKeyboard?.dismissKeyboard()
         view.removeGestureRecognizer(gestureToDismissKeyboard!)
-        /*
-        if singleTapGestureWaitsForDoubleTap != nil {
-            view.removeGestureRecognizer(singleTapGestureWaitsForDoubleTap!)
-        }*/
         tableView.allowsSelection = true
     }
     
