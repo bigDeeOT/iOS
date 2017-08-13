@@ -19,6 +19,7 @@ class PaymentsTableViewCell: UITableViewCell, userInfoDelegate {
     var paymentOptions: [String : (UIImageView, UIGestureRecognizer)]?
     var paymentOptionsIndex: [String]?
     var toggleGesture: UIGestureRecognizer?
+    var user: User?
     
     var payments = "cash"
     var venmoName: String?
@@ -123,7 +124,6 @@ class PaymentsTableViewCell: UITableViewCell, userInfoDelegate {
     }
     
     private func updateUserInfo() {
-        let user = RequestPageViewController.userName
         LoadRequests.gRef.child("Users").child((user?.unique)!).child("Payments").setValue(payments)
     }
     

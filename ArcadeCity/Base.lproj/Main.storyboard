@@ -44,17 +44,17 @@
                                                                 <constraint firstAttribute="height" constant="50" id="ed1-DT-UFv"/>
                                                             </constraints>
                                                         </imageView>
-                                                        <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="BKU-am-1ZP">
-                                                            <rect key="frame" x="60" y="0.0" width="249" height="50"/>
+                                                        <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="equalSpacing" alignment="center" spacing="5" translatesAutoresizingMaskIntoConstraints="NO" id="BKU-am-1ZP">
+                                                            <rect key="frame" x="60" y="0.0" width="249" height="38"/>
                                                             <subviews>
                                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Name" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="1H1-TD-9PW">
-                                                                    <rect key="frame" x="0.0" y="0.0" width="249" height="35"/>
+                                                                    <rect key="frame" x="0.0" y="0.0" width="249" height="18"/>
                                                                     <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
                                                                     <nil key="textColor"/>
                                                                     <nil key="highlightedColor"/>
                                                                 </label>
                                                                 <stackView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="sqN-Yn-7KE">
-                                                                    <rect key="frame" x="0.0" y="35" width="249" height="15"/>
+                                                                    <rect key="frame" x="0.0" y="23" width="249" height="15"/>
                                                                     <subviews>
                                                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" verticalHuggingPriority="251" text="1 min ago" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="M4q-Av-Rqf">
                                                                             <rect key="frame" x="0.0" y="0.0" width="185.5" height="15"/>
@@ -76,14 +76,10 @@
                                                             </subviews>
                                                             <constraints>
                                                                 <constraint firstAttribute="trailing" secondItem="sqN-Yn-7KE" secondAttribute="trailing" id="8wS-5j-rXc"/>
-                                                                <constraint firstAttribute="trailing" secondItem="1H1-TD-9PW" secondAttribute="trailing" id="xHL-2m-Oe1"/>
+                                                                <constraint firstItem="1H1-TD-9PW" firstAttribute="leading" secondItem="BKU-am-1ZP" secondAttribute="leading" id="bV1-IR-Yz1"/>
                                                             </constraints>
                                                         </stackView>
                                                     </subviews>
-                                                    <constraints>
-                                                        <constraint firstAttribute="bottom" secondItem="BKU-am-1ZP" secondAttribute="bottom" id="8g5-91-jrk"/>
-                                                        <constraint firstItem="BKU-am-1ZP" firstAttribute="top" secondItem="oVt-NH-mFm" secondAttribute="top" id="EBc-RJ-muc"/>
-                                                    </constraints>
                                                 </stackView>
                                                 <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="center" spacing="6" translatesAutoresizingMaskIntoConstraints="NO" id="eRs-2S-XLg">
                                                     <rect key="frame" x="13" y="76" width="317" height="41.5"/>
@@ -138,7 +134,7 @@
                                 </prototypes>
                             </tableView>
                             <containerView opaque="NO" contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="tsP-pp-Til">
-                                <rect key="frame" x="0.0" y="64" width="375" height="603"/>
+                                <rect key="frame" x="0.0" y="64" width="375" height="554"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
                                 <connections>
                                     <segue destination="R8h-4B-xTk" kind="embed" identifier="login" id="9TK-Cb-Ghg"/>
@@ -169,6 +165,7 @@
                         <outlet property="rideRequestList" destination="XGX-Hy-H5X" id="bFR-sr-OUq"/>
                         <segue destination="M67-u6-5eC" kind="show" identifier="rideRequestDetails" id="f00-Zg-XAw"/>
                         <segue destination="b15-VZ-WOL" kind="show" identifier="postCollage" id="hNd-ET-JVO"/>
+                        <segue destination="ahN-i3-rFa" kind="show" identifier="goToUserProfile" id="sIC-zf-HG2"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="gTv-2u-Qn7" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -303,7 +300,7 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Name" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="R3j-Bx-YUR">
-                                <rect key="frame" x="79" y="21" width="48" height="20.5"/>
+                                <rect key="frame" x="79" y="29" width="48" height="20.5"/>
                                 <fontDescription key="fontDescription" type="boldSystem" pointSize="17"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
@@ -359,7 +356,7 @@
                             <constraint firstItem="xmc-wv-Zyv" firstAttribute="leading" secondItem="ZY6-aE-BAv" secondAttribute="trailing" constant="8" symbolic="YES" id="Kdm-Y1-abB"/>
                             <constraint firstItem="hU7-fH-vSP" firstAttribute="top" secondItem="ZY6-aE-BAv" secondAttribute="bottom" constant="5" id="OOo-d1-r8g"/>
                             <constraint firstItem="xmc-wv-Zyv" firstAttribute="leading" secondItem="R3j-Bx-YUR" secondAttribute="leading" id="Vrh-fh-PHX"/>
-                            <constraint firstItem="xmc-wv-Zyv" firstAttribute="top" secondItem="R3j-Bx-YUR" secondAttribute="bottom" constant="16.5" id="Wdv-JJ-F3g"/>
+                            <constraint firstItem="xmc-wv-Zyv" firstAttribute="top" secondItem="R3j-Bx-YUR" secondAttribute="bottom" constant="8" id="Wdv-JJ-F3g"/>
                             <constraint firstItem="ZY6-aE-BAv" firstAttribute="leading" secondItem="Gbq-tT-RqG" secondAttribute="leadingMargin" id="Z5c-Px-b84"/>
                             <constraint firstItem="L4a-g8-x6f" firstAttribute="top" secondItem="hU7-fH-vSP" secondAttribute="bottom" id="aCG-rD-dto"/>
                             <constraint firstItem="hU7-fH-vSP" firstAttribute="top" secondItem="xmc-wv-Zyv" secondAttribute="bottom" constant="8" symbolic="YES" id="c4y-64-bNe"/>
@@ -387,6 +384,7 @@
                         <segue destination="imW-Oe-O2x" kind="unwind" identifier="deleteRequest" unwindAction="unwindToRequestPageWithSegue:" id="IUb-q2-2zO"/>
                         <segue destination="adi-f3-5A0" kind="show" identifier="GoogleMaps" id="Mbq-0V-1Jv"/>
                         <segue destination="COF-y7-xfr" kind="show" identifier="messageUser" id="NGZ-bO-1xA"/>
+                        <segue destination="ahN-i3-rFa" kind="show" identifier="goToUserProfile" id="vBx-mQ-Ppy"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="UZv-ZB-9IC" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -818,7 +816,7 @@
         <!--Profile View Controller-->
         <scene sceneID="eH8-PA-fOu">
             <objects>
-                <viewController id="ahN-i3-rFa" customClass="ProfileViewController" customModule="ArcadeCity" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="profileViewController" useStoryboardIdentifierAsRestorationIdentifier="YES" id="ahN-i3-rFa" customClass="ProfileViewController" customModule="ArcadeCity" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="wnN-y8-tt5"/>
                         <viewControllerLayoutGuide type="bottom" id="ewf-al-2Q7"/>
@@ -846,6 +844,7 @@
                         <outlet property="middleView" destination="PXH-Nl-a0h" id="Ad3-Dj-8CM"/>
                         <outlet property="profilePic" destination="vNA-ud-iWd" id="usB-IL-eKl"/>
                         <segue destination="vzy-Gq-5Lc" kind="show" identifier="viewImage" id="H1h-ZE-g4H"/>
+                        <segue destination="COF-y7-xfr" kind="show" identifier="messageUser" id="c59-gD-Jso"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="bjJ-S6-QX0" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -1015,7 +1014,7 @@
                         <viewControllerLayoutGuide type="bottom" id="4ck-qd-mqb"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="GzO-OG-wQQ">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="603"/>
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="554"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="loadingPage" translatesAutoresizingMaskIntoConstraints="NO" id="ycF-eK-uyx">
@@ -1362,8 +1361,10 @@
     </resources>
     <inferredMetricsTieBreakers>
         <segue reference="f00-Zg-XAw"/>
-        <segue reference="DkE-KO-NXk"/>
+        <segue reference="NGZ-bO-1xA"/>
         <segue reference="rFs-ok-mfD"/>
+        <segue reference="vBx-mQ-Ppy"/>
+        <segue reference="DkE-KO-NXk"/>
     </inferredMetricsTieBreakers>
     <color key="tintColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
 </document>

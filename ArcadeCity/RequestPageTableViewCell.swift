@@ -33,6 +33,7 @@ class RequestPageTableViewCell: UITableViewCell {
     private func updateUI() {
         requestPage = requestPageDelegate as? RequestPageViewController
         riderName.text = rideRequest?.rider?.info["Name"]
+        clickToGoToUserProfile()
         pickUp.text = rideRequest?.info["Text"]
         pickUp.lineBreakMode = .byWordWrapping
         pickUp.numberOfLines = 0
@@ -40,6 +41,18 @@ class RequestPageTableViewCell: UITableViewCell {
         offerRideButtonLogic()
         etaLogic()
         timePosted.text = TimeAgo.get((rideRequest?.info["Date"])!)
+    }
+    
+    private func clickToGoToUserProfile() {
+        riderName.sizeToFit()
+        riderName.isUserInteractionEnabled = true
+        riderName.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(goToUserProfile)))
+        profilePic.isUserInteractionEnabled = true
+        profilePic.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(goToUserProfile)))
+    }
+    
+    func goToUserProfile() {
+        requestPage?.performSegue(withIdentifier: "goToUserProfile", sender: rideRequest?.rider)
     }
     
      func etaLogic() {

@@ -15,11 +15,16 @@ class BottomProfileViewController: UIViewController, UIImagePickerControllerDele
     var user: User?
     var maxImageSize = CGSize(width: UIScreen.main.bounds.width, height: 115)
     var containingView: ProfileViewController?
+    var profileIsForEditing = true
     
     override func viewDidLoad() {
         super.viewDidLoad()
         loadImage()
-        collage.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(collageOptions)))
+        if profileIsForEditing == true {
+            collage.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(collageOptions)))
+        } else {
+            collage.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(viewImage)))
+        }
         collage.isUserInteractionEnabled = true
         updateCollageSize()
         spinner.hidesWhenStopped = true
@@ -29,6 +34,10 @@ class BottomProfileViewController: UIViewController, UIImagePickerControllerDele
     func updateCollageSize() {
         collage.frame.size = ImageResize.getNewSize(currentSize: collage.image?.size, maxSize: maxImageSize)
         collage.frame.origin.x = (UIScreen.main.bounds.width / 2) - (collage.frame.size.width / 2)
+    }
+    
+    func viewImage() {
+        containingView?.performSegue(withIdentifier: "viewImage", sender: self.collage)
     }
     
     func collageOptions() {
@@ -47,7 +56,6 @@ class BottomProfileViewController: UIViewController, UIImagePickerControllerDele
         present(actionSheet, animated: true, completion: nil)
     }
     
-    
     func getNewCollage() {
         spinner.startAnimating()
         collage?.alpha = 0.2
@@ -58,7 +66,6 @@ class BottomProfileViewController: UIViewController, UIImagePickerControllerDele
     
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
         let selectedImageFromPicker = info[UIImagePickerControllerOriginalImage] as? UIImage
-        
         if let selectedImageFromPicker = selectedImageFromPicker {
             collage.image = selectedImageFromPicker
             updateCollageSize()
@@ -78,7 +85,7 @@ class BottomProfileViewController: UIViewController, UIImagePickerControllerDele
         if user?.info["Collage URL"] != nil {
             collage.image = UIImage(named: "loading")
         }
-        guard let collageURL = RequestPageViewController.userName?.info["Collage URL"] else {return}
+        guard let collageURL = user?.info["Collage URL"] else {return}
         if let url = URL(string:collageURL) {
             DispatchQueue.global(qos: .default).async {
                 [weak self] in

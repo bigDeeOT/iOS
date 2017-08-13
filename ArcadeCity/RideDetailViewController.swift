@@ -64,13 +64,13 @@ class RideDetailViewController: UIViewController, UITableViewDelegate, UITableVi
         LoadRequests.rideDetailPage = self
     }
 
-
     func updateUI() {
         if loadedImage == false {
             loadImage()
             loadedImage = true
         }
         name.text = rideRequest?.rider?.info["Name"]
+        clickToViewProfile()
         date.text = TimeAgo.get((rideRequest?.info["Date"])!)
         pickUpText.text = rideRequest?.info["Text"]
         pickUpText.lineBreakMode = .byWordWrapping
@@ -84,6 +84,19 @@ class RideDetailViewController: UIViewController, UITableViewDelegate, UITableVi
             justClickOfferRide = false
             offerRideButton.setTitle("Resolve?", for: .normal)
         }
+        
+    }
+    
+    private func clickToViewProfile() {
+        name.sizeToFit()
+        name.isUserInteractionEnabled = true
+        name.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(goToUserProfile)))
+        profilePic.isUserInteractionEnabled = true
+        profilePic.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(goToUserProfile)))
+    }
+    
+    func goToUserProfile() {
+        performSegue(withIdentifier: "goToUserProfile", sender: rideRequest?.rider)
     }
     
     func reload() {
@@ -234,7 +247,7 @@ class RideDetailViewController: UIViewController, UITableViewDelegate, UITableVi
        
         if let collageHeight = cell.offer.driver?.info["Collage Height"] {
            var height = CGFloat(Double(collageHeight)!)
-            if height > 175 {height = 175}
+            if height > cell.maxCollageSize.height {height = cell.maxCollageSize.height }
             let heightConstraint = NSLayoutConstraint(item: cell.collage, attribute: .height, relatedBy: .equal, toItem: nil, attribute: .notAnAttribute, multiplier: 1, constant: height)
             NSLayoutConstraint.activate([heightConstraint])
         }
@@ -267,6 +280,10 @@ class RideDetailViewController: UIViewController, UITableViewDelegate, UITableVi
                 vc.otherUser = user
             }
         }
+        if let vc = segue.destination as? ProfileViewController {
+            vc.user = sender as? User
+        }
+        
     }
     
     private func loadImage() {
@@ -276,8 +293,8 @@ class RideDetailViewController: UIViewController, UITableViewDelegate, UITableVi
                 if let imageData = NSData(contentsOf: url) {
                     DispatchQueue.main.async {
                         self?.profilePic?.image = UIImage(data: imageData as Data)
-                        self?.profilePic.layer.borderWidth = 1
-                        self?.profilePic.layer.borderColor = UIColor.lightGray.cgColor
+                        self?.profilePic.layer.cornerRadius = 4
+                        self?.profilePic.layer.masksToBounds = true
 
                     }
                 }

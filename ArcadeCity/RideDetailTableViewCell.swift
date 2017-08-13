@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import Firebase
 
 
 
@@ -25,10 +26,11 @@ class RideDetailTableViewCell: UITableViewCell {
     @IBOutlet weak var collage: UIImageView!
     @IBOutlet weak var date: UILabel!
     var controller: RideDetailViewController?
-    var maxCollageSize = CGSize(width: UIScreen.main.bounds.width * 0.9, height: 175)
+    var maxCollageSize = CGSize(width: UIScreen.main.bounds.width * 0.9, height: 225)
     
     private func updateUI() {
         name.text = offer.driver?.info["Name"]
+        clickToGoToUserProfile()
         etaLogic()
         //phone.text = offer.driver?.info["Phone"]
         comment.text = offer.comment
@@ -40,6 +42,16 @@ class RideDetailTableViewCell: UITableViewCell {
         collage.isUserInteractionEnabled = true
         message.isUserInteractionEnabled = true
         message.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(messageUser)))
+    }
+    
+    private func clickToGoToUserProfile() {
+        name.sizeToFit()
+        name.isUserInteractionEnabled = true
+        name.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(goToUserProfile)))
+    }
+    
+    func goToUserProfile() {
+        controller?.performSegue(withIdentifier: "goToUserProfile", sender: offer?.driver)
     }
     
     func messageUser() {
@@ -65,9 +77,7 @@ class RideDetailTableViewCell: UITableViewCell {
         
         if let picture = controller?.collagePicsCache[(offer?.driver?.unique)!] {
             collage.image = picture
-            print((collage?.frame.size)!)
             collage?.frame.size = ImageResize.getNewSize(currentSize: collage?.image?.size, maxSize: maxCollageSize)
-            print((collage?.frame.size)!)
             return
         }
         if let url = URL(string:(offer.driver?.info["Collage URL"])!) {
@@ -76,12 +86,18 @@ class RideDetailTableViewCell: UITableViewCell {
                 if let imageData = NSData(contentsOf: url) {
                     DispatchQueue.main.async {
                         self?.collage?.image = UIImage(data: imageData as Data)
-                        print("image curent size: \((self?.collage?.image?.size)!)")
-                        print("image max size: \((self?.maxCollageSize)!)")
                         self?.collage?.frame.size = ImageResize.getNewSize(currentSize: self?.collage?.image?.size, maxSize: self?.maxCollageSize)
-                        print("image new size: \((self?.collage?.frame.size)!)")
                         self?.controller?.collagePicsCache[(self?.offer?.driver?.unique)!] = UIImage(data: imageData as Data)
+                        self?.collage.layer.cornerRadius = 4
+                        self?.collage.layer.masksToBounds = true
                     }
+                } else {
+                    //if driver changes collage, update the url
+                    LoadRequests.gRef.child("Users/\((self?.offer.driver?.unique)!)/Collage URL").observeSingleEvent(of: .value, with: { (snap) in
+                        self?.offer.driver?.info["Collage URL"] = snap.value as? String
+                        self?.controller?.collagePicsCache.removeValue(forKey: (self?.offer?.driver?.unique)!)
+                        self?.controller?.reload()
+                    })
                 }
             }
         }

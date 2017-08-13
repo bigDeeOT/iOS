@@ -21,18 +21,18 @@ class MessagingBackend {
     
     //init sets the conversationID then gets the messages for said conversation
     init(_ user1: String, _ user2: String) {
-        ref?.child("User Conversations/\(user1)/\(user2)").observeSingleEvent(of: .value, with: { (snap) in
+        ref?.child("User Conversations/\(user1)/\(user2)").observeSingleEvent(of: .value, with: { [weak self] (snap) in
             if snap.exists() ==  false {
-                self.conversationID = self.ref?.child("User Conversations/\(user1)/\(user2)").childByAutoId().key
-                self.ref?.child("User Conversations/\(user1)/\(user2)/").setValue(self.conversationID!)
-                self.ref?.child("User Conversations/\(user2)/\(user1)/").setValue(self.conversationID!)
+                self?.conversationID = self?.ref?.child("User Conversations/\(user1)/\(user2)").childByAutoId().key
+                self?.ref?.child("User Conversations/\(user1)/\(user2)/").setValue(self?.conversationID!)
+                self?.ref?.child("User Conversations/\(user2)/\(user1)/").setValue(self?.conversationID!)
             } else {
-                self.conversationID = snap.value as? String
+                self?.conversationID = snap.value as? String
             }
             //Now get all the messages
-            self.ref?.child("Conversations/\(self.conversationID!)").observe(.childAdded, with: { (snapShot) in
-                self.pullMessages(snapShot)
-                self.messagesDelegate?.doneLoadingMessages()
+            self?.ref?.child("Conversations/\((self?.conversationID)!)").observe(.childAdded, with: { [weak self] (snapShot) in
+                self?.pullMessages(snapShot)
+                self?.messagesDelegate?.doneLoadingMessages()
             })
         })
     }
@@ -61,27 +61,16 @@ class MessagingBackend {
         message.user = RequestPageViewController.userName?.unique
         messages.append(message)
         message.unique = ref?.child("Conversations/\(conversationID!)").childByAutoId().key
-        /*
-        ref?.child("Conversations/\(conversationID!)/\(message.unique!)").child("String").setValue(string)
-        ref?.child("Conversations/\(conversationID!)/\(message.unique!)").child("Date").setValue(message.date)
-        ref?.child("Conversations/\(conversationID!)/\(message.unique!)").child("User").setValue(message.user)
-        */
         let messageDetails = [
             "String"    : string,
             "Date"      : message.date,
             "User"      : message.user
             ]
- 
         ref?.child("Conversations/\(conversationID!)/\(message.unique!)").setValue(messageDetails)
-        
         let metaDataDetails = [
             "Last Message"  : string,
             "Date"          : message.date
         ]
-        /*
-        ref?.child("Conversation Meta Data/\(conversationID!)/Last Message").setValue(string)
-        ref?.child("Conversation Meta Data/\(conversationID!)/Date").setValue(message.date)
- */
         ref?.child("Conversation Meta Data/\(conversationID!)").setValue(metaDataDetails)
     }
     

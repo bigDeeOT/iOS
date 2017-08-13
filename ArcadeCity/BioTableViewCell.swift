@@ -18,6 +18,7 @@ class BioTableViewCell: UITableViewCell, userInfoDelegate, UITextViewDelegate {
     
     @IBOutlet weak var bio: UILabel!
     @IBOutlet weak var editBio: UITextView!
+    var user: User?
     override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
         controller?.cellToDismissKeyboard = self
@@ -51,7 +52,6 @@ class BioTableViewCell: UITableViewCell, userInfoDelegate, UITextViewDelegate {
     }
     
     func updateUserInfo() {
-        let user = RequestPageViewController.userName
         LoadRequests.gRef.child("Users").child((user?.unique)!).child("Bio").setValue(bio.text!)
     }
     

@@ -19,6 +19,7 @@ class KeyValueTableViewCell: UITableViewCell, userInfoDelegate, UITextFieldDeleg
     @IBOutlet weak var key: UILabel!
     var cellCanBeEdited = false
     var controller: MiddleProfileTableViewController?
+    var user: User?
     override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
         message.isHidden = true
@@ -27,6 +28,8 @@ class KeyValueTableViewCell: UITableViewCell, userInfoDelegate, UITextFieldDeleg
         }
         if key.text == "Contact" {
             message.isHidden = false
+            message.isUserInteractionEnabled = true
+            message.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(messageUser)))
         }
         controller?.cellToDismissKeyboard = self
         editValue.isHidden = true
@@ -52,6 +55,11 @@ class KeyValueTableViewCell: UITableViewCell, userInfoDelegate, UITextFieldDeleg
         }
     }
     
+    func messageUser() {
+        controller?.profileDelegate?.performSegue(withIdentifier: "messageUser", sender: user)
+        controller?.profileDelegate?.navigationController?.navigationBar.isHidden = false
+    }
+    
     func dismissKeyboard() {
         guard cellCanBeEdited == true else {return}
         value.text = editValue.text
@@ -66,7 +74,6 @@ class KeyValueTableViewCell: UITableViewCell, userInfoDelegate, UITextFieldDeleg
     }
     
     func updateUserInfo() {
-        let user = RequestPageViewController.userName
         LoadRequests.gRef.child("Users").child((user?.unique)!).child(key.text!).setValue(value.text!)
     }
     

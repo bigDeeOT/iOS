@@ -37,10 +37,12 @@ class ImageViewController: UIViewController, UIScrollViewDelegate {
     
     override func viewWillAppear(_ animated: Bool) {
         navigationController?.navigationBar.isHidden = false
-        navigationController?.navigationBar.setBackgroundImage(UIImage(), for: UIBarMetrics.default)
-        navigationController?.navigationBar.shadowImage = UIImage()
+        self.navigationController?.navigationBar.setBackgroundImage(UIImage(), for: UIBarMetrics.default)
+        self.navigationController?.navigationBar.shadowImage = UIImage()
         tabBarController?.tabBar.isHidden = true
     }
+    
+    
     
     override func viewWillDisappear(_ animated: Bool) {
         navigationController?.navigationBar.isHidden = hideNavigationBarOnExit

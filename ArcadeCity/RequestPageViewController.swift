@@ -11,7 +11,6 @@ import FBSDKLoginKit
 import Firebase
 
 class RequestPageViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, OfferRide {
-    
 
     @IBOutlet weak var loginPageView: UIView!
     var loadingPage: LoadingPageMain?
@@ -55,7 +54,7 @@ class RequestPageViewController: UIViewController, UITableViewDelegate, UITableV
     }
     
     func prepareToRemoveLoadingPage() {
-        //This waits for all the requests to be loaded then removes loading page
+                                //This waits for all the requests to be loaded then removes loading page
         var timesCheckedIfLoadingFinished = 0.0
         Timer.scheduledTimer(withTimeInterval: 0.2, repeats: true) { (timer) in
             timesCheckedIfLoadingFinished = timesCheckedIfLoadingFinished + 1
@@ -76,19 +75,16 @@ class RequestPageViewController: UIViewController, UITableViewDelegate, UITableV
     
     func tabBarNavBarLogic() {
         if loginPageView.isHidden == false {
-            //loading page is shown
-           // navigationController?.navigationBar.titleTextAttributes = [NSForegroundColorAttributeName : UIColor.white]
+
             tabBarController?.tabBar.isHidden = true
             addButton = navigationItem.rightBarButtonItem
             navigationItem.rightBarButtonItem = nil
             navigationController?.navigationBar.barTintColor = navBarColor
             navigationController?.navigationBar.isTranslucent = false
         } else {
-            //loading page dissapeared
             tabBarController?.tabBar.isHidden = false
             navigationItem.rightBarButtonItem = addButton
             navigationController?.navigationBar.barTintColor = navBarColor
-           // navigationController?.navigationBar.barTintColor = UIColor.black
             navigationController?.navigationBar.isTranslucent = false
         }
     }
@@ -131,11 +127,8 @@ class RequestPageViewController: UIViewController, UITableViewDelegate, UITableV
         } catch { print("error with firebase logout") }
         
         RequestPageViewController.userName = nil
-        //addRequest.isEnabled = false
         LoadRequests.gRef.child("Requests").removeAllObservers()
         LoadRequests.clear()
-        //loginPageView.isHidden = false
-        //tabBarNavBarLogic()
         tabBarController?.selectedIndex = 0
         
     }
@@ -148,10 +141,10 @@ class RequestPageViewController: UIViewController, UITableViewDelegate, UITableV
         }
     }
     
-    
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(false)
         rideRequestList.reloadData()
+        navigationController?.navigationBar.isHidden = false
         if unwindedNowGoToRideDetail == true {
             unwindedNowGoToRideDetail = false
             justClickOfferRide = true
@@ -282,7 +275,9 @@ class RequestPageViewController: UIViewController, UITableViewDelegate, UITableV
         if let vc = segue.destination as? LoadingPageMain {
             vc.requestPage = self
         }
-        
+        if let vc = segue.destination as? ProfileViewController {
+            vc.user = sender as? User
+        }
     }
 
     @IBAction func unwindToRequestPage(segue: UIStoryboardSegue) {

@@ -13,27 +13,33 @@ class MiddleProfileTableViewController: UITableViewController {
     var data: [String : String]?
     var keys: [String]?
     var keysForEditing: [String]?
-    var useGlobalUser = true
     var cellToDismissKeyboard: userInfoDelegate?
     var gestureToDismissKeyboard: UIGestureRecognizer?
     var singleTapGestureWaitsForDoubleTap: UIGestureRecognizer?
     var allowCellSelection = true
+    var profileIsForEditing = true
+    var profileDelegate: ProfileViewController?
+    var collageBottomView: BottomProfileViewController?
     var user: User? {
         didSet {
             updateUI()
+            //this is a delegate, so when the details are done loading this page will reflect the changes
             user?.profileDetails = self
         }
     }
     override func viewDidLoad() {
         super.viewDidLoad()
+        collageBottomView?.containingView = profileDelegate
         tableView.separatorStyle = .none
-        if useGlobalUser == true {
+        if profileIsForEditing == true {
             userListener()
+        } else {
+            tableView.allowsSelection = false
         }
         tableView.contentInset = UIEdgeInsetsMake(50, 0, 0, 0)
         tableView.rowHeight = UITableViewAutomaticDimension
         tableView.estimatedRowHeight = 30
-        if RequestPageViewController.userName?.info["Class"] == "Rider" {
+        if user?.info["Class"] == "Rider" {
             tableView.tableFooterView = nil
         }
     }
@@ -58,7 +64,6 @@ class MiddleProfileTableViewController: UITableViewController {
     
     func userListener() {
         LoadRequests.gRef.child("Users").child((RequestPageViewController.userName?.unique)!).observe(.childChanged, with: { (snapshot) in
-            print("userListener called")
             RequestPageViewController.userName?.info[snapshot.key] = snapshot.value as? String
             self.user = RequestPageViewController.userName
             self.updateUI()
@@ -98,6 +103,7 @@ class MiddleProfileTableViewController: UITableViewController {
                 cell.bio?.lineBreakMode = .byWordWrapping
                 cell.bio?.numberOfLines = 0
                 cell.controller = self
+                cell.user = user
             }
         } else if key == "Payments" {
             cell = tableView.dequeueReusableCell(withIdentifier: "payments", for: indexPath)
@@ -106,6 +112,7 @@ class MiddleProfileTableViewController: UITableViewController {
                 cell.payments = payments
                 }
                 cell.controller = self
+                cell.user = user
             }
         } else {
             cell = tableView.dequeueReusableCell(withIdentifier: "keyValue", for: indexPath) as? KeyValueTableViewCell
@@ -118,11 +125,20 @@ class MiddleProfileTableViewController: UITableViewController {
                     if data?[key!] == nil {cell.value?.text = "Enter Info"}
                     cell.cellCanBeEdited = true
                 }
+                cell.user = user
             }
         }
         cell.layer.backgroundColor = UIColor.clear.cgColor
         cell.tintColor = UIColor.clear
         return cell
+    }
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if let vc = segue.destination as? BottomProfileViewController {
+            vc.user = user
+            collageBottomView = vc
+            vc.profileIsForEditing = profileIsForEditing
+        }
     }
 
 }
