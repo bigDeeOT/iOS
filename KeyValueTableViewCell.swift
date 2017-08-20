@@ -74,7 +74,9 @@ class KeyValueTableViewCell: UITableViewCell, userInfoDelegate, UITextFieldDeleg
     }
     
     func updateUserInfo() {
-        LoadRequests.gRef.child("Users").child((user?.unique)!).child(key.text!).setValue(value.text!)
+        user?.info[key.text!] = value.text!
+        LoadRequests.updateUser(user: user!)
+       // LoadRequests.gRef.child("Users").child((user?.unique)!).child(key.text!).setValue(value.text!)
     }
     
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {

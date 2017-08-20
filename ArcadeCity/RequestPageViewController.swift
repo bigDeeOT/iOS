@@ -37,6 +37,7 @@ class RequestPageViewController: UIViewController, UITableViewDelegate, UITableV
     var setLocation = SetLocation()
     var secondsWaitingForETAToLoad = 0
     var profilePicsCache: [String : UIImage] = [:]
+    var loadedAllCells = false
     
     
     override func viewDidLoad() {
@@ -51,10 +52,11 @@ class RequestPageViewController: UIViewController, UITableViewDelegate, UITableV
         tabBarNavBarLogic()
         RequestPageViewController.this = self
         prepareToRemoveLoadingPage()
+        UIView.setAnimationsEnabled(false) //only for debugging on simulator
     }
     
     func prepareToRemoveLoadingPage() {
-                                //This waits for all the requests to be loaded then removes loading page
+        //This waits for all the requests to be loaded then removes loading page
         var timesCheckedIfLoadingFinished = 0.0
         Timer.scheduledTimer(withTimeInterval: 0.2, repeats: true) { (timer) in
             timesCheckedIfLoadingFinished = timesCheckedIfLoadingFinished + 1
@@ -243,8 +245,14 @@ class RequestPageViewController: UIViewController, UITableViewDelegate, UITableV
         return cell
     }
     
+    func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
+        if indexPath.section == (LoadRequests.requestList.count - 1) {
+            guard loadedAllCells == false else {return}
+            loadRequests.listenForMoreRequest()
+        }
+    }
     
-     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         if let cell = tableView.cellForRow(at: indexPath) as? RequestPageTableViewCell {
             if RequestPageViewController.userName != nil {
                 performSegue(withIdentifier: "rideRequestDetails", sender: cell.rideRequest)

@@ -32,7 +32,7 @@ class MiddleProfileTableViewController: UITableViewController {
         collageBottomView?.containingView = profileDelegate
         tableView.separatorStyle = .none
         if profileIsForEditing == true {
-            userListener()
+            setCurrentUser()
         } else {
             tableView.allowsSelection = false
         }
@@ -62,13 +62,10 @@ class MiddleProfileTableViewController: UITableViewController {
         tableView.allowsSelection = true
     }
     
-    func userListener() {
-        LoadRequests.gRef.child("Users").child((RequestPageViewController.userName?.unique)!).observe(.childChanged, with: { (snapshot) in
-            RequestPageViewController.userName?.info[snapshot.key] = snapshot.value as? String
-            self.user = RequestPageViewController.userName
-            self.updateUI()
-        })
+    func setCurrentUser() {
+        user = RequestPageViewController.userName
     }
+ 
     
     func updateUI() {
         data = user?.getViewableData()

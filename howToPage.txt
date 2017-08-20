@@ -1,0 +1,37 @@
+    private func pagingTest() {
+        let ref = LoadRequests.gRef
+        let pageSize = 3
+        var pageBoundary = ""
+        var firstPageSet = false
+        
+        ref?.child("Conversations/-KrBQD5aoar5DMcfONJg").queryLimited(toLast: UInt(pageSize)).observe(.childAdded, with: { (snap) in
+            print(snap.value ?? "No value")
+            if firstPageSet == false {
+                firstPageSet = true
+                pageBoundary = snap.key
+            }
+            
+        })
+        Timer.scheduledTimer(withTimeInterval: 2, repeats: true, block: { (time) in
+            ref?.child("Conversations/-KrBQD5aoar5DMcfONJg").queryOrderedByKey().queryEnding(atValue: pageBoundary).queryLimited(toLast: UInt(pageSize) + 1).observeSingleEvent(of: .value, with: { (snap) in
+                print(pageBoundary)
+                let duplicate = pageBoundary
+                if snap.exists() {
+                    let messages = snap.value as! [String:[String:String]]
+                    guard messages.count > 1 else {time.invalidate(); return}
+                    let orderedKeys = Array(messages.keys).sorted {$0 > $1}
+                    for key in orderedKeys {
+                        if key != duplicate {
+                            print(messages[key]?["String"] ?? "")
+                        }
+                        if key < pageBoundary {
+                            pageBoundary = key
+                        }
+                    }
+                } else {
+                    time.invalidate()
+                }
+            })
+            
+        })
+   }

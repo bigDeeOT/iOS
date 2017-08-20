@@ -35,6 +35,7 @@ class MyMessageTableViewCell: UITableViewCell {
             bubble.removeFromSuperview()
         }
         createdBubble = true
+        //create a dummy label to see what the size of the text will be
         label = UILabel(frame: CGRect(x: 0, y: 0, width: 260, height: 2000))
         label.attributedText = messageText.attributedText
         label.lineBreakMode = .byWordWrapping
@@ -50,13 +51,11 @@ class MyMessageTableViewCell: UITableViewCell {
         bubble.layer.cornerRadius = 15
         bubble.layer.borderWidth = 1
         bubble.layer.borderColor = self.cellColor.cgColor
-        bubble.layer.masksToBounds = true
         contentView.bringSubview(toFront: messageText)
     }
     
     override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
-
     }
 
 }

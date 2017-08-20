@@ -96,26 +96,13 @@ class MessagingViewController: UIViewController, UITableViewDelegate, UITableVie
                 cell.message = message
             }
         }
-        
         cell.transform = CGAffineTransform(rotationAngle: (CGFloat).pi)
-
         return cell
-    }
-
-    //Deprecated
-    private func scrollToBottom() {
-        let indexPath = IndexPath(row: backend.messages.count - 1, section: 0)
-        tableView.scrollToRow(at: indexPath , at: .bottom, animated: false)
     }
     
     func doneLoadingMessages() {
         tableView.reloadData()
-       // scrollToBottom()
     }
     
-    
-    override func viewDidAppear(_ animated: Bool) {
-       // scrollToBottom()
-    }
     
 }

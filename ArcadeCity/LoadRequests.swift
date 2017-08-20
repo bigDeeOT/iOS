@@ -19,6 +19,9 @@ class LoadRequests {
     var userInfo: [String:String] = [:]
     var requestPage: RequestPageViewController!
     var loginPageDelegate:  MightLoginViewController!
+    var firstPageBoundarySet = false
+    var requestPageSize: UInt = 10
+    var requestPageBoundary: String!
     static var rideDetailPage: RideDetailViewController!
     static var numberOfRequestsInFirebase = 0
     static var numberOfRequestsLoaded = 0
@@ -27,7 +30,7 @@ class LoadRequests {
     
     init() {
         if LoadRequests.needToLoad {
-       LoadRequests.loadRequestsFullOfJunk()
+       //       LoadRequests.loadRequestsFullOfJunk()
             LoadRequests.needToLoad = false
         }
         ref = Database.database().reference()
@@ -41,7 +44,7 @@ class LoadRequests {
             }
         }
         requestList.removeAll()
-        loadRequestsFullOfJunk()
+        //loadRequestsFullOfJunk()
     }
     
     func get() -> [RideRequest] {
@@ -49,13 +52,11 @@ class LoadRequests {
     }
     
     static func addRequestToList(_ request: RideRequest){
-        if LoadRequests.requestList.count >= 100 {
-            if requestList.first?.unique != nil {
-                removeOfferListener(requestNumber: (requestList.first?.unique)!)
-            }
-            LoadRequests.requestList.removeFirst()
-        }
         LoadRequests.requestList.append(request)
+    }
+    
+    static func addOldRequestToList(_ request: RideRequest) {
+        LoadRequests.requestList.insert(request, at: 0)
     }
     
     static func add(request: RideRequest) {
@@ -102,48 +103,74 @@ class LoadRequests {
     }
     
     func getNumberOfRideRequests() {
-        self.ref.child("Requests").queryLimited(toLast: 95).observeSingleEvent(of: .value, with: { (snapshot) in
+        self.ref.child("Requests").queryLimited(toLast: requestPageSize).observeSingleEvent(of: .value, with: { (snapshot) in
             guard snapshot.exists() else {return}
             let requests = snapshot.value as! [String:Any?]
             LoadRequests.numberOfRequestsInFirebase = requests.count
             print("numberOfRequestsInFirebase is ", requests.count)
         })
-
     }
     
     func listenForRequest() {
-        self.ref.child("Requests").queryLimited(toLast: 95).observe(.childAdded, with: { [weak self] (snapshot) in
+        self.ref.child("Requests").queryLimited(toLast: requestPageSize).observe(.childAdded, with: { [weak self] (snapshot) in
+            if self?.firstPageBoundarySet == false {
+                self?.firstPageBoundarySet = true
+                self?.requestPageBoundary = snapshot.key
+            }
             guard LoadRequests.requestList.last?.unique != snapshot.key else {
+                //If current user just made a request
                 self?.listenForOffer((LoadRequests.requestList.last)!)
                 return
             }
             let riderUnique = (snapshot.value as? [String:Any])?["Rider"] as! String
-            let request = self?.pullRequestFromFirebase(snapshot)
-            //get rider
-            self?.ref.child("Users/\(riderUnique)").observeSingleEvent(of: .value, with: { [weak self] (snapShotUser) in
-                LoadRequests.numberOfRequestsLoaded = LoadRequests.numberOfRequestsLoaded + 1
-                guard snapShotUser.exists() else {return}
-                let user = self?.pullUserFromFirebase(snapShotUser)
-                request?.rider = user
-                //get offers
-                self?.listenForOffer(request!)
-                self?.requestPage.rideRequestList.reloadData()
-                self?.requestPage.requestJustAdded = request
-            })
+            let request = self?.createRideRequest(from: snapshot.key, with: snapshot.value as! [String : Any], isNew: true)
+            self?.setRiderForRideRequest(from: riderUnique, with: request!)
         })
     }
     
-    func pullRequestFromFirebase(_ snapshot: DataSnapshot) -> RideRequest {
-        //This function does not apply the user to the request.
-        let details = snapshot.value as! [String:Any]
+    func listenForMoreRequest() {
+        ref.child("Requests").queryOrderedByKey().queryLimited(toLast: requestPageSize).queryEnding(atValue: requestPageBoundary).observeSingleEvent(of: .value, with: { [weak self] (snap) in
+            guard snap.exists() else {return}
+            guard snap.children.allObjects.count > 1 else {self?.requestPage.loadedAllCells = true; return}
+            let keyFromLastPage = (self?.requestPageBoundary)!
+            for child in snap.children {
+                let key = (child as! DataSnapshot).key
+                let requestInfo = (child as! DataSnapshot).value as! [String:Any]
+                if key == keyFromLastPage {continue}
+                if key < (self?.requestPageBoundary)! { self?.requestPageBoundary = key }
+                let riderUnique = requestInfo["Rider"] as! String
+                let request = self?.createRideRequest(from: key, with: requestInfo, isNew: false)
+                self?.setRiderForRideRequest(from: riderUnique, with: request!)
+            }
+        })
+    }
+    
+    func setRiderForRideRequest(from riderUnique: String, with request: RideRequest) {
+        ref.child("Users/\(riderUnique)").observeSingleEvent(of: .value, with: { [weak self] (snapShotUser) in
+            LoadRequests.numberOfRequestsLoaded = LoadRequests.numberOfRequestsLoaded + 1
+            guard snapShotUser.exists() else {return}
+            let user = self?.pullUserFromFirebase(snapShotUser)
+            request.rider = user
+            //get offers
+            self?.listenForOffer(request)
+            self?.requestPage.rideRequestList.reloadData()
+            self?.requestPage.requestJustAdded = request
+        })
+    }
+    
+    func createRideRequest(from key: String, with details: [String:Any], isNew: Bool) -> RideRequest {
         let request = RideRequest()
         for (key, value) in details {
             if let value = value as? String {
                 request.info[key] = value
             }
         }
-        request.unique = snapshot.key
-        LoadRequests.addRequestToList(request)
+        request.unique = key
+        if isNew {
+            LoadRequests.addRequestToList(request)
+        } else {
+            LoadRequests.addOldRequestToList(request)
+        }
         //if request is resolved, get user who resolved it
         addResolvedBy(request)
         return request
@@ -291,7 +318,7 @@ class LoadRequests {
             let user = self?.pullUserFromFirebase(snapshot)
             RequestPageViewController.userName = user
             self?.startListening()
-            self?.requestPage?.rideRequestList.reloadData()
+            self?.requestPage?.rideRequestList?.reloadData()
         })
     }
     
@@ -323,6 +350,15 @@ class LoadRequests {
         listenForRequest()
         listenForRequestDeleted()
         listenForRequestEdited()
+        listenForUserChanges()
+    }
+    
+    func listenForUserChanges() {
+        LoadRequests.gRef.child("Users").child((RequestPageViewController.userName?.unique)!).observe(.childChanged, with: { (snapshot) in
+            let user = RequestPageViewController.userName
+            user?.info[snapshot.key] = snapshot.value as? String
+            user?.profileDetails?.updateUI()
+        })
     }
     
     static func uploadCollage(_ image: UIImage, delegate: BottomProfileViewController) {
@@ -380,6 +416,15 @@ class LoadRequests {
                 break
             }
         }
+    }
+    
+    static func updateUser(user: User) {
+        let userID = user.unique!
+        LoadRequests.gRef.child("Users/\(userID)").setValue(user.info)
+        if let Class = user.info["Class"] {
+                LoadRequests.gRef.child("\(Class)s/\(userID)").setValue(user.info)
+        }
+        user.profileDetails?.updateUI()
     }
     
     

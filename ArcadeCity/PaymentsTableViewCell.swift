@@ -124,7 +124,9 @@ class PaymentsTableViewCell: UITableViewCell, userInfoDelegate {
     }
     
     private func updateUserInfo() {
-        LoadRequests.gRef.child("Users").child((user?.unique)!).child("Payments").setValue(payments)
+        user?.info["Payments"] = payments
+        LoadRequests.updateUser(user: user!)
+       // LoadRequests.gRef.child("Users").child((user?.unique)!).child("Payments").setValue(payments)
     }
     
 }

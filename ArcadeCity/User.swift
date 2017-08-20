@@ -15,14 +15,17 @@ class User {
     var ridesResolved = 0
     var ridesOffered = 0
     var ridesGiven = 0
-    var unique: String?
     var collage: URL?
     var phone: String?
     var privilege: Privilege = .rider
     var delegate: RideDetailViewController?
     var profileDetails: MiddleProfileTableViewController?
     var info: [String: String] = [:]
-    //if adding a key, also add default value below
+    var unique: String? {
+        didSet {
+            info["Unique"] = unique
+        }
+    }
     var keys = ["Name", "Class", "Bio", "Phone", "Car", "Payments", "Profile Pic URL", "Rides Requested", "Rides Taken", "Rides Offered", "Rides Given", "Collage URL"]
     var keysToNotDisplay: Set = ["Profile Pic URL", "Collage URL"]
     var keysOnlyForDrivers: Set = ["Rides Given", "Rides Offered", "Car", "Phone"]
@@ -110,13 +113,15 @@ class User {
     
     func incrementVariable(_ variableToIncrease: String) {
         info[variableToIncrease] = String(describing: Int(info[variableToIncrease]!)! + 1)
-        LoadRequests.gRef.child("Users").child(unique!).child(variableToIncrease).setValue(info[variableToIncrease])
+        LoadRequests.updateUser(user: self)
+        //LoadRequests.gRef.child("Users").child(unique!).child(variableToIncrease).setValue(info[variableToIncrease])
         profileDetails?.updateUI()
     }
     
     func decrementVariable(_ variableToDecrease: String) {
         info[variableToDecrease] = String(describing: Int(info[variableToDecrease]!)! - 1)
-        LoadRequests.gRef.child("Users").child(unique!).child(variableToDecrease).setValue(info[variableToDecrease])
+        LoadRequests.updateUser(user: self)
+        //LoadRequests.gRef.child("Users").child(unique!).child(variableToDecrease).setValue(info[variableToDecrease])
         profileDetails?.updateUI()
     }
 }

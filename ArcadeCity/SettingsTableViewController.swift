@@ -12,7 +12,7 @@ import FBSDKLoginKit
 
 class SettingsTableViewController: UITableViewController {
     
-    var settings = [["Notifications","Moderators","Templates",],["Logout"]]
+    var settings = [["User Directory", "Driver Documentation", "Configure Driver Docs"],["Logout"]]
     override func viewDidLoad() {
         super.viewDidLoad()
         tableView.backgroundView = nil
@@ -20,6 +20,18 @@ class SettingsTableViewController: UITableViewController {
         tableView.reloadData()
         self.tableView.contentInset = UIEdgeInsetsMake(44,0,0,0);
         tableView.tableFooterView = UIView()
+        let userClass = RequestPageViewController.userName?.info["Class"]
+        if (userClass == "Rider") || (userClass == "Driver") {
+            settings[0].remove(at: settings[0].index(of: "Configure Driver Docs")!)
+        }
+        if (userClass == "Rider") {
+            settings[0][settings[0].index(of: "Driver Documentation")!] = "Drive for Might"
+        }
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        navigationController?.navigationBar.isHidden = true
     }
 
     override func didReceiveMemoryWarning() {
@@ -56,8 +68,11 @@ class SettingsTableViewController: UITableViewController {
 
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         if indexPath.section == (settings.count - 1) {
-            print("logout")
             logout()
+        } else if indexPath.row == settings[0].index(of: "User Directory") {
+            performSegue(withIdentifier: "listOfUsers", sender: nil)
+        } else if indexPath.row == settings[0].index(of: "Configure Driver Docs") {
+            performSegue(withIdentifier: "configureDocumentation", sender: nil)
         }
     }
     
@@ -68,14 +83,10 @@ class SettingsTableViewController: UITableViewController {
         } catch { print("error with firebase logout") }
         RequestPageViewController.userName = nil
         LoadRequests.gRef.child("Requests").removeAllObservers()
+        LoadRequests.gRef.child("Users/\(RequestPageViewController.userName?.unique ?? "")").removeAllObservers()
         LoadRequests.clear()
         LoadRequests.numberOfRequestsLoaded = 0
         performSegue(withIdentifier: "logout", sender: nil)
-    }
-
-  
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        
     }
     
 

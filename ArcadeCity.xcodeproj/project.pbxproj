@@ -21,6 +21,14 @@
 		5770B57B1F3AB83D00E23C51 /* Message.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5770B57A1F3AB83D00E23C51 /* Message.swift */; };
 		5770B57D1F3B57A900E23C51 /* MyMessageTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5770B57C1F3B57A900E23C51 /* MyMessageTableViewCell.swift */; };
 		5770B57F1F3B57E500E23C51 /* TheirMessageTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5770B57E1F3B57E500E23C51 /* TheirMessageTableViewCell.swift */; };
+		578969CA1F43E0000039768E /* ListOfUsersViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 578969C91F43E0000039768E /* ListOfUsersViewController.swift */; };
+		578969CF1F43E13C0039768E /* ListOfUsersBackend.swift in Sources */ = {isa = PBXBuildFile; fileRef = 578969CE1F43E13C0039768E /* ListOfUsersBackend.swift */; };
+		578970CD1F4404040093D8E5 /* ListOfUsersTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 578970CC1F4404040093D8E5 /* ListOfUsersTableViewCell.swift */; };
+		578970CF1F45055E0093D8E5 /* SetUserClassViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 578970CE1F45055E0093D8E5 /* SetUserClassViewController.swift */; };
+		578970D41F47BF780093D8E5 /* ConfigureDocsBackend.swift in Sources */ = {isa = PBXBuildFile; fileRef = 578970D31F47BF780093D8E5 /* ConfigureDocsBackend.swift */; };
+		578970D61F48DB320093D8E5 /* Document.swift in Sources */ = {isa = PBXBuildFile; fileRef = 578970D51F48DB320093D8E5 /* Document.swift */; };
+		578970D81F48E3A60093D8E5 /* ConfigureDocumentationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 578970D71F48E3A60093D8E5 /* ConfigureDocumentationViewController.swift */; };
+		578970DA1F49056E0093D8E5 /* AddDriverDocViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 578970D91F49056E0093D8E5 /* AddDriverDocViewController.swift */; };
 		57954CB31F3529FF00516A61 /* KeyValueTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57954CB21F3529FF00516A61 /* KeyValueTableViewCell.swift */; };
 		57954CB61F35750100516A61 /* BioTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57954CB51F35750100516A61 /* BioTableViewCell.swift */; };
 		57954CB81F36309500516A61 /* PaymentsTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57954CB71F36309500516A61 /* PaymentsTableViewCell.swift */; };
@@ -68,6 +76,14 @@
 		5770B57A1F3AB83D00E23C51 /* Message.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Message.swift; sourceTree = "<group>"; };
 		5770B57C1F3B57A900E23C51 /* MyMessageTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MyMessageTableViewCell.swift; sourceTree = "<group>"; };
 		5770B57E1F3B57E500E23C51 /* TheirMessageTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TheirMessageTableViewCell.swift; sourceTree = "<group>"; };
+		578969C91F43E0000039768E /* ListOfUsersViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ListOfUsersViewController.swift; sourceTree = "<group>"; };
+		578969CE1F43E13C0039768E /* ListOfUsersBackend.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ListOfUsersBackend.swift; sourceTree = "<group>"; };
+		578970CC1F4404040093D8E5 /* ListOfUsersTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ListOfUsersTableViewCell.swift; sourceTree = "<group>"; };
+		578970CE1F45055E0093D8E5 /* SetUserClassViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SetUserClassViewController.swift; sourceTree = "<group>"; };
+		578970D31F47BF780093D8E5 /* ConfigureDocsBackend.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ConfigureDocsBackend.swift; sourceTree = "<group>"; };
+		578970D51F48DB320093D8E5 /* Document.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Document.swift; sourceTree = "<group>"; };
+		578970D71F48E3A60093D8E5 /* ConfigureDocumentationViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ConfigureDocumentationViewController.swift; sourceTree = "<group>"; };
+		578970D91F49056E0093D8E5 /* AddDriverDocViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AddDriverDocViewController.swift; sourceTree = "<group>"; };
 		57954CB21F3529FF00516A61 /* KeyValueTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = KeyValueTableViewCell.swift; path = ../KeyValueTableViewCell.swift; sourceTree = "<group>"; };
 		57954CB51F35750100516A61 /* BioTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BioTableViewCell.swift; sourceTree = "<group>"; };
 		57954CB71F36309500516A61 /* PaymentsTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PaymentsTableViewCell.swift; sourceTree = "<group>"; };
@@ -122,6 +138,38 @@
 				5770B5781F3A25FC00E23C51 /* MessagingBackend.swift */,
 			);
 			name = Messaging;
+			sourceTree = "<group>";
+		};
+		578969C81F43DF780039768E /* More */ = {
+			isa = PBXGroup;
+			children = (
+				574724CC1F2D6619003EFFC6 /* SettingsTableViewController.swift */,
+				578969CD1F43E04C0039768E /* List of Users */,
+				578970D01F47BF000093D8E5 /* Configure Driver Docs */,
+			);
+			name = More;
+			sourceTree = "<group>";
+		};
+		578969CD1F43E04C0039768E /* List of Users */ = {
+			isa = PBXGroup;
+			children = (
+				578969C91F43E0000039768E /* ListOfUsersViewController.swift */,
+				578970CC1F4404040093D8E5 /* ListOfUsersTableViewCell.swift */,
+				578970CE1F45055E0093D8E5 /* SetUserClassViewController.swift */,
+				578969CE1F43E13C0039768E /* ListOfUsersBackend.swift */,
+			);
+			name = "List of Users";
+			sourceTree = "<group>";
+		};
+		578970D01F47BF000093D8E5 /* Configure Driver Docs */ = {
+			isa = PBXGroup;
+			children = (
+				578970D51F48DB320093D8E5 /* Document.swift */,
+				578970D71F48E3A60093D8E5 /* ConfigureDocumentationViewController.swift */,
+				578970D91F49056E0093D8E5 /* AddDriverDocViewController.swift */,
+				578970D31F47BF780093D8E5 /* ConfigureDocsBackend.swift */,
+			);
+			name = "Configure Driver Docs";
 			sourceTree = "<group>";
 		};
 		57954CB41F352A7300516A61 /* Tableview Cells */ = {
@@ -200,11 +248,11 @@
 			children = (
 				5712C8281F22400A00442110 /* ArcadeCity.entitlements */,
 				57E65E9F1F15D59000B39AF4 /* Main.storyboard */,
-				574724CC1F2D6619003EFFC6 /* SettingsTableViewController.swift */,
 				57D195CF1F19604F00F27BB7 /* AddRideTableViewController.swift */,
 				5753E31B1F379EF000B930E7 /* MightLoginViewController.swift */,
 				575E7B671F266DCC00C1DD70 /* LoadingPageMain.swift */,
 				57D195CB1F19444300F27BB7 /* LoadRequests.swift */,
+				578969C81F43DF780039768E /* More */,
 				5770B5751F3A259500E23C51 /* Messaging */,
 				57D195D81F1AA11600F27BB7 /* Request Page */,
 				57D195D91F1AA15000F27BB7 /* Ride Request Detail */,
@@ -390,9 +438,11 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				578970D41F47BF780093D8E5 /* ConfigureDocsBackend.swift in Sources */,
 				57E65EBF1F185AB800B39AF4 /* Offer.swift in Sources */,
 				57E65EC61F186E3900B39AF4 /* RequestPageViewController.swift in Sources */,
 				AC3813EB1F1EE33900E79813 /* RequestPageTableViewCell.swift in Sources */,
+				578970D81F48E3A60093D8E5 /* ConfigureDocumentationViewController.swift in Sources */,
 				57D195CC1F19444300F27BB7 /* LoadRequests.swift in Sources */,
 				57E65EA41F15D59000B39AF4 /* ArcadeCity.xcdatamodeld in Sources */,
 				57A00B251F271D8800842DDF /* ImageResize.swift in Sources */,
@@ -404,20 +454,26 @@
 				5770B57F1F3B57E500E23C51 /* TheirMessageTableViewCell.swift in Sources */,
 				57D195D51F1A756000F27BB7 /* RideDetailTableViewCell.swift in Sources */,
 				5770B5771F3A25C100E23C51 /* MessagingViewController.swift in Sources */,
+				578969CF1F43E13C0039768E /* ListOfUsersBackend.swift in Sources */,
 				57BB52C81F241F0700736291 /* TimeAgo.swift in Sources */,
 				57D195DC1F1AE50900F27BB7 /* PostCollageViewController.swift in Sources */,
 				573FEC4F1F2B0AB6007A001F /* PreselectedDrivers.swift in Sources */,
 				57D195D71F1A7FB700F27BB7 /* User.swift in Sources */,
+				578970D61F48DB320093D8E5 /* Document.swift in Sources */,
 				57D195D01F19604F00F27BB7 /* AddRideTableViewController.swift in Sources */,
 				57E65EB81F181B3200B39AF4 /* Rider.swift in Sources */,
 				57A00B221F2714BD00842DDF /* BottomProfileViewController.swift in Sources */,
+				578970CF1F45055E0093D8E5 /* SetUserClassViewController.swift in Sources */,
 				57954CB31F3529FF00516A61 /* KeyValueTableViewCell.swift in Sources */,
 				575E7B681F266DCC00C1DD70 /* LoadingPageMain.swift in Sources */,
 				57D195D31F1A728B00F27BB7 /* RideDetailViewController.swift in Sources */,
+				578969CA1F43E0000039768E /* ListOfUsersViewController.swift in Sources */,
 				573853C71F31038100B37228 /* GoogleMapsViewController.swift in Sources */,
 				573853C31F2EBE6100B37228 /* SetLocation.swift in Sources */,
 				5770B5791F3A25FC00E23C51 /* MessagingBackend.swift in Sources */,
+				578970DA1F49056E0093D8E5 /* AddDriverDocViewController.swift in Sources */,
 				57E65E9C1F15D59000B39AF4 /* AppDelegate.swift in Sources */,
+				578970CD1F4404040093D8E5 /* ListOfUsersTableViewCell.swift in Sources */,
 				57A00B271F2726DF00842DDF /* ProfileViewController.swift in Sources */,
 				574724F01F2E9C17003EFFC6 /* Eta.swift in Sources */,
 				574724CD1F2D6619003EFFC6 /* SettingsTableViewController.swift in Sources */,

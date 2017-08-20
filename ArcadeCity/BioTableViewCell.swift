@@ -49,10 +49,13 @@ class BioTableViewCell: UITableViewCell, userInfoDelegate, UITextViewDelegate {
         editBio.isHidden = true
         editBio.endEditing(true)
         bio.isHidden = false
+        updateUserInfo()
     }
     
     func updateUserInfo() {
-        LoadRequests.gRef.child("Users").child((user?.unique)!).child("Bio").setValue(bio.text!)
+        user?.info["Bio"] = bio.text!
+        LoadRequests.updateUser(user: user!)
+        //LoadRequests.gRef.child("Users").child((user?.unique)!).child("Bio").setValue(bio.text!)
     }
     
     func textViewDidBeginEditing(_ textView: UITextView) {
