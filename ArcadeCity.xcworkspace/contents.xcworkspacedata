@@ -2,6 +2,9 @@
 <Workspace
    version = "1.0">
    <FileRef
+      location = "group:DriverDocumentationFooterViewController.swift">
+   </FileRef>
+   <FileRef
       location = "group:ArcadeCity.xcodeproj">
    </FileRef>
    <FileRef

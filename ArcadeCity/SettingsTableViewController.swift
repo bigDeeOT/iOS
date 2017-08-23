@@ -34,11 +34,6 @@ class SettingsTableViewController: UITableViewController {
         navigationController?.navigationBar.isHidden = true
     }
 
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
-    }
-
     // MARK: - Table view data source
 
     override func numberOfSections(in tableView: UITableView) -> Int {
@@ -73,6 +68,8 @@ class SettingsTableViewController: UITableViewController {
             performSegue(withIdentifier: "listOfUsers", sender: nil)
         } else if indexPath.row == settings[0].index(of: "Configure Driver Docs") {
             performSegue(withIdentifier: "configureDocumentation", sender: nil)
+        } else if indexPath.row == settings[0].index(of: "Driver Documentation") {
+            performSegue(withIdentifier: "DriverDocs", sender: nil)
         }
     }
     

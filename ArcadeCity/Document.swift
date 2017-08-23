@@ -12,6 +12,8 @@ class Document {
     var title: String?
     var type: String?
     var index: Int?
+    var value: String?
+    var valueToSave: Any?
     
     init(title: String, type: String, index: Int) {
         self.title = title

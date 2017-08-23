@@ -104,5 +104,4 @@ class MessagingViewController: UIViewController, UITableViewDelegate, UITableVie
         tableView.reloadData()
     }
     
-    
 }

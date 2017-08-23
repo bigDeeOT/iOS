@@ -363,11 +363,12 @@ class LoadRequests {
     
     static func uploadCollage(_ image: UIImage, delegate: BottomProfileViewController) {
         guard let uid = Auth.auth().currentUser?.uid else {
-            print("error uploading image")
+            print("error uploading image, no uid")
             return
         }
-        let refStore = Storage.storage().reference().child("collage").child(uid + ".jpg")
-        let imageData = UIImageJPEGRepresentation(image, 0.01)
+        //let refStore = Storage.storage().reference().child("collage").child(uid + ".jpg")
+        let refStore = Storage.storage().reference().child("\(uid)/Collage.jpg")
+        let imageData = UIImageJPEGRepresentation(image, 0.1)
         refStore.putData(imageData!, metadata: nil) { (meta, err) in
             if err != nil {
                 print("error uploading image data ", err ?? "")

@@ -36,6 +36,11 @@
 		57A00B251F271D8800842DDF /* ImageResize.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57A00B241F271D8800842DDF /* ImageResize.swift */; };
 		57A00B271F2726DF00842DDF /* ProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57A00B261F2726DF00842DDF /* ProfileViewController.swift */; };
 		57A00B291F27D43D00842DDF /* MiddleProfileTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57A00B281F27D43C00842DDF /* MiddleProfileTableViewController.swift */; };
+		57A701011F49D846007D9E1B /* DriverDocumentationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57A701001F49D846007D9E1B /* DriverDocumentationViewController.swift */; };
+		57A701051F49E7BD007D9E1B /* TextDocumentTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57A701041F49E7BD007D9E1B /* TextDocumentTableViewCell.swift */; };
+		57A701071F49E7D2007D9E1B /* DateDocumentTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57A701061F49E7D2007D9E1B /* DateDocumentTableViewCell.swift */; };
+		57A701091F49E80A007D9E1B /* PictureDocumentTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57A701081F49E80A007D9E1B /* PictureDocumentTableViewCell.swift */; };
+		57A7010B1F49EBDC007D9E1B /* DriverDocumentationBackend.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57A7010A1F49EBDC007D9E1B /* DriverDocumentationBackend.swift */; };
 		57BB52C81F241F0700736291 /* TimeAgo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57BB52C71F241F0700736291 /* TimeAgo.swift */; };
 		57D195CC1F19444300F27BB7 /* LoadRequests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57D195CB1F19444300F27BB7 /* LoadRequests.swift */; };
 		57D195D01F19604F00F27BB7 /* AddRideTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57D195CF1F19604F00F27BB7 /* AddRideTableViewController.swift */; };
@@ -91,6 +96,11 @@
 		57A00B241F271D8800842DDF /* ImageResize.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ImageResize.swift; sourceTree = "<group>"; };
 		57A00B261F2726DF00842DDF /* ProfileViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProfileViewController.swift; sourceTree = "<group>"; };
 		57A00B281F27D43C00842DDF /* MiddleProfileTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MiddleProfileTableViewController.swift; sourceTree = "<group>"; };
+		57A701001F49D846007D9E1B /* DriverDocumentationViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DriverDocumentationViewController.swift; sourceTree = "<group>"; };
+		57A701041F49E7BD007D9E1B /* TextDocumentTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TextDocumentTableViewCell.swift; sourceTree = "<group>"; };
+		57A701061F49E7D2007D9E1B /* DateDocumentTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DateDocumentTableViewCell.swift; sourceTree = "<group>"; };
+		57A701081F49E80A007D9E1B /* PictureDocumentTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PictureDocumentTableViewCell.swift; sourceTree = "<group>"; };
+		57A7010A1F49EBDC007D9E1B /* DriverDocumentationBackend.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DriverDocumentationBackend.swift; sourceTree = "<group>"; };
 		57BB52C71F241F0700736291 /* TimeAgo.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TimeAgo.swift; sourceTree = "<group>"; };
 		57D195CB1F19444300F27BB7 /* LoadRequests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoadRequests.swift; sourceTree = "<group>"; };
 		57D195CF1F19604F00F27BB7 /* AddRideTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AddRideTableViewController.swift; sourceTree = "<group>"; };
@@ -144,6 +154,7 @@
 			isa = PBXGroup;
 			children = (
 				574724CC1F2D6619003EFFC6 /* SettingsTableViewController.swift */,
+				57A701021F49D84E007D9E1B /* Driver Documentation */,
 				578969CD1F43E04C0039768E /* List of Users */,
 				578970D01F47BF000093D8E5 /* Configure Driver Docs */,
 			);
@@ -203,6 +214,26 @@
 				574724EF1F2E9C17003EFFC6 /* Eta.swift */,
 			);
 			name = "Help Functions";
+			sourceTree = "<group>";
+		};
+		57A701021F49D84E007D9E1B /* Driver Documentation */ = {
+			isa = PBXGroup;
+			children = (
+				57A7010A1F49EBDC007D9E1B /* DriverDocumentationBackend.swift */,
+				57A701001F49D846007D9E1B /* DriverDocumentationViewController.swift */,
+				57A701031F49E67A007D9E1B /* TableViewCells */,
+			);
+			name = "Driver Documentation";
+			sourceTree = "<group>";
+		};
+		57A701031F49E67A007D9E1B /* TableViewCells */ = {
+			isa = PBXGroup;
+			children = (
+				57A701041F49E7BD007D9E1B /* TextDocumentTableViewCell.swift */,
+				57A701061F49E7D2007D9E1B /* DateDocumentTableViewCell.swift */,
+				57A701081F49E80A007D9E1B /* PictureDocumentTableViewCell.swift */,
+			);
+			name = TableViewCells;
 			sourceTree = "<group>";
 		};
 		57D195D81F1AA11600F27BB7 /* Request Page */ = {
@@ -448,6 +479,7 @@
 				57A00B251F271D8800842DDF /* ImageResize.swift in Sources */,
 				5770B57B1F3AB83D00E23C51 /* Message.swift in Sources */,
 				5753E31C1F379EF000B930E7 /* MightLoginViewController.swift in Sources */,
+				57A701091F49E80A007D9E1B /* PictureDocumentTableViewCell.swift in Sources */,
 				57954CB61F35750100516A61 /* BioTableViewCell.swift in Sources */,
 				5770B57D1F3B57A900E23C51 /* MyMessageTableViewCell.swift in Sources */,
 				57E65EBD1F185A1200B39AF4 /* RideRequest.swift in Sources */,
@@ -457,6 +489,7 @@
 				578969CF1F43E13C0039768E /* ListOfUsersBackend.swift in Sources */,
 				57BB52C81F241F0700736291 /* TimeAgo.swift in Sources */,
 				57D195DC1F1AE50900F27BB7 /* PostCollageViewController.swift in Sources */,
+				57A701011F49D846007D9E1B /* DriverDocumentationViewController.swift in Sources */,
 				573FEC4F1F2B0AB6007A001F /* PreselectedDrivers.swift in Sources */,
 				57D195D71F1A7FB700F27BB7 /* User.swift in Sources */,
 				578970D61F48DB320093D8E5 /* Document.swift in Sources */,
@@ -464,11 +497,13 @@
 				57E65EB81F181B3200B39AF4 /* Rider.swift in Sources */,
 				57A00B221F2714BD00842DDF /* BottomProfileViewController.swift in Sources */,
 				578970CF1F45055E0093D8E5 /* SetUserClassViewController.swift in Sources */,
+				57A701051F49E7BD007D9E1B /* TextDocumentTableViewCell.swift in Sources */,
 				57954CB31F3529FF00516A61 /* KeyValueTableViewCell.swift in Sources */,
 				575E7B681F266DCC00C1DD70 /* LoadingPageMain.swift in Sources */,
 				57D195D31F1A728B00F27BB7 /* RideDetailViewController.swift in Sources */,
 				578969CA1F43E0000039768E /* ListOfUsersViewController.swift in Sources */,
 				573853C71F31038100B37228 /* GoogleMapsViewController.swift in Sources */,
+				57A7010B1F49EBDC007D9E1B /* DriverDocumentationBackend.swift in Sources */,
 				573853C31F2EBE6100B37228 /* SetLocation.swift in Sources */,
 				5770B5791F3A25FC00E23C51 /* MessagingBackend.swift in Sources */,
 				578970DA1F49056E0093D8E5 /* AddDriverDocViewController.swift in Sources */,
@@ -480,6 +515,7 @@
 				57A00B291F27D43D00842DDF /* MiddleProfileTableViewController.swift in Sources */,
 				5708175B1F2989120062DB68 /* ImageViewController.swift in Sources */,
 				57E65EC11F185C3A00B39AF4 /* Driver.swift in Sources */,
+				57A701071F49E7D2007D9E1B /* DateDocumentTableViewCell.swift in Sources */,
 				57954CB81F36309500516A61 /* PaymentsTableViewCell.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
