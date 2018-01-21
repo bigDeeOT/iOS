@@ -78,10 +78,10 @@ class DriverDocumentationBackend {
     }
     
     private func savePictureDoc(_ doc: Document) {
-        guard let picture = doc.valueToSave else {return}
+        guard let picture = doc.valueToSave as? UIImage else {return}
         guard let uid = Auth.auth().currentUser?.uid else { print("can't get UID"); return }
         let refStore = Storage.storage().reference().child("\(uid)/Documentation/\(doc.title!).jpg")
-        let imageData = UIImageJPEGRepresentation(picture as! UIImage, 0.1)
+        let imageData = UIImageJPEGRepresentation(picture, 0.1)
         refStore.putData(imageData!, metadata: nil) { (meta, err) in
             if err != nil { print("error uploading image data ", err!); return }
             let url = String(describing: (meta?.downloadURL())!)

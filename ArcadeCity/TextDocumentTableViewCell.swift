@@ -17,6 +17,8 @@ class TextDocumentTableViewCell: UITableViewCell, UITextFieldDelegate {
     var document: Document! {
         didSet {
             title.text = document.title
+            title.lineBreakMode = .byWordWrapping
+            title.numberOfLines = 0
             textField.text = document.value
             textField.addTarget(self, action: #selector(saveText), for: .editingDidEnd)
             textField.addTarget(self, action: #selector(linkToDismiss), for: .editingDidBegin)
@@ -49,8 +51,6 @@ class TextDocumentTableViewCell: UITableViewCell, UITextFieldDelegate {
             //only move screen up if textfield will be blocked by keyboard
             let cellRect = controller.tableView.rectForRow(at: indexPath)
             let cellRectGlobal = controller.tableView.convert(cellRect, to: nil)
-            //print(cellRectGlobal.origin.y + textField.frame.origin.y + textField.frame.size.height + 20)
-            //print(UIScreen.main.bounds.height - 165)
             if (cellRectGlobal.origin.y + textField.frame.origin.y + textField.frame.size.height + 20) < (UIScreen.main.bounds.height - 165) {
                 return
             }

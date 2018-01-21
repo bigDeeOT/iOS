@@ -21,8 +21,17 @@ class ListOfUsersBackend {
         loadList()
     }
     
+    /*
     func loadList() {
         LoadRequests.gRef.child(group).queryOrderedByKey().queryLimited(toLast: pageSize).observeSingleEvent(of: .value, with: { (snap) in
+            guard snap.exists() else {self.controller?.tableViewUsers.reloadData();return}
+            self.createUsers(from: snap)
+        })
+    }
+ */
+    
+    func loadList() {
+        LoadRequests.gRef.child(group).queryOrdered(byChild: "Name").queryLimited(toLast: pageSize).observeSingleEvent(of: .value, with: { (snap) in
             guard snap.exists() else {self.controller?.tableViewUsers.reloadData();return}
             self.createUsers(from: snap)
         })

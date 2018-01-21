@@ -94,6 +94,7 @@ class BottomProfileViewController: UIViewController, UIImagePickerControllerDele
                         self?.collage.isHidden = false
                         self?.collage?.image = UIImage(data: imageData as Data)
                         self?.collage?.layer.borderWidth = 1
+                        self?.collage?.layer.cornerRadius = 3
                         self?.collage?.layer.borderColor = UIColor.lightGray.cgColor
                         self?.updateCollageSize()
                     }

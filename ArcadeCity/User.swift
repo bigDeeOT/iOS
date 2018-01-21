@@ -26,7 +26,7 @@ class User {
             info["Unique"] = unique
         }
     }
-    var keys = ["Name", "Class", "Bio", "Phone", "Car", "Payments", "Profile Pic URL", "Rides Requested", "Rides Taken", "Rides Offered", "Rides Given", "Collage URL"]
+    var keys = ["Name", "Class", "Bio", "Phone", "Car", "Payments", "Date Joined", "Profile Pic URL", "Rides Requested", "Rides Taken", "Rides Offered", "Rides Given", "Collage URL"]
     var keysToNotDisplay: Set = ["Profile Pic URL", "Collage URL"]
     var keysOnlyForDrivers: Set = ["Rides Given", "Rides Offered", "Car", "Phone"]
     var keysForEditing = ["Phone", "Bio", "Car", "Payments"]
@@ -35,7 +35,7 @@ class User {
         get {
             var newKeys = keys
             var badKeys = keysToNotDisplay
-            if info["Class"] == "Rider" {
+            if info["Class"] == "Rider" || info["Class"] == "Pending Driver" {
                 badKeys = badKeys.union(keysOnlyForDrivers)
             }
             //sure it's O(n^2) but it's not like these keys will scale to large numbers
@@ -79,6 +79,10 @@ class User {
         info["Class"] =                "Rider"
         info["Class"] =                "Rider"
         info["Car"]  =                 "Color Make Model"
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "MM-dd-yyyy hh:mm:ss a"
+        let date = dateFormatter.string(from: Date())
+        info["Date Joined"] = date
         for driver in PreselectedDrivers.drivers {
             if info["Name"] == driver {
                 info["Class"] = "Driver"

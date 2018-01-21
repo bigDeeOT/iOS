@@ -41,14 +41,17 @@
 		57A701071F49E7D2007D9E1B /* DateDocumentTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57A701061F49E7D2007D9E1B /* DateDocumentTableViewCell.swift */; };
 		57A701091F49E80A007D9E1B /* PictureDocumentTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57A701081F49E80A007D9E1B /* PictureDocumentTableViewCell.swift */; };
 		57A7010B1F49EBDC007D9E1B /* DriverDocumentationBackend.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57A7010A1F49EBDC007D9E1B /* DriverDocumentationBackend.swift */; };
+		57AABB212012CA97003CDA64 /* ConversationBackend.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57AABB202012CA97003CDA64 /* ConversationBackend.swift */; };
+		57AABB232012CAE7003CDA64 /* Conversation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57AABB222012CAE7003CDA64 /* Conversation.swift */; };
+		57AABB272013EC84003CDA64 /* ConversationsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57AABB262013EC84003CDA64 /* ConversationsViewController.swift */; };
 		57BB52C81F241F0700736291 /* TimeAgo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57BB52C71F241F0700736291 /* TimeAgo.swift */; };
+		57C7D925200BCF4F0036B688 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 57C7D923200AC5500036B688 /* GoogleService-Info.plist */; };
 		57D195CC1F19444300F27BB7 /* LoadRequests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57D195CB1F19444300F27BB7 /* LoadRequests.swift */; };
 		57D195D01F19604F00F27BB7 /* AddRideTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57D195CF1F19604F00F27BB7 /* AddRideTableViewController.swift */; };
 		57D195D31F1A728B00F27BB7 /* RideDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57D195D21F1A728B00F27BB7 /* RideDetailViewController.swift */; };
 		57D195D51F1A756000F27BB7 /* RideDetailTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57D195D41F1A756000F27BB7 /* RideDetailTableViewCell.swift */; };
 		57D195D71F1A7FB700F27BB7 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57D195D61F1A7FB700F27BB7 /* User.swift */; };
 		57D195DC1F1AE50900F27BB7 /* PostCollageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57D195DB1F1AE50900F27BB7 /* PostCollageViewController.swift */; };
-		57D195DE1F1C7B5F00F27BB7 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 57D195DD1F1C7B5F00F27BB7 /* GoogleService-Info.plist */; };
 		57E65E9C1F15D59000B39AF4 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57E65E9B1F15D59000B39AF4 /* AppDelegate.swift */; };
 		57E65EA11F15D59000B39AF4 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 57E65E9F1F15D59000B39AF4 /* Main.storyboard */; };
 		57E65EA41F15D59000B39AF4 /* ArcadeCity.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 57E65EA21F15D59000B39AF4 /* ArcadeCity.xcdatamodeld */; };
@@ -101,14 +104,17 @@
 		57A701061F49E7D2007D9E1B /* DateDocumentTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DateDocumentTableViewCell.swift; sourceTree = "<group>"; };
 		57A701081F49E80A007D9E1B /* PictureDocumentTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PictureDocumentTableViewCell.swift; sourceTree = "<group>"; };
 		57A7010A1F49EBDC007D9E1B /* DriverDocumentationBackend.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DriverDocumentationBackend.swift; sourceTree = "<group>"; };
+		57AABB202012CA97003CDA64 /* ConversationBackend.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConversationBackend.swift; sourceTree = "<group>"; };
+		57AABB222012CAE7003CDA64 /* Conversation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Conversation.swift; sourceTree = "<group>"; };
+		57AABB262013EC84003CDA64 /* ConversationsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConversationsViewController.swift; sourceTree = "<group>"; };
 		57BB52C71F241F0700736291 /* TimeAgo.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TimeAgo.swift; sourceTree = "<group>"; };
+		57C7D923200AC5500036B688 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		57D195CB1F19444300F27BB7 /* LoadRequests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoadRequests.swift; sourceTree = "<group>"; };
 		57D195CF1F19604F00F27BB7 /* AddRideTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AddRideTableViewController.swift; sourceTree = "<group>"; };
 		57D195D21F1A728B00F27BB7 /* RideDetailViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RideDetailViewController.swift; sourceTree = "<group>"; };
 		57D195D41F1A756000F27BB7 /* RideDetailTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RideDetailTableViewCell.swift; sourceTree = "<group>"; };
 		57D195D61F1A7FB700F27BB7 /* User.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
 		57D195DB1F1AE50900F27BB7 /* PostCollageViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PostCollageViewController.swift; sourceTree = "<group>"; };
-		57D195DD1F1C7B5F00F27BB7 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		57E65E981F15D59000B39AF4 /* ArcadeCity.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ArcadeCity.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		57E65E9B1F15D59000B39AF4 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		57E65EA01F15D59000B39AF4 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
@@ -141,11 +147,8 @@
 		5770B5751F3A259500E23C51 /* Messaging */ = {
 			isa = PBXGroup;
 			children = (
-				5770B5761F3A25C100E23C51 /* MessagingViewController.swift */,
-				5770B57C1F3B57A900E23C51 /* MyMessageTableViewCell.swift */,
-				5770B57E1F3B57E500E23C51 /* TheirMessageTableViewCell.swift */,
-				5770B57A1F3AB83D00E23C51 /* Message.swift */,
-				5770B5781F3A25FC00E23C51 /* MessagingBackend.swift */,
+				57AABB252013EBC0003CDA64 /* Messages */,
+				57AABB242013EBAF003CDA64 /* Conversation List */,
 			);
 			name = Messaging;
 			sourceTree = "<group>";
@@ -236,6 +239,28 @@
 			name = TableViewCells;
 			sourceTree = "<group>";
 		};
+		57AABB242013EBAF003CDA64 /* Conversation List */ = {
+			isa = PBXGroup;
+			children = (
+				57AABB202012CA97003CDA64 /* ConversationBackend.swift */,
+				57AABB222012CAE7003CDA64 /* Conversation.swift */,
+				57AABB262013EC84003CDA64 /* ConversationsViewController.swift */,
+			);
+			name = "Conversation List";
+			sourceTree = "<group>";
+		};
+		57AABB252013EBC0003CDA64 /* Messages */ = {
+			isa = PBXGroup;
+			children = (
+				5770B5761F3A25C100E23C51 /* MessagingViewController.swift */,
+				5770B57C1F3B57A900E23C51 /* MyMessageTableViewCell.swift */,
+				5770B57E1F3B57E500E23C51 /* TheirMessageTableViewCell.swift */,
+				5770B5781F3A25FC00E23C51 /* MessagingBackend.swift */,
+				5770B57A1F3AB83D00E23C51 /* Message.swift */,
+			);
+			name = Messages;
+			sourceTree = "<group>";
+		};
 		57D195D81F1AA11600F27BB7 /* Request Page */ = {
 			isa = PBXGroup;
 			children = (
@@ -299,7 +324,7 @@
 			isa = PBXGroup;
 			children = (
 				573FEC4E1F2B0AB6007A001F /* PreselectedDrivers.swift */,
-				57D195DD1F1C7B5F00F27BB7 /* GoogleService-Info.plist */,
+				57C7D923200AC5500036B688 /* GoogleService-Info.plist */,
 				57E65E9B1F15D59000B39AF4 /* AppDelegate.swift */,
 				57E65EA51F15D59000B39AF4 /* Assets.xcassets */,
 				57E65EA71F15D59000B39AF4 /* LaunchScreen.storyboard */,
@@ -380,6 +405,9 @@
 							com.apple.Keychain = {
 								enabled = 1;
 							};
+							com.apple.Push = {
+								enabled = 1;
+							};
 						};
 					};
 				};
@@ -408,7 +436,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				57E65EA91F15D59000B39AF4 /* LaunchScreen.storyboard in Resources */,
-				57D195DE1F1C7B5F00F27BB7 /* GoogleService-Info.plist in Resources */,
+				57C7D925200BCF4F0036B688 /* GoogleService-Info.plist in Resources */,
 				57E65EA61F15D59000B39AF4 /* Assets.xcassets in Resources */,
 				57E65EA11F15D59000B39AF4 /* Main.storyboard in Resources */,
 			);
@@ -423,9 +451,28 @@
 			files = (
 			);
 			inputPaths = (
+				"${SRCROOT}/Pods/Target Support Files/Pods-ArcadeCity/Pods-ArcadeCity-frameworks.sh",
+				"${BUILT_PRODUCTS_DIR}/Bolts/Bolts.framework",
+				"${BUILT_PRODUCTS_DIR}/FBSDKCoreKit/FBSDKCoreKit.framework",
+				"${BUILT_PRODUCTS_DIR}/FBSDKLoginKit/FBSDKLoginKit.framework",
+				"${BUILT_PRODUCTS_DIR}/FBSDKShareKit/FBSDKShareKit.framework",
+				"${BUILT_PRODUCTS_DIR}/GTMSessionFetcher/GTMSessionFetcher.framework",
+				"${BUILT_PRODUCTS_DIR}/GoogleToolboxForMac/GoogleToolboxForMac.framework",
+				"${BUILT_PRODUCTS_DIR}/Protobuf/Protobuf.framework",
+				"${BUILT_PRODUCTS_DIR}/leveldb-library/leveldb.framework",
+				"${BUILT_PRODUCTS_DIR}/nanopb/nanopb.framework",
 			);
 			name = "[CP] Embed Pods Frameworks";
 			outputPaths = (
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Bolts.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/FBSDKCoreKit.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/FBSDKLoginKit.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/FBSDKShareKit.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GTMSessionFetcher.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GoogleToolboxForMac.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Protobuf.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/leveldb.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/nanopb.framework",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
@@ -438,9 +485,12 @@
 			files = (
 			);
 			inputPaths = (
+				"${SRCROOT}/Pods/Target Support Files/Pods-ArcadeCity/Pods-ArcadeCity-resources.sh",
+				"${PODS_ROOT}/GoogleMaps/Maps/Frameworks/GoogleMaps.framework/Versions/A/Resources/GoogleMaps.bundle",
 			);
 			name = "[CP] Copy Pods Resources";
 			outputPaths = (
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
@@ -453,13 +503,16 @@
 			files = (
 			);
 			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
 			);
 			name = "[CP] Check Pods Manifest.lock";
 			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-ArcadeCity-checkManifestLockResult.txt",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n";
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
 /* End PBXShellScriptBuildPhase section */
@@ -493,6 +546,7 @@
 				573FEC4F1F2B0AB6007A001F /* PreselectedDrivers.swift in Sources */,
 				57D195D71F1A7FB700F27BB7 /* User.swift in Sources */,
 				578970D61F48DB320093D8E5 /* Document.swift in Sources */,
+				57AABB212012CA97003CDA64 /* ConversationBackend.swift in Sources */,
 				57D195D01F19604F00F27BB7 /* AddRideTableViewController.swift in Sources */,
 				57E65EB81F181B3200B39AF4 /* Rider.swift in Sources */,
 				57A00B221F2714BD00842DDF /* BottomProfileViewController.swift in Sources */,
@@ -506,6 +560,8 @@
 				57A7010B1F49EBDC007D9E1B /* DriverDocumentationBackend.swift in Sources */,
 				573853C31F2EBE6100B37228 /* SetLocation.swift in Sources */,
 				5770B5791F3A25FC00E23C51 /* MessagingBackend.swift in Sources */,
+				57AABB232012CAE7003CDA64 /* Conversation.swift in Sources */,
+				57AABB272013EC84003CDA64 /* ConversationsViewController.swift in Sources */,
 				578970DA1F49056E0093D8E5 /* AddDriverDocViewController.swift in Sources */,
 				57E65E9C1F15D59000B39AF4 /* AppDelegate.swift in Sources */,
 				578970CD1F4404040093D8E5 /* ListOfUsersTableViewCell.swift in Sources */,

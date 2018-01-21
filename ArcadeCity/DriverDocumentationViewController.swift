@@ -15,14 +15,9 @@ class DriverDocumentationViewController: UIViewController, UITableViewDelegate, 
     var cellToDismissKeybaord: TextDocumentTableViewCell?
     var tableViewDefaultInset: UIEdgeInsets?
     var datePickerCache: [UIDatePicker?] = []
+    var picturesCache: [Int: UIImage] = [:]
     var submitButton: UIButton!
-    var user: User? {
-        didSet {
-            if user?.unique != RequestPageViewController.userName?.unique {
-                documentsAreForEditing = false
-            }
-        }
-    }
+    var user: User?
     @IBOutlet weak var headerText: UILabel!
     
     override func viewDidLoad() {
@@ -33,7 +28,7 @@ class DriverDocumentationViewController: UIViewController, UITableViewDelegate, 
         backend.user = user
         backend.controller = self
         backend.pullDocs()
-        attachFooter()
+        if documentsAreForEditing == true { attachFooter() }
         tableView.rowHeight = UITableViewAutomaticDimension
         tableView.estimatedRowHeight = 100
         tableView.separatorStyle = .none
@@ -59,8 +54,12 @@ class DriverDocumentationViewController: UIViewController, UITableViewDelegate, 
     private func attachFooter() {
         let footer = UITableViewHeaderFooterView()
         let button = UIButton()
-        button.setTitle("Submit Documents", for: .normal)
-        let text = NSMutableAttributedString(string: "Submit Documents", attributes: [
+        //button.setTitle("Submit Documents", for: .normal)
+        var buttonText = "Submit Documents"
+        if (user?.info["Class"] == "Driver") || (user?.info["Class"] == "Pending Driver") {
+            buttonText = "Update Documents"
+        }
+        let text = NSMutableAttributedString(string: buttonText, attributes: [
             NSFontAttributeName : UIFont.boldSystemFont(ofSize: 15),
             NSForegroundColorAttributeName : UIColor.white,
             ])
@@ -70,17 +69,36 @@ class DriverDocumentationViewController: UIViewController, UITableViewDelegate, 
         button.layer.cornerRadius = 10
         button.backgroundColor = UIColor.red
         button.frame.origin.x = (UIScreen.main.bounds.width - button.frame.size.width) / 2
-        button.frame.origin.y = 15
+        button.frame.origin.y = 35
         button.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(submit)))
         button.isUserInteractionEnabled = true
         submitButton = button
         footer.addSubview(button)
         tableView.tableFooterView = footer
         tableView.tableFooterView?.frame.size.width = UIScreen.main.bounds.width
-        tableView.tableFooterView?.frame.size.height = button.frame.height + 15
+        tableView.tableFooterView?.frame.size.height = button.frame.height + 35
     }
     
     func submit() {
+        if user?.info["Class"] != "Driver" {
+            saveDocuments()
+        } else {
+            submitOptions()
+        }
+    }
+    
+    func submitOptions() {
+        let actionSheet = UIAlertController(title: "Submitting Documents will change your class from Driver to Pending Driver", message: nil, preferredStyle: .alert)
+        let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
+        let okAction = UIAlertAction(title: "Ok", style: .default) { (action) in
+            self.saveDocuments()
+        }
+        actionSheet.addAction(cancelAction)
+        actionSheet.addAction(okAction)
+        present(actionSheet, animated: true, completion: nil)
+    }
+    
+    func saveDocuments() {
         backend.saveDocuments()
         let text = NSMutableAttributedString(string: "Submitted!", attributes: [
             NSFontAttributeName : UIFont.boldSystemFont(ofSize: 15),
@@ -88,7 +106,12 @@ class DriverDocumentationViewController: UIViewController, UITableViewDelegate, 
             ])
         submitButton.setAttributedTitle(text, for: .normal)
         submitButton.isUserInteractionEnabled = false
-        submitButton.backgroundColor = UIColor.green
+        submitButton.backgroundColor = UIColor(red:0.54, green:0.85, blue:0.98, alpha:1.0)
+        if (user!.info["Class"] != "Moderator") && (user!.info["Class"] != "Admin") {
+            LoadRequests.gRef.child("\(user!.info["Class"] ?? "")s/\(user!.unique ?? "")").removeValue()
+            user!.info["Class"] = "Pending Driver"
+            LoadRequests.updateUser(user: user!)
+        }
     }
 
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -101,14 +124,15 @@ class DriverDocumentationViewController: UIViewController, UITableViewDelegate, 
         let cell = tableView.dequeueReusableCell(withIdentifier: cellType!, for: indexPath)
         if let cell = cell as? TextDocumentTableViewCell {
             cell.controller = self
-            cell.document = document
             cell.indexPath = indexPath
+            cell.document = document
         } else if let cell = cell as? DateDocumentTableViewCell {
             cell.controller = self
             cell.indexPath = indexPath
             cell.document = document
         } else if let cell = cell as? PictureDocumentTableViewCell {
             cell.controller = self
+            cell.indexPath = indexPath
             cell.document = document
         }
         return cell
@@ -116,7 +140,7 @@ class DriverDocumentationViewController: UIViewController, UITableViewDelegate, 
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         if backend.documents[indexPath.row].type == "Picture" {
-            return 270
+            return 280
         } else {
             return UITableViewAutomaticDimension
         }

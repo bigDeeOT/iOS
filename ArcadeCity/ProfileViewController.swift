@@ -32,10 +32,11 @@ class ProfileViewController: UIViewController {
         backButton.textColor = UIColor.white
         view.addSubview(backButton)
         backButton.frame.origin.x = 20
-        let arrow = NSMutableAttributedString(string: " <   ", attributes: [NSFontAttributeName : UIFont.systemFont(ofSize: 25)])
+        let arrow = NSMutableAttributedString(string: " <   \n     ", attributes: [NSFontAttributeName : UIFont.boldSystemFont(ofSize: 25)])
         backButton.attributedText = arrow
         backButton.sizeToFit()
-        backButton.frame.origin.y = middleView.frame.origin.y - (backButton.frame.size.height / 2) - 2
+        //backButton.frame.origin.y = middleView.frame.origin.y - (backButton.frame.size.height / 2) - 2
+        backButton.frame.origin.y = 55
         backButton.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(goBack)))
         backButton.isUserInteractionEnabled = true
     }

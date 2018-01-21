@@ -28,15 +28,6 @@ class LoadRequests {
     static var requestEditedLocally: String?
     static var recentlyDeletedRequest: String?
     
-    init() {
-        if LoadRequests.needToLoad {
-       //       LoadRequests.loadRequestsFullOfJunk()
-            LoadRequests.needToLoad = false
-        }
-        ref = Database.database().reference()
-        LoadRequests.gRef = ref
-    }
-    
     static func clear() {
         for request in requestList {
             if request.unique != nil {
@@ -63,7 +54,7 @@ class LoadRequests {
         addRequestToList(request)
         let autoID = LoadRequests.gRef.child("Requests").childByAutoId().key
         LoadRequests.gRef.child("Requests/\(autoID)").setValue(request.info)
-        LoadRequests.gRef.child("Requests by Users/\((request.rider?.unique)!)/Requests/\(autoID)").setValue("True")
+        LoadRequests.gRef.child("Requests by Users/\((request.rider?.unique)!)/Requests/\(autoID)").setValue(request.info)
         request.unique = autoID
     }
     
@@ -82,6 +73,7 @@ class LoadRequests {
             key2 : value2
         ]
         LoadRequests.gRef.child("Requests/\(request.unique!)").updateChildValues(updateData)
+        LoadRequests.gRef.child("Requests by Users/\((request.rider?.unique)!)/Requests/\(request.unique!)").updateChildValues(updateData)
     }
     
     static func addOffer(_ offer: Offer, for rideRequest: RideRequest) {
@@ -100,6 +92,7 @@ class LoadRequests {
         offer.unique = offerID
         rideRequest.delegate?.updateUI()
         LoadRequests.gRef.child("Requests/\(rideRequest.unique!)/Offers/\(offerID)").setValue("True")
+        LoadRequests.gRef.child("Requests by Users/\((rideRequest.rider?.unique)!)/Requests/\(rideRequest.unique!)/Offers/\(offerID)").setValue("True")
     }
     
     func getNumberOfRideRequests() {
@@ -112,7 +105,13 @@ class LoadRequests {
     }
     
     func listenForRequest() {
-        self.ref.child("Requests").queryLimited(toLast: requestPageSize).observe(.childAdded, with: { [weak self] (snapshot) in
+        var requestDirectory = "Requests"
+        let userClass = RequestPageViewController.userName?.info["Class"]
+        let unique = RequestPageViewController.userName?.unique
+        if (userClass == "Rider") || (userClass == "Pending Driver") {
+            requestDirectory = "Requests by Users/\((unique)!)/Requests"
+        }
+        self.ref.child(requestDirectory).queryLimited(toLast: requestPageSize).observe(.childAdded, with: { [weak self] (snapshot) in
             if self?.firstPageBoundarySet == false {
                 self?.firstPageBoundarySet = true
                 self?.requestPageBoundary = snapshot.key
@@ -129,7 +128,13 @@ class LoadRequests {
     }
     
     func listenForMoreRequest() {
-        ref.child("Requests").queryOrderedByKey().queryLimited(toLast: requestPageSize).queryEnding(atValue: requestPageBoundary).observeSingleEvent(of: .value, with: { [weak self] (snap) in
+        var requestDirectory = "Requests"
+        let userClass = RequestPageViewController.userName?.info["Class"]
+        let unique = RequestPageViewController.userName?.unique
+        if (userClass == "Rider") || (userClass == "Pending Driver") {
+            requestDirectory = "Requests by Users/\((unique)!)/Requests"
+        }
+        ref.child(requestDirectory).queryOrderedByKey().queryLimited(toLast: requestPageSize).queryEnding(atValue: requestPageBoundary).observeSingleEvent(of: .value, with: { [weak self] (snap) in
             guard snap.exists() else {return}
             guard snap.children.allObjects.count > 1 else {self?.requestPage.loadedAllCells = true; return}
             let keyFromLastPage = (self?.requestPageBoundary)!
@@ -153,7 +158,7 @@ class LoadRequests {
             request.rider = user
             //get offers
             self?.listenForOffer(request)
-            self?.requestPage.rideRequestList.reloadData()
+            self?.requestPage.rideRequestList?.reloadData()
             self?.requestPage.requestJustAdded = request
         })
     }
@@ -214,7 +219,7 @@ class LoadRequests {
                     offer.driver = offerDriver
                     request.offers?.append(offer)
                     request.delegate?.reload()
-                    self?.requestPage.rideRequestList.reloadData()
+                    self?.requestPage.rideRequestList?.reloadData()
                     request.delegate?.updateUI()
                 })
             })
@@ -279,6 +284,17 @@ class LoadRequests {
         })
     }
     
+    func configureFirebase() {
+        if FirebaseApp.app() == nil {
+            FirebaseApp.configure()
+        }
+        if LoadRequests.needToLoad {
+            //       LoadRequests.loadRequestsFullOfJunk()
+            LoadRequests.needToLoad = false
+        }
+        ref = Database.database().reference()
+        LoadRequests.gRef = ref
+    }
     
     func login(fromViewController vc: UIViewController) {
         FBSDKLoginManager().logIn(withReadPermissions: ["email", "public_profile"], from: vc) {[weak self]  (result, err) in
@@ -293,6 +309,7 @@ class LoadRequests {
             self?.loginPageDelegate.finishedLogin()
             let credential = FacebookAuthProvider.credential(withAccessToken: accessToken)
             //sign in with firebase
+            self?.configureFirebase()
             Auth.auth().signIn(with: credential) { [weak self] (user, err) in
                 if err != nil {
                     print("\ncould not authenticate firebase fb signin",err ?? "")
@@ -304,17 +321,26 @@ class LoadRequests {
         }
     }
     
+    func setNotificationToken(_ firebaseID: String) {
+        let token = Messaging.messaging().fcmToken
+        ref.child("Users").child("\(firebaseID)/pushToken").setValue(token)
+        
+    }
+    
     func checkIfUserExists() {
+        configureFirebase()
         guard let firebaseID = Auth.auth().currentUser?.uid else {
             print("not logged in to firebase. huge error")
             return
         }
+        
         self.ref.child("Users").child(firebaseID).observeSingleEvent(of: .value, with: { [weak self] (snapshot) in
             guard snapshot.exists() else {
                 print("user does not exist in firebase database", firebaseID)
                 self?.createNewUserInFirebase(firebaseID)
                 return
             }
+            self?.setNotificationToken(firebaseID)
             let user = self?.pullUserFromFirebase(snapshot)
             RequestPageViewController.userName = user
             self?.startListening()
@@ -340,6 +366,7 @@ class LoadRequests {
             let user = User(url: picURL, name: fbInfo["name"]!)
             user.unique = firebaseID
             self?.ref.child("Users").child(firebaseID).setValue(user.info)
+            self?.setNotificationToken(firebaseID)
             RequestPageViewController.userName = user
             self?.startListening()
             self?.requestPage.rideRequestList.reloadData()
@@ -366,7 +393,6 @@ class LoadRequests {
             print("error uploading image, no uid")
             return
         }
-        //let refStore = Storage.storage().reference().child("collage").child(uid + ".jpg")
         let refStore = Storage.storage().reference().child("\(uid)/Collage.jpg")
         let imageData = UIImageJPEGRepresentation(image, 0.1)
         refStore.putData(imageData!, metadata: nil) { (meta, err) in

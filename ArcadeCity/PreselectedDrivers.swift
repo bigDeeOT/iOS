@@ -13,9 +13,9 @@ struct PreselectedDrivers {
 }
 
 struct PreselectedModerators {
-    static let mods: [String] = ["Sarah DeCaro", "Omar A. Grado", "Christy Sabella", "A.J. Sandoval", "Louis Paul Rogers"]
+    static let mods: [String] = ["No one"]
 }
 
 struct PreselectedAdmins {
-    static let admins: [String] = ["Christopher David", "Natalie Williams", "Eric Green"]
+    static let admins: [String] = ["Dew Douglass"]
 }

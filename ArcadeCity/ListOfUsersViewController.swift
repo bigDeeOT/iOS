@@ -12,10 +12,10 @@ class ListOfUsersViewController: UIViewController, UITableViewDelegate, UITableV
 
     var navBarColor = UIColor(red:0.16, green:0.46, blue:0.75, alpha:1.0)
     @IBOutlet weak var userGroup: UISegmentedControl!
-    var options = ["Users","Drivers","Moderators","Admins","Banneds"]
+    var options = ["Users","Drivers","Moderators","Admins","Banneds","Pending Drivers"]
     @IBOutlet weak var tableViewUsers: UITableView!
     var backend = ListOfUsersBackend()
-    var profilePicsCache: [[String:UIImage]] = [[:],[:],[:],[:],[:]]
+    var profilePicsCache: [[String:UIImage]] = [[:],[:],[:],[:],[:],[:]]
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -23,7 +23,8 @@ class ListOfUsersViewController: UIViewController, UITableViewDelegate, UITableV
         tableViewUsers.delegate = self
         tableViewUsers.dataSource = self
         let userClass = RequestPageViewController.userName?.info["Class"]
-        if (userClass == "Rider") || (userClass == "Driver") {
+        if (userClass == "Rider") || (userClass == "Pending Driver") || (userClass == "Driver") {
+            userGroup.removeSegment(at: 5, animated: false)
             userGroup.removeSegment(at: 4, animated: false)
         }
     }
@@ -65,6 +66,7 @@ class ListOfUsersViewController: UIViewController, UITableViewDelegate, UITableV
             cell.user = backend.users[indexPath.row]
             cell.controller = self
         }
+        cell?.selectionStyle = .none
         return cell!
     }
     
@@ -75,12 +77,17 @@ class ListOfUsersViewController: UIViewController, UITableViewDelegate, UITableV
         }
     }
     
+    
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if let vc = segue.destination as? ProfileViewController {
             vc.user = sender as? User
         }
         if let vc = segue.destination as? SetUserClassViewController {
             vc.user = sender as? User
+        }
+        if let vc = segue.destination as? DriverDocumentationViewController {
+            vc.user = sender as? User
+            vc.documentsAreForEditing = false
         }
     }
     

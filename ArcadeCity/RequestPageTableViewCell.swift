@@ -83,7 +83,7 @@ class RequestPageTableViewCell: UITableViewCell {
                     }
                 }
             }
-        } else {
+            } else {
             print("invalid profile pic url")
         }
     }
@@ -108,7 +108,8 @@ class RequestPageTableViewCell: UITableViewCell {
                     return
                 }
                 //don't show "offer ride" to riders
-                if RequestPageViewController.userName?.info["Class"] == "Rider" {
+                if (RequestPageViewController.userName?.info["Class"] == "Rider") ||
+                    (RequestPageViewController.userName?.info["Class"] == "Pending Driver") {
                     offerRideButton?.isHidden = true
                 } else {
                     //dont show "offer ride" if it's your own request

@@ -39,8 +39,8 @@ class MiddleProfileTableViewController: UITableViewController {
         tableView.contentInset = UIEdgeInsetsMake(50, 0, 0, 0)
         tableView.rowHeight = UITableViewAutomaticDimension
         tableView.estimatedRowHeight = 30
-        if user?.info["Class"] == "Rider" {
-            tableView.tableFooterView = nil
+        if user?.info["Class"] == "Rider" || user?.info["Class"] == "Pending Driver" {
+            tableView.tableFooterView?.isHidden = true
         }
     }
     
@@ -71,6 +71,11 @@ class MiddleProfileTableViewController: UITableViewController {
         data = user?.getViewableData()
         keys = user?.keysToDisplay
         keysForEditing = user?.keysForEditing
+        if user?.info["Class"] != "Rider" {
+            tableView.tableFooterView?.isHidden = false
+        } else {
+            tableView.tableFooterView?.isHidden = true
+        }
         tableView.reloadData()
     }
     

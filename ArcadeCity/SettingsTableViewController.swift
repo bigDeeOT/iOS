@@ -21,7 +21,7 @@ class SettingsTableViewController: UITableViewController {
         self.tableView.contentInset = UIEdgeInsetsMake(44,0,0,0);
         tableView.tableFooterView = UIView()
         let userClass = RequestPageViewController.userName?.info["Class"]
-        if (userClass == "Rider") || (userClass == "Driver") {
+        if (userClass == "Rider") || (userClass == "Pending Driver") || (userClass == "Driver") {
             settings[0].remove(at: settings[0].index(of: "Configure Driver Docs")!)
         }
         if (userClass == "Rider") {
@@ -68,7 +68,7 @@ class SettingsTableViewController: UITableViewController {
             performSegue(withIdentifier: "listOfUsers", sender: nil)
         } else if indexPath.row == settings[0].index(of: "Configure Driver Docs") {
             performSegue(withIdentifier: "configureDocumentation", sender: nil)
-        } else if indexPath.row == settings[0].index(of: "Driver Documentation") {
+        } else if (indexPath.row == settings[0].index(of: "Driver Documentation")) || (indexPath.row == settings[0].index(of: "Drive for Might")){
             performSegue(withIdentifier: "DriverDocs", sender: nil)
         }
     }

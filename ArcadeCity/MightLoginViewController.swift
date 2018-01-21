@@ -30,12 +30,13 @@ class MightLoginViewController: UIViewController, loginDelegate {
         super.viewDidAppear(animated)
         guard let firebaseID = Auth.auth().currentUser?.uid else {return}
         guard let facebookID = FBSDKAccessToken.current()?.tokenString else {return}
+        
         //User is already signed in
         print(firebaseID,facebookID)
         finishedLogin()
         loadRequests.checkIfUserExists()
     }
-
+    
     func configureButton() {
         login.layer.borderWidth = 3
         login.layer.borderColor = UIColor.white.cgColor

@@ -31,6 +31,11 @@ class KeyValueTableViewCell: UITableViewCell, userInfoDelegate, UITextFieldDeleg
             message.isUserInteractionEnabled = true
             message.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(messageUser)))
         }
+        if key.text == "Member since" {
+            if value.text != nil {
+                value.text = TimeAgo.get(value.text!)
+            }
+        }
         controller?.cellToDismissKeyboard = self
         editValue.isHidden = true
         guard cellCanBeEdited == true else {return}

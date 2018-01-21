@@ -159,7 +159,9 @@ class RideDetailViewController: UIViewController, UITableViewDelegate, UITableVi
             offerRideButton.setTitleColor(UIColor.red, for: .normal)
         }
         //if viewer only has rider privilege, or if viwer is original requester of ride, remove the button until it's resolved
-        if ((RequestPageViewController.userName?.info["Class"])! == "Rider") || ((RequestPageViewController.userName?.info["Name"])! == rideRequest?.rider?.info["Name"]) {
+        if ((RequestPageViewController.userName?.info["Class"])! == "Rider") ||
+            ((RequestPageViewController.userName?.info["Class"])! == "Pending Driver") ||
+            ((RequestPageViewController.userName?.info["Name"])! == rideRequest?.rider?.info["Name"]) {
             if (rideRequest?.info["State"] != "#Resolved") && (rideRequest?.info["State"] != "#Canceled") {
                 //offerRideButton.removeFromSuperview()
                 offerRideButton.isHidden = true

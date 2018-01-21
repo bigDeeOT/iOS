@@ -42,13 +42,15 @@ class DateDocumentTableViewCell: UITableViewCell {
         }
         datePicker.datePickerMode = .date
         contentView.addSubview(datePicker)
-        datePicker.frame.size.width = contentView.frame.size.width
+        //datePicker.frame.size.width = contentView.frame.size.width
+        datePicker.sizeToFit()
         datePicker.frame.size.height = 60
         datePicker.frame.origin.y = 5
+        datePicker.frame.origin.x = -10
     }
     
     private func setDate() {
-        datePicker.addTarget(self, action: #selector(saveDate), for: .editingChanged)
+        datePicker.addTarget(self, action: #selector(saveDate), for: .valueChanged)
         guard document.value != nil else {return}
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "MM-dd-yyyy hh:mm:ss a"
@@ -57,7 +59,6 @@ class DateDocumentTableViewCell: UITableViewCell {
     }
     
     func saveDate() {
-        print("Date Saved")
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "MM-dd-yyyy hh:mm:ss a"
         let dateValue = dateFormatter.string(from: datePicker.date)
@@ -67,6 +68,5 @@ class DateDocumentTableViewCell: UITableViewCell {
     
     override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
-        // Configure the view for the selected state
     }
 }

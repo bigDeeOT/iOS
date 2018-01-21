@@ -14,9 +14,12 @@ class PictureDocumentTableViewCell: UITableViewCell, UIImagePickerControllerDele
     @IBOutlet weak var title: UILabel!
     var controller: DriverDocumentationViewController!
     var maxImageSize = CGSize(width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.width / (4/3))
+    var indexPath: IndexPath!
     var document: Document! {
         didSet {
             title.text = document.title
+            title.lineBreakMode = .byWordWrapping
+            title.numberOfLines = 0
             loadPicture()
             if controller.documentsAreForEditing == true {
                 if document.value != nil {
@@ -66,6 +69,7 @@ class PictureDocumentTableViewCell: UITableViewCell, UIImagePickerControllerDele
         let selectedImageFromPicker = info[UIImagePickerControllerOriginalImage] as? UIImage
         if let selectedImageFromPicker = selectedImageFromPicker {
             picture.image = selectedImageFromPicker
+            controller.picturesCache[indexPath.row] = selectedImageFromPicker
             document.valueToSave = selectedImageFromPicker
             updatePictureSize()
             picture?.alpha = 1
@@ -79,18 +83,23 @@ class PictureDocumentTableViewCell: UITableViewCell, UIImagePickerControllerDele
     }
     
     private func loadPicture() {
+        picture.image = #imageLiteral(resourceName: "uploadImage")
+        updatePictureSize() // size of default pic changed due to reusable cells
+        if let pic = controller.picturesCache[indexPath.row] { picture.image = pic; updatePictureSize(); return }
         guard let picURL = document.value else {return}
-        picture.image = #imageLiteral(resourceName: "profilePicPlaceHolder")
         if let url = URL(string:picURL) {
+            let index = indexPath.row
             DispatchQueue.global(qos: .default).async {
                 [weak self] in
                 if let imageData = NSData(contentsOf: url) {
                     DispatchQueue.main.async {
+                        guard index == self?.indexPath.row else {return}
                         self?.picture.isHidden = false
                         self?.picture.image = UIImage(data: imageData as Data)
                         self?.picture.layer.cornerRadius = 3
                         self?.picture.layer.masksToBounds = true
                         self?.updatePictureSize()
+                        self?.controller.picturesCache[self!.indexPath.row] = self!.picture.image
                     }
                 }
             }
