@@ -68,16 +68,25 @@ class MessagingBackend {
         message.unique = ref?.child("Conversations/\(conversationID!)").childByAutoId().key
         let messageDetails = [
             "String"    : string,
-            "Date"      : message.date,
-            "User"      : message.user
+            "Date"      : message.date!,
+            "User"      : message.user!
             ]
         ref?.child("Conversations/\(conversationID!)/\(message.unique!)").setValue(messageDetails)
-        let metaDataDetails = [
-            "Last Message"  : string,
-            "Date"          : message.date,
-            user1           : "Read",
-            user2           : "Unread"
-        ]
+        var metaDataDetails: [String:String]
+        if user1 != user2 {
+            metaDataDetails = [
+                "Last Message"  : string,
+                "Date"          : message.date!,
+                user1           : "Read",
+                user2           : "Unread"
+            ]
+        } else {
+            metaDataDetails = [
+                "Last Message"  : string,
+                "Date"          : message.date!,
+                user1           : "Read",
+            ]
+        }
         ref?.child("Conversation Meta Data/\(conversationID!)").setValue(metaDataDetails)
     }
     

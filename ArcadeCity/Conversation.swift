@@ -12,6 +12,7 @@ class Conversation {
     var name: String!
     var ID: String!
     var otherUserID: String!
+    var otherUser: User!
     var profilePicURL: String!
     var date: Date!
     var lastMessage: String!

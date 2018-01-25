@@ -104,6 +104,7 @@ class User {
         for (key, value) in information {
             info[key] = value
         }
+        unique = info["Unique"]
     }
     func getViewableData() -> [String:String] {
         var data = info

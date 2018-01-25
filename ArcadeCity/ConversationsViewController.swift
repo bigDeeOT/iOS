@@ -8,13 +8,43 @@
 
 import UIKit
 
-class ConversationsViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
+class ConversationsViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, ConversationsDelegate {
     
     let backend = ConversationBackend()
+    var profilePicsCache: [String: UIImage] = [:]
+    @IBOutlet weak var convoTable: UITableView!
+    var navBarColor = UIColor(red:0.16, green:0.46, blue:0.75, alpha:1.0)
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-        backend.pullConversations()
+        backend.user = RequestPageViewController.userName
+        backend.conversationsDelegate = self
+        convoTable.dataSource = self
+        convoTable.delegate = self
+        convoTable.rowHeight = 75
+        self.title = "Messages"
+        navigationBarStyle()
+        convoTable.allowsSelection = true
+        convoTable.tableFooterView = UIView()
+    }
     
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        navigationController?.navigationBar.isTranslucent = true
+        backend.conversations.removeAll()
+        backend.pullConversations()
+    }
+    
+    private func navigationBarStyle() {
+        let navBar = navigationController?.navigationBar
+        view.backgroundColor = UIColor(patternImage: UIImage(named: "background")!)
+        navBar?.barTintColor = navBarColor
+        navBar?.tintColor = UIColor.white
+        navBar?.titleTextAttributes = [
+            NSForegroundColorAttributeName : UIColor.white,
+            NSFontAttributeName : UIFont.systemFont(ofSize: 20, weight: UIFontWeightBold)
+        ]
+        navBar?.setValue(true, forKey: "hidesShadow")
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -22,14 +52,24 @@ class ConversationsViewController: UIViewController, UITableViewDelegate, UITabl
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        <#code#>
+        let cell = tableView.dequeueReusableCell(withIdentifier: "convoCell", for: indexPath) as! ConversationTableViewCell
+        cell.conversation = backend.conversations[indexPath.row]
+        cell.convoPage = self
+        cell.selectionStyle = .none
+        return cell
     }
 
-
+    func newConversationAvailable() {
+        convoTable.reloadData()
+    }
 
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
+        if let vc = segue.destination as? ProfileViewController {
+            vc.user = sender as? User
+        }
+        if let vc = segue.destination as? MessagingViewController {
+            vc.otherUser = sender as? User
+        }
     }
     
 

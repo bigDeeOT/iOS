@@ -14,10 +14,12 @@ class ProfileViewController: UIViewController {
     @IBOutlet weak var profilePic: UIImageView!
     var user: User?
     var profileIsForEditing = true
+    var navBarColor = UIColor(red:0.16, green:0.46, blue:0.75, alpha:1.0)
 
     override func viewDidLoad() {
         super.viewDidLoad()
         navigationController?.navigationBar.isHidden = true
+        navigationBarStyle()
         loadImage()
         if profileIsForEditing == false { setBackButton() }
     }
@@ -25,6 +27,19 @@ class ProfileViewController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(true)
         navigationController?.navigationBar.isHidden = true
+    }
+    
+    private func navigationBarStyle() {
+        let navBar = navigationController?.navigationBar
+        view.backgroundColor = UIColor(patternImage: UIImage(named: "background")!)
+        navBar?.barTintColor = navBarColor
+        navBar?.tintColor = UIColor.white
+        navBar?.titleTextAttributes = [
+            NSForegroundColorAttributeName : UIColor.white,
+            NSFontAttributeName : UIFont.systemFont(ofSize: 20, weight: UIFontWeightBold)
+        ]
+        navBar?.setValue(true, forKey: "hidesShadow")
+        navBar?.isTranslucent = false
     }
     
     private func setBackButton() {

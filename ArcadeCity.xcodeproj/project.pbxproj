@@ -44,6 +44,7 @@
 		57AABB212012CA97003CDA64 /* ConversationBackend.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57AABB202012CA97003CDA64 /* ConversationBackend.swift */; };
 		57AABB232012CAE7003CDA64 /* Conversation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57AABB222012CAE7003CDA64 /* Conversation.swift */; };
 		57AABB272013EC84003CDA64 /* ConversationsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57AABB262013EC84003CDA64 /* ConversationsViewController.swift */; };
+		57AABB292015201A003CDA64 /* ConversationTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57AABB282015201A003CDA64 /* ConversationTableViewCell.swift */; };
 		57BB52C81F241F0700736291 /* TimeAgo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57BB52C71F241F0700736291 /* TimeAgo.swift */; };
 		57C7D925200BCF4F0036B688 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 57C7D923200AC5500036B688 /* GoogleService-Info.plist */; };
 		57D195CC1F19444300F27BB7 /* LoadRequests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57D195CB1F19444300F27BB7 /* LoadRequests.swift */; };
@@ -107,6 +108,7 @@
 		57AABB202012CA97003CDA64 /* ConversationBackend.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConversationBackend.swift; sourceTree = "<group>"; };
 		57AABB222012CAE7003CDA64 /* Conversation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Conversation.swift; sourceTree = "<group>"; };
 		57AABB262013EC84003CDA64 /* ConversationsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConversationsViewController.swift; sourceTree = "<group>"; };
+		57AABB282015201A003CDA64 /* ConversationTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConversationTableViewCell.swift; sourceTree = "<group>"; };
 		57BB52C71F241F0700736291 /* TimeAgo.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TimeAgo.swift; sourceTree = "<group>"; };
 		57C7D923200AC5500036B688 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		57D195CB1F19444300F27BB7 /* LoadRequests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoadRequests.swift; sourceTree = "<group>"; };
@@ -245,6 +247,7 @@
 				57AABB202012CA97003CDA64 /* ConversationBackend.swift */,
 				57AABB222012CAE7003CDA64 /* Conversation.swift */,
 				57AABB262013EC84003CDA64 /* ConversationsViewController.swift */,
+				57AABB282015201A003CDA64 /* ConversationTableViewCell.swift */,
 			);
 			name = "Conversation List";
 			sourceTree = "<group>";
@@ -570,6 +573,7 @@
 				574724CD1F2D6619003EFFC6 /* SettingsTableViewController.swift in Sources */,
 				57A00B291F27D43D00842DDF /* MiddleProfileTableViewController.swift in Sources */,
 				5708175B1F2989120062DB68 /* ImageViewController.swift in Sources */,
+				57AABB292015201A003CDA64 /* ConversationTableViewCell.swift in Sources */,
 				57E65EC11F185C3A00B39AF4 /* Driver.swift in Sources */,
 				57A701071F49E7D2007D9E1B /* DateDocumentTableViewCell.swift in Sources */,
 				57954CB81F36309500516A61 /* PaymentsTableViewCell.swift in Sources */,
