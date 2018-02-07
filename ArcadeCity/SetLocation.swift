@@ -13,6 +13,8 @@ class SetLocation: UIViewController, CLLocationManagerDelegate {
     var manager = CLLocationManager()
     var latLog: String?
     var rideRequest: RideRequest?
+    var destination: String?
+    var etaDelegate: ETADelegate?
     
     func set() {
         manager.delegate = self
@@ -21,8 +23,9 @@ class SetLocation: UIViewController, CLLocationManagerDelegate {
         manager.startUpdatingLocation()
     }
     
-    func setETA(_ ride: RideRequest) {
-        rideRequest = ride
+    func setETA(to dest: String?, for delegate: ETADelegate?) {
+        destination = dest
+        etaDelegate = delegate
         set()
     }
     
@@ -32,9 +35,8 @@ class SetLocation: UIViewController, CLLocationManagerDelegate {
         let longitude = location.coordinate.longitude
         latLog = String(describing: latitude) + "," + String(describing: longitude)
         manager.stopUpdatingLocation()
-       // print("in set location ", rideRequest!)
-        if let rideRequest = rideRequest {
-            ETA.set(latLog!, rideRequest)
+        if etaDelegate != nil {
+            ETA.set(latLog!, destination!, etaDelegate!)
         }
     }
     

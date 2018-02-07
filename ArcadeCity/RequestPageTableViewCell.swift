@@ -8,7 +8,7 @@
 
 import UIKit
 
-class RequestPageTableViewCell: UITableViewCell {
+class RequestPageTableViewCell: UITableViewCell, ETADelegate {
 
     var rideRequest: RideRequest? {
         didSet {
@@ -53,6 +53,11 @@ class RequestPageTableViewCell: UITableViewCell {
     
     func goToUserProfile() {
         requestPage?.performSegue(withIdentifier: "goToUserProfile", sender: rideRequest?.rider)
+    }
+    
+    func etaIsReady(_ eta: String) {
+        rideRequest?.ETA = eta + " away"
+        etaLogic()
     }
     
      func etaLogic() {

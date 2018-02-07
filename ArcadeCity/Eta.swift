@@ -8,12 +8,17 @@
 
 import Foundation
 
+protocol ETADelegate {
+    func etaIsReady(_ eta: String)
+}
+
+// should probably not make these properties static
 class ETA {
     static let key = "AIzaSyAjcvEc8L2-EKYd38_EUhD4rit55k-XjYs"
     static var rideRequest: RideRequest?
-    static func set(_ origin: String, _ rideRequest: RideRequest) {
-        ETA.rideRequest = rideRequest
-        let destination = rideRequest.info["Location"] ?? "Austin"
+    static var delegate: ETADelegate?
+    static func set(_ origin: String, _ destination: String, _ etaDelegate: ETADelegate) {
+        ETA.delegate = etaDelegate
         let url = URL(string: "https://maps.googleapis.com/maps/api/directions/json?origin=\(origin)&destination=\(destination)&key=\(key)")
         let task = URLSession.shared.dataTask(with: url!) { (data, response, error) in
             if error != nil {
@@ -42,7 +47,7 @@ class ETA {
         let leg1 = legs[0] as AnyObject
         let duration = leg1["duration"] as AnyObject
         let time = duration["text"] as! String
-        rideRequest?.ETA = time + " away"
+        delegate?.etaIsReady(time)
     }
     
     static func shouldHideEta(_ rideRequest: RideRequest) -> Bool {

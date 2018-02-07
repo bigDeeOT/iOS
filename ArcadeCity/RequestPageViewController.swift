@@ -229,7 +229,9 @@ class RequestPageViewController: UIViewController, UITableViewDelegate, UITableV
             //calculate eta
             if rideRequest.info["Location"] != nil {
                 if !ETA.shouldHideEta(rideRequest) && (rideRequest.ETA == nil) {
-                    setLocation.setETA(rideRequest)
+                    let destination = rideRequest.info["Location"] ?? "Austin"
+                    setLocation.setETA(to: destination, for: cell)
+                    /*
                     Timer.scheduledTimer(withTimeInterval: 1, repeats: true, block: { (time) in
                         self.secondsWaitingForETAToLoad = self.secondsWaitingForETAToLoad + 1
                         if rideRequest.ETA != nil {
@@ -241,10 +243,10 @@ class RequestPageViewController: UIViewController, UITableViewDelegate, UITableV
                             self.secondsWaitingForETAToLoad = 0
                         }
                     })
+ */
                 }
             }
         }
-        
         return cell
     }
     

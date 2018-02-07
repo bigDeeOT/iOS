@@ -14,7 +14,7 @@ protocol loginDelegate {
     func finishedLogin()
 }
 
-class MightLoginViewController: UIViewController, loginDelegate {
+class MightLoginViewController: UIViewController, loginDelegate, ETADelegate {
     let loginSegueIdentifier = "goToRequestPage"
     var loadRequests = LoadRequests()
     let location = SetLocation()
@@ -37,6 +37,10 @@ class MightLoginViewController: UIViewController, loginDelegate {
         print(firebaseID,facebookID)
         finishedLogin()
         loadRequests.checkIfUserExists()
+    }
+    
+    func etaIsReady(_ eta: String) {
+        
     }
     
     func configureButton() {

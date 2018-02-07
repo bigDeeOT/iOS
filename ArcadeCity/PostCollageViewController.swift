@@ -8,7 +8,8 @@
 
 import UIKit
 
-class PostCollageViewController: UIViewController {
+class PostCollageViewController: UIViewController, ETADelegate {
+    
     var rideRequest: RideRequest?
     let setLocation = SetLocation()
     @IBOutlet weak var eta: UILabel!
@@ -27,8 +28,6 @@ class PostCollageViewController: UIViewController {
             }
             
         }
-        
-
         
         //we don't want user to go "back" to this page
       
@@ -50,10 +49,13 @@ class PostCollageViewController: UIViewController {
             print("removed eta")
             eta.isHidden = true
         } else {
-            setLocation.setETA(rideRequest!)
+            let destination = rideRequest?.info["Location"] ?? "Austin"
+            setLocation.setETA(to: destination, for: self)
+            /*
             Timer.scheduledTimer(withTimeInterval: 1, repeats: false, block: { (time) in
                 self.eta.text = self.rideRequest?.ETA
             })
+ */
             eta.text = rideRequest?.ETA
             print("riderequest eta is \(rideRequest?.ETA ?? "no ride request eta found")")
         }
@@ -62,6 +64,11 @@ class PostCollageViewController: UIViewController {
         comment.tintColor = UIColor(red:0.16, green:0.46, blue:0.75, alpha:1.0)
         let tap = UITapGestureRecognizer(target: self, action: #selector(dismissKeyboard))
         view.addGestureRecognizer(tap)
+    }
+    
+    func etaIsReady(_ eta: String) {
+        rideRequest?.ETA = eta + " away"
+        self.eta.text = rideRequest?.ETA
     }
 
     func dismissKeyboard() {
