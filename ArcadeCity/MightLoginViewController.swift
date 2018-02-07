@@ -17,6 +17,7 @@ protocol loginDelegate {
 class MightLoginViewController: UIViewController, loginDelegate {
     let loginSegueIdentifier = "goToRequestPage"
     var loadRequests = LoadRequests()
+    let location = SetLocation()
     
     @IBOutlet weak var login: UIButton!
     
@@ -24,6 +25,7 @@ class MightLoginViewController: UIViewController, loginDelegate {
         super.viewDidLoad()
         configureButton()
         print("might login viewDidLoad")
+        location.set()
     }
     
     override func viewDidAppear(_ animated: Bool) {
