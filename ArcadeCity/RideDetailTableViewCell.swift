@@ -42,6 +42,12 @@ class RideDetailTableViewCell: UITableViewCell {
         collage.isUserInteractionEnabled = true
         message.isUserInteractionEnabled = true
         message.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(messageUser)))
+        phone.isUserInteractionEnabled = true
+        phone.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(callOrText)))
+    }
+    
+    func callOrText() {
+       controller?.callOrText(name.text!, (offer.driver?.info["Phone"])!)
     }
     
     private func clickToGoToUserProfile() {

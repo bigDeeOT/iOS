@@ -16,10 +16,10 @@ class LoadRequests {
     static var gRef: DatabaseReference!
     static var requestList = [RideRequest]()
     static var needToLoad = true
-    var userInfo: [String:String] = [:]
+    //var userInfo: [String:String] = [:]
     var requestPage: RequestPageViewController!
     var loginPageDelegate:  MightLoginViewController!
-    var firstPageBoundarySet = false
+    static var firstPageBoundarySet = false
     var requestPageSize: UInt = 10
     var requestPageBoundary: String!
     static var rideDetailPage: RideDetailViewController!
@@ -34,8 +34,14 @@ class LoadRequests {
                 removeOfferListener(requestNumber: request.unique!)
             }
         }
+        gRef.child("Requests").removeAllObservers()
+        gRef.child("Requests by Users/\((RequestPageViewController.userName?.unique)!)/Requests").removeAllObservers()
         requestList.removeAll()
-        //loadRequestsFullOfJunk()
+        numberOfRequestsLoaded = 0
+        numberOfRequestsInFirebase = 0
+        firstPageBoundarySet = false
+        // loadRequestsFullOfJunk()
+        // now call startListening() after calling clear()
     }
     
     func get() -> [RideRequest] {
@@ -112,8 +118,8 @@ class LoadRequests {
             requestDirectory = "Requests by Users/\((unique)!)/Requests"
         }
         self.ref.child(requestDirectory).queryLimited(toLast: requestPageSize).observe(.childAdded, with: { [weak self] (snapshot) in
-            if self?.firstPageBoundarySet == false {
-                self?.firstPageBoundarySet = true
+            if LoadRequests.firstPageBoundarySet == false {
+                LoadRequests.firstPageBoundarySet = true
                 self?.requestPageBoundary = snapshot.key
             }
             guard LoadRequests.requestList.last?.unique != snapshot.key else {

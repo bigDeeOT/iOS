@@ -7,8 +7,9 @@
 //
 
 import UIKit
+import MessageUI
 
-class RideDetailViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
+class RideDetailViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, MFMessageComposeViewControllerDelegate {
 
     let cellIdentifier = "rideRequestDetail"
     var rideRequest: RideRequest?
@@ -279,7 +280,9 @@ class RideDetailViewController: UIViewController, UITableViewDelegate, UITableVi
         }
         if let vc = segue.destination as? MessagingViewController {
             if let user = sender as? User {
+                let otherUserName = user.info["Name"]!
                 vc.otherUser = user
+                vc.preSelectedMessage = "Hey \(otherUserName) can I get a ride from \(pickUpText.text!)?"
             }
         }
         if let vc = segue.destination as? ProfileViewController {
@@ -308,4 +311,28 @@ class RideDetailViewController: UIViewController, UITableViewDelegate, UITableVi
     seperatorLogic()
     }
 
+    func callOrText(_ name: String, _ phone: String) {
+        let actionSheet = UIAlertController(title: "Call or Text?", message: nil, preferredStyle: .actionSheet)
+        let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
+        let textAction = UIAlertAction(title: "Text", style: .default) { (action) in
+            guard MFMessageComposeViewController.canSendText() else {return}
+            let controller = MFMessageComposeViewController()
+            controller.body = "Hey \(name) can I get a ride from \(self.pickUpText.text!)?"
+            controller.recipients = [phone]
+            controller.messageComposeDelegate = self
+            self.present(controller, animated: true, completion: nil)
+        }
+        let callAction = UIAlertAction(title: "Call", style: .default) { (action) in
+            let number = URL(string: "tel://\(phone)")
+            UIApplication.shared.open(number!, options: [:], completionHandler: nil)
+        }
+        actionSheet.addAction(cancelAction)
+        actionSheet.addAction(textAction)
+        actionSheet.addAction(callAction)
+        present(actionSheet, animated: true, completion: nil)
+    }
+    
+    func messageComposeViewController(_ controller: MFMessageComposeViewController, didFinishWith result: MessageComposeResult) {
+        dismiss(animated: true, completion: nil)
+    }
 }

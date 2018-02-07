@@ -1,0 +1,7 @@
+curl -d '{"aps":{"alert":"Notifications work from Curl baby!","sound":"default"}}' --cert "./myapp-push-cert.pem":"" -H "apns-topic: edu.utexas.dwp673.ArcadeCity" --http2 https://api.development.push.apple.com/3/device/D79353D365A9567EB1FDDEDE031D0947448AA5A3D530D6AAC98E00B55DA58EFE
+
+
+AAAAFysTpTs:APA91bFcquZeqbkDQxlOMvLfRUuz4f4xzzGdRMGL15xwLJqolwwaXDC-L9_LvMv2h0ZXSxsDbzeSvStlISb-XckjEJw74SOZplGhE5vNdmTdU20VCAbuiwE0pOirmKDQDTzPlsqbx1dX
+
+
+curl --header "Content-Type: application/json" --header "Authorization: key=AAAAFysTpTs:APA91bFcquZeqbkDQxlOMvLfRUuz4f4xzzGdRMGL15xwLJqolwwaXDC-L9_LvMv2h0ZXSxsDbzeSvStlISb-XckjEJw74SOZplGhE5vNdmTdU20VCAbuiwE0pOirmKDQDTzPlsqbx1dX" https://fcm.googleapis.com/fcm/send -d '{"notification": {"body": "Hello from curl via FCM!", "sound": "default", "content_available": true},"priority": "high","to": "c04NOT1ai8U:APA91bEQ1HeKyafc_4lkPApVqX-LymIee0dNv1D1L9YcS0d8RJbukSVZroNggzK9h70WcJ0ZZfKXbge6VQFzV_eyvpoCpNf71PlPUrZuybl6a6NGc3vcbfTTa2_to7xH6ZSjF09iocO1"}'

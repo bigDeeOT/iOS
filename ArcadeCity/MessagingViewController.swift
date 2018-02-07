@@ -16,6 +16,8 @@ class MessagingViewController: UIViewController, UITableViewDelegate, UITableVie
     @IBOutlet weak var type: UITextView!
     @IBOutlet weak var tableView: UITableView!
     var backend: MessagingBackend!
+    var preSelectedMessage: String?
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         tableView.delegate = self
@@ -26,6 +28,9 @@ class MessagingViewController: UIViewController, UITableViewDelegate, UITableVie
         type.layer.borderColor = UIColor.lightGray.cgColor
         type.layer.borderWidth = 1
         type.delegate = self
+        if let msg = preSelectedMessage {
+            type.text = msg
+        }
         send.isUserInteractionEnabled = true
         send.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(sendMessage)))
         tableView.rowHeight = UITableViewAutomaticDimension
@@ -36,6 +41,11 @@ class MessagingViewController: UIViewController, UITableViewDelegate, UITableVie
         tableView.transform = CGAffineTransform(rotationAngle: -(CGFloat).pi)
         navigationItem.title = otherUser.info["Name"]
         view.window?.backgroundColor = UIColor.white
+    }
+    
+    override func viewDidDisappear(_ animated: Bool) {
+        super.viewDidDisappear(animated)
+        backend.ref?.child("Conversations/\((backend.conversationID)!)").removeAllObservers()
     }
     
     func textViewDidEndEditing(_ textView: UITextView) {

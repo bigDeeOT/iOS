@@ -38,8 +38,15 @@ class ConversationBackend {
                     dateFormatter.dateFormat = "MM-dd-yyyy hh:mm:ss a"
                     conversation.date = dateFormatter.date(from: metaData["Date"]!)
                     conversation.lastMessage = metaData["Last Message"]!
-                    conversation.read = metaData[(self?.user.unique)!]! == "Read" ? true : false
+                    if let readStatus = metaData[(self?.user.unique)!] {
+                        conversation.read = (readStatus == "Read")
+                    } else {conversation.read = true}
                     self?.conversations.append(conversation)
+                    self?.conversations.sort(by: { (convo1, convo2) -> Bool in
+                        let date1 = -Int(convo1.date.timeIntervalSinceNow)
+                        let date2 = -Int(convo2.date.timeIntervalSinceNow)
+                        return date1 < date2
+                    })
                     self?.conversationsDelegate?.newConversationAvailable()
                 })
             })

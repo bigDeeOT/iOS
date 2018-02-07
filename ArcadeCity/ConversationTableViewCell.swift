@@ -16,6 +16,7 @@ class ConversationTableViewCell: UITableViewCell {
     @IBOutlet weak var name: UILabel!
     var convoPage: ConversationsViewController?
     var conversation: Conversation!
+    @IBOutlet weak var readIcon: UIImageView!
     
     override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
@@ -29,6 +30,8 @@ class ConversationTableViewCell: UITableViewCell {
         name.text = conversation.name
         loadPicture()
         clickToGoToUserProfile()
+        readIcon.image = #imageLiteral(resourceName: "messageReadDot")
+        readIcon.isHidden = conversation.read
     }
     
     private func clickToGoToUserProfile() {
@@ -46,11 +49,13 @@ class ConversationTableViewCell: UITableViewCell {
             return
         }
         picture.image = #imageLiteral(resourceName: "profilePicPlaceHolder")
+        let conversationID = conversation.ID
         if let url = URL(string: conversation.profilePicURL) {
             DispatchQueue.global(qos: .default).async {
                 [weak self] in
                 if let imageData = NSData(contentsOf: url) {
                     DispatchQueue.main.async {
+                        guard conversationID == self?.conversation.ID else {print("wrong cell"); return}
                         let image = UIImage(data: imageData as Data)
                         self?.picture.image = image
                         self?.convoPage?.profilePicsCache[(self?.conversation.otherUserID)!] = image

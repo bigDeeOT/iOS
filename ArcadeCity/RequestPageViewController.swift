@@ -160,6 +160,9 @@ class RequestPageViewController: UIViewController, UITableViewDelegate, UITableV
             print("removing observers in view will disappear")
             LoadRequests.gRef.child("Requests").removeAllObservers()
         }
+        //basically refreshes the ride request list
+        LoadRequests.clear()
+        loadRequests.startListening()
     }
     
     /* Spacing between cells*/
