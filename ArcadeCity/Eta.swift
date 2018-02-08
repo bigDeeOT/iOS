@@ -9,7 +9,7 @@
 import Foundation
 
 protocol ETADelegate {
-    func etaIsReady(_ eta: String)
+    func etaIsReady(text etaText: String, value etaValue: Int)
 }
 
 // should probably not make these properties static
@@ -46,8 +46,11 @@ class ETA {
         let legs = route1["legs"] as AnyObject
         let leg1 = legs[0] as AnyObject
         let duration = leg1["duration"] as AnyObject
-        let time = duration["text"] as! String
-        delegate?.etaIsReady(time)
+        let timeText = duration["text"] as! String
+        let timeSec = duration["value"] as! Int
+        DispatchQueue.main.async {
+            delegate?.etaIsReady(text: timeText, value: timeSec)
+        }
     }
     
     static func shouldHideEta(_ rideRequest: RideRequest) -> Bool {

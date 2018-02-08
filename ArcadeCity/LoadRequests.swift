@@ -35,7 +35,9 @@ class LoadRequests {
             }
         }
         gRef.child("Requests").removeAllObservers()
-        gRef.child("Requests by Users/\((RequestPageViewController.userName?.unique)!)/Requests").removeAllObservers()
+        if let userUnique = RequestPageViewController.userName?.unique {
+            gRef.child("Requests by Users/\(userUnique)/Requests").removeAllObservers()
+        }
         requestList.removeAll()
         numberOfRequestsLoaded = 0
         numberOfRequestsInFirebase = 0
@@ -164,8 +166,8 @@ class LoadRequests {
             request.rider = user
             //get offers
             self?.listenForOffer(request)
-            self?.requestPage.rideRequestList?.reloadData()
-            self?.requestPage.requestJustAdded = request
+            self?.requestPage?.rideRequestList?.reloadData()
+            self?.requestPage?.requestJustAdded = request
         })
     }
     
@@ -191,7 +193,7 @@ class LoadRequests {
         if request.info["Resolved By"] != nil {
             ref.child("Users").child(request.info["Resolved By"]!).observeSingleEvent(of: .value, with: { [weak self] (snapshotUser) in
                 request.resolvedBy = self?.pullUserFromFirebase(snapshotUser)
-                self?.requestPage.rideRequestList.reloadData()
+                self?.requestPage.rideRequestList?.reloadData()
                 request.delegate?.updateUI()
             })
         }
@@ -387,7 +389,8 @@ class LoadRequests {
     }
     
     func listenForUserChanges() {
-        LoadRequests.gRef.child("Users").child((RequestPageViewController.userName?.unique)!).observe(.childChanged, with: { (snapshot) in
+        guard let userUnique = RequestPageViewController.userName?.unique else {print("not listening for user changes");return}
+        LoadRequests.gRef.child("Users").child(userUnique).observe(.childChanged, with: { (snapshot) in
             let user = RequestPageViewController.userName
             user?.info[snapshot.key] = snapshot.value as? String
             user?.profileDetails?.updateUI()

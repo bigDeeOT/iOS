@@ -18,6 +18,15 @@ class MightLoginViewController: UIViewController, loginDelegate, ETADelegate {
     let loginSegueIdentifier = "goToRequestPage"
     var loadRequests = LoadRequests()
     let location = SetLocation()
+    var proceedWithAutomaticSignIn = false
+    var userIsLocal: Bool? {
+        didSet {
+            if proceedWithAutomaticSignIn == true && userIsLocal == true {
+                finishedLogin()
+                loadRequests.checkIfUserExists()
+            }
+        }
+    }
     
     @IBOutlet weak var login: UIButton!
     
@@ -25,22 +34,26 @@ class MightLoginViewController: UIViewController, loginDelegate, ETADelegate {
         super.viewDidLoad()
         configureButton()
         print("might login viewDidLoad")
-        location.set()
     }
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        guard let firebaseID = Auth.auth().currentUser?.uid else {return}
-        guard let facebookID = FBSDKAccessToken.current()?.tokenString else {return}
-        
-        //User is already signed in
-        print(firebaseID,facebookID)
-        finishedLogin()
-        loadRequests.checkIfUserExists()
+        location.setETA(to: "Austin", for: self)
+        guard let _ = Auth.auth().currentUser?.uid else {return}
+        guard let _ = FBSDKAccessToken.current()?.tokenString else {return}
+        if userIsLocal == true {
+            finishedLogin()
+            loadRequests.checkIfUserExists()
+        }
+        proceedWithAutomaticSignIn = true;
     }
     
-    func etaIsReady(_ eta: String) {
-        
+    func etaIsReady(text etaText: String, value etaValue: Int) {
+        if (etaValue > 5400) {
+            userIsLocal = false
+        } else {
+            userIsLocal = true
+        }
     }
     
     func configureButton() {
@@ -49,7 +62,12 @@ class MightLoginViewController: UIViewController, loginDelegate, ETADelegate {
         login.layer.cornerRadius = 15
     }
     
+    
     @IBAction func login(_ sender: UIButton) {
+        guard userIsLocal == true else {
+            print("The user is not within the specified area.")
+            return
+        }
         loadRequests.login(fromViewController: self)
         loadRequests.loginPageDelegate = self
     }
@@ -63,15 +81,10 @@ class MightLoginViewController: UIViewController, loginDelegate, ETADelegate {
         guard let navigationVc = tabBarVc.viewControllers?[0] as? UINavigationController else {return}
         guard let requestPage = navigationVc.viewControllers[0] as? RequestPageViewController else {return}
         requestPage.loadRequests = loadRequests
-        loadRequests.requestPage = requestPage //?? need this?
+        //loadRequests.requestPage = requestPage //?? need this?
     }
     
 }
-
-
-
-
-
 
 
 

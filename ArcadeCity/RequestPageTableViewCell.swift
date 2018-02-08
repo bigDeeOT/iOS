@@ -55,9 +55,10 @@ class RequestPageTableViewCell: UITableViewCell, ETADelegate {
         requestPage?.performSegue(withIdentifier: "goToUserProfile", sender: rideRequest?.rider)
     }
     
-    func etaIsReady(_ eta: String) {
-        rideRequest?.ETA = eta + " away"
+    func etaIsReady(text etaText: String, value etaValue: Int) {
+        rideRequest?.ETA = etaText + " away"
         etaLogic()
+        requestPage?.rideRequestList?.reloadData()
     }
     
      func etaLogic() {

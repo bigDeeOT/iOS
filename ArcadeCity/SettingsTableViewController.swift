@@ -78,11 +78,9 @@ class SettingsTableViewController: UITableViewController {
         do {
             try Auth.auth().signOut()
         } catch { print("error with firebase logout") }
-        RequestPageViewController.userName = nil
-        LoadRequests.gRef.child("Requests").removeAllObservers()
-        LoadRequests.gRef.child("Users/\(RequestPageViewController.userName?.unique ?? "")").removeAllObservers()
         LoadRequests.clear()
-        LoadRequests.numberOfRequestsLoaded = 0
+        RequestPageViewController.userName = nil
+        tabBarController?.tabBar.isHidden = true
         performSegue(withIdentifier: "logout", sender: nil)
     }
     

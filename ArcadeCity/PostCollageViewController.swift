@@ -66,9 +66,9 @@ class PostCollageViewController: UIViewController, ETADelegate {
         view.addGestureRecognizer(tap)
     }
     
-    func etaIsReady(_ eta: String) {
-        rideRequest?.ETA = eta + " away"
-        self.eta.text = rideRequest?.ETA
+    func etaIsReady(text etaText: String, value etaValue: Int) {
+        rideRequest?.ETA = etaText + " away"
+        eta.text = rideRequest?.ETA
     }
 
     func dismissKeyboard() {
