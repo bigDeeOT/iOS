@@ -76,7 +76,8 @@ class RequestPageTableViewCell: UITableViewCell, ETADelegate {
             return
         }
         profilePic.image = #imageLiteral(resourceName: "profilePicPlaceHolder")
-        if let url = URL(string: (rideRequest?.rider?.info["Profile Pic URL"])!) {
+        guard let profilePicURL = rideRequest?.rider?.info["Profile Pic URL"] else {return}
+        if let url = URL(string: profilePicURL) {
             DispatchQueue.global(qos: .default).async {
                 [weak self] in
                 if let imageData = NSData(contentsOf: url) {

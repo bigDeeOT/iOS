@@ -112,13 +112,19 @@ class LoadRequests {
         })
     }
     
-    func listenForRequest() {
+    //currently not used
+    func getRequestDirectory() -> String {
         var requestDirectory = "Requests"
         let userClass = RequestPageViewController.userName?.info["Class"]
         let unique = RequestPageViewController.userName?.unique
         if (userClass == "Rider") || (userClass == "Pending Driver") {
             requestDirectory = "Requests by Users/\((unique)!)/Requests"
         }
+        return requestDirectory
+    }
+    
+    func listenForRequest() {
+        let requestDirectory = "Requests"
         self.ref.child(requestDirectory).queryLimited(toLast: requestPageSize).observe(.childAdded, with: { [weak self] (snapshot) in
             if LoadRequests.firstPageBoundarySet == false {
                 LoadRequests.firstPageBoundarySet = true
@@ -136,12 +142,7 @@ class LoadRequests {
     }
     
     func listenForMoreRequest() {
-        var requestDirectory = "Requests"
-        let userClass = RequestPageViewController.userName?.info["Class"]
-        let unique = RequestPageViewController.userName?.unique
-        if (userClass == "Rider") || (userClass == "Pending Driver") {
-            requestDirectory = "Requests by Users/\((unique)!)/Requests"
-        }
+        let requestDirectory = "Requests"
         ref.child(requestDirectory).queryOrderedByKey().queryLimited(toLast: requestPageSize).queryEnding(atValue: requestPageBoundary).observeSingleEvent(of: .value, with: { [weak self] (snap) in
             guard snap.exists() else {return}
             guard snap.children.allObjects.count > 1 else {self?.requestPage.loadedAllCells = true; return}
@@ -238,7 +239,6 @@ class LoadRequests {
     static private func removeOfferListener(requestNumber unique: String) {
         LoadRequests.gRef.child("Requests/\(unique)/Offers").removeAllObservers()
     }
-    
     
     func listenForRequestDeleted() {
         ref.child("Requests").observe(.childRemoved, with: { (snapshot) in

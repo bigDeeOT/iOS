@@ -23,7 +23,8 @@ class RequestPageViewController: UIViewController, UITableViewDelegate, UITableV
     var cellWasViewed = [Bool]()
      @IBOutlet weak var rideRequestList: UITableView!
     @IBOutlet weak var addRequest: UIBarButtonItem!
-    var reuseIdentifier = "rideRequest"
+    let reuseIdentifier = "rideRequest"
+    let emptyList = "noRideRequests"
     var tableBackgroundColor = UIColor.clear
     var justSignedIn: Bool = false
     var fbButton: UIBarButtonItem!
@@ -38,6 +39,8 @@ class RequestPageViewController: UIViewController, UITableViewDelegate, UITableV
     var secondsWaitingForETAToLoad = 0
     var profilePicsCache: [String : UIImage] = [:]
     var loadedAllCells = false
+    var introText: UILabel?
+    //var viewFirstAppeared = false
     
     
     override func viewDidLoad() {
@@ -53,6 +56,24 @@ class RequestPageViewController: UIViewController, UITableViewDelegate, UITableV
         RequestPageViewController.this = self
         prepareToRemoveLoadingPage()
         UIView.setAnimationsEnabled(false) //only for debugging on simulator
+        rideRequestList.tableFooterView = UIView()
+    }
+    
+    func addViewForNoRides() {
+        guard LoadRequests.requestList.isEmpty else {
+            introText?.removeFromSuperview()
+            introText = nil
+            return
+        }
+        guard introText == nil else {return}
+        //introText = UILabel(frame: CGRect(x: 0, y: 0, width: 50, height: 50))
+        introText = UILabel()
+        introText?.text = "Make your first ride request!"
+        introText?.lineBreakMode = .byWordWrapping
+        introText?.numberOfLines = 0
+        introText?.font = UIFont(name: "System", size: 20)
+        introText?.sizeToFit()
+        self.view.addSubview(introText!);
     }
     
     func prepareToRemoveLoadingPage() {
@@ -145,6 +166,7 @@ class RequestPageViewController: UIViewController, UITableViewDelegate, UITableV
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(false)
+        requestJustAdded = nil
         rideRequestList.reloadData()
         navigationController?.navigationBar.isHidden = false
         if unwindedNowGoToRideDetail == true {
@@ -193,7 +215,11 @@ class RequestPageViewController: UIViewController, UITableViewDelegate, UITableV
     
     
     func numberOfSections(in tableView: UITableView) -> Int {
-        return LoadRequests.requestList.count
+        var count = LoadRequests.requestList.count
+        if count == 0 {
+            count = 1
+        }
+        return count
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -201,22 +227,28 @@ class RequestPageViewController: UIViewController, UITableViewDelegate, UITableV
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        //print("cellForRowAt indexPath")
-        let cell = tableView.dequeueReusableCell(withIdentifier: reuseIdentifier, for: indexPath)
+        var cell: UITableViewCell
+        if LoadRequests.requestList.count > 0 {
+          cell = tableView.dequeueReusableCell(withIdentifier: reuseIdentifier, for: indexPath)
+        } else {
+            cell = tableView.dequeueReusableCell(withIdentifier: emptyList, for: indexPath)
+        }
+        cell.selectionStyle = UITableViewCellSelectionStyle.none
+        cell.layer.cornerRadius = 4
+        cell.layer.masksToBounds = false
+        cell.layer.shadowColor = UIColor.black.cgColor
+        cell.layer.shadowOffset = CGSize(width: 1, height: 1)
+        cell.layer.shadowOpacity = 0.3
         if let cell = cell as? RequestPageTableViewCell {
             guard indexPath.section <= (LoadRequests.requestList.count - 1) else {return cell}
             let rideRequest = LoadRequests.requestList[LoadRequests.requestList.count - 1 - indexPath.section]
             cell.requestPageDelegate = self
             cell.rideRequest = rideRequest
-            cell.selectionStyle = UITableViewCellSelectionStyle.none
-            cell.layer.cornerRadius = 4
-            cell.layer.masksToBounds = false
-            cell.layer.shadowColor = UIColor.black.cgColor
-            cell.layer.shadowOffset = CGSize(width: 1, height: 1)
-            cell.layer.shadowOpacity = 0.3
+            
             //highlight new ride requests
-            if LoadRequests.requestList.count > (LoadRequests.numberOfRequestsInFirebase + 5) {
+           // if LoadRequests.requestList.count > (LoadRequests.numberOfRequestsInFirebase + 5) {
                 if (rideRequest.unique == requestJustAdded?.unique) && (rideRequest.unique != nil) {
+                    requestJustAdded = nil
                     cell.layer.borderWidth = 1
                     cell.layer.borderColor = UIColor.black.cgColor
                     requestJustAdded = nil
@@ -225,25 +257,12 @@ class RequestPageViewController: UIViewController, UITableViewDelegate, UITableV
                         cell.layer.borderColor = UIColor.white.cgColor
                     })
                 }
-            }
+          //  }
             //calculate eta
             if rideRequest.info["Location"] != nil {
                 if !ETA.shouldHideEta(rideRequest) && (rideRequest.ETA == nil) {
                     let destination = rideRequest.info["Location"] ?? "Austin"
                     setLocation.setETA(to: destination, for: cell)
-                    /*
-                    Timer.scheduledTimer(withTimeInterval: 1, repeats: true, block: { (time) in
-                        self.secondsWaitingForETAToLoad = self.secondsWaitingForETAToLoad + 1
-                        if rideRequest.ETA != nil {
-                            time.invalidate()
-                            cell.etaLogic()
-                            self.secondsWaitingForETAToLoad = 0
-                        } else if self.secondsWaitingForETAToLoad >= 10 {
-                            time.invalidate()
-                            self.secondsWaitingForETAToLoad = 0
-                        }
-                    })
- */
                 }
             }
         }
@@ -252,16 +271,18 @@ class RequestPageViewController: UIViewController, UITableViewDelegate, UITableV
     
     func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
         if indexPath.section == (LoadRequests.requestList.count - 1) {
-            guard loadedAllCells == false else {return}
+            //guard loadedAllCells == false else {return}
             loadRequests.listenForMoreRequest()
         }
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        if let cell = tableView.cellForRow(at: indexPath) as? RequestPageTableViewCell {
-            if RequestPageViewController.userName != nil {
+        guard RequestPageViewController.userName != nil else {return}
+        let cell = tableView.cellForRow(at: indexPath)
+        if let cell = cell as? RequestPageTableViewCell {
                 performSegue(withIdentifier: "rideRequestDetails", sender: cell.rideRequest)
-            }
+        } else {
+            performSegue(withIdentifier: "addRide", sender: nil)
         }
     }
     
@@ -270,6 +291,7 @@ class RequestPageViewController: UIViewController, UITableViewDelegate, UITableV
             performSegue(withIdentifier: "postCollage", sender: rideRequest)
         }
     }
+    
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if let vc = segue.destination as? RideDetailViewController {
             if let request = sender as? RideRequest {
