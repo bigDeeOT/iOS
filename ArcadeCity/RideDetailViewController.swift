@@ -25,6 +25,7 @@ class RideDetailViewController: UIViewController, UITableViewDelegate, UITableVi
     var collagePicsCache: [String : UIImage] = [:]
     var justClickOfferRide = false
     var loadedImage = false
+    var requestPage: RequestPageViewController?
     @IBAction func offerRide(_ sender: UIButton) {
         if sender.currentTitle == "Offer Ride" {    //post collage
             sender.setTitle("Resolve?", for: .normal)
@@ -38,6 +39,8 @@ class RideDetailViewController: UIViewController, UITableViewDelegate, UITableVi
             LoadRequests.changeRideRequestStatus(rideRequest!, status: "#Resolved")
             rideRequest?.rider?.incrementVariable("Rides Taken")
             rideRequest?.resolvedBy?.incrementVariable("Rides Given")
+            LoadRequests.clear()
+            requestPage?.loadRequests.startListening()
             sender.setTitleColor(UIColor.red, for: .normal)
         } else if (sender.currentTitle?.contains("#Resolved"))! {  //unresolve the request
             LoadRequests.requestEditedLocally = rideRequest?.unique
@@ -49,6 +52,8 @@ class RideDetailViewController: UIViewController, UITableViewDelegate, UITableVi
                 rideRequest?.resolvedBy = nil
                 rideRequest?.rider?.decrementVariable("Rides Taken")
                 LoadRequests.changeRideRequestStatus(rideRequest!, status: "Unresolved")
+                LoadRequests.clear()
+                requestPage?.loadRequests.startListening()
             }
         }
     }

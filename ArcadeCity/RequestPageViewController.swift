@@ -296,6 +296,7 @@ class RequestPageViewController: UIViewController, UITableViewDelegate, UITableV
         if let vc = segue.destination as? RideDetailViewController {
             if let request = sender as? RideRequest {
                 vc.rideRequest = request
+                vc.requestPage = self
                 if justClickOfferRide == true {
                     justClickOfferRide = false
                     vc.justClickOfferRide = true
