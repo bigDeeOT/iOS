@@ -27,6 +27,7 @@ class LoadRequests {
     static var numberOfRequestsLoaded = 0
     static var requestEditedLocally: String?
     static var recentlyDeletedRequest: String?
+    static var recentOffer: String?
     
     static func clear() {
         for request in requestList {
@@ -85,6 +86,7 @@ class LoadRequests {
     }
     
     static func addOffer(_ offer: Offer, for rideRequest: RideRequest) {
+        rideRequest.offers?.append(offer)
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "MM-dd-yyyy hh:mm:ss a"
         let date = dateFormatter.string(from: Date())
@@ -135,7 +137,7 @@ class LoadRequests {
                 self?.listenForOffer((LoadRequests.requestList.last)!)
                 return
             }
-            let riderUnique = (snapshot.value as? [String:Any])?["Rider"] as! String
+            guard let riderUnique = (snapshot.value as? [String:Any])?["Rider"] as? String else {return}
             let request = self?.createRideRequest(from: snapshot.key, with: snapshot.value as! [String : Any], isNew: true)
             self?.setRiderForRideRequest(from: riderUnique, with: request!)
         })
@@ -203,6 +205,9 @@ class LoadRequests {
     func listenForOffer(_ request: RideRequest) {
         self.ref.child("Requests/\(request.unique!)/Offers").observe(.childAdded, with: { [weak self] (offerSnapshot) in
             let offerUnique = offerSnapshot.key
+            guard offerUnique != request.offers?.last?.unique else {return}
+            guard offerUnique != LoadRequests.recentOffer else {return}
+            LoadRequests.recentOffer = offerUnique
             self?.ref.child("Offers/\(offerUnique)").observeSingleEvent(of: .value, with: { (offerDetailSnapshot) in
                 guard offerDetailSnapshot.exists() else { return }
                 let offerDetails = offerDetailSnapshot.value as! [String:Any]
@@ -287,6 +292,7 @@ class LoadRequests {
                 request?.rider?.profileDetails = profileDetails
                 request?.rider?.profileDetails?.updateUI()
             })
+            if (request?.offers?.isEmpty)! {self?.listenForOffer(request!)}
             self?.requestPage.rideRequestList.reloadData()
             request?.delegate?.updateUI()
         })

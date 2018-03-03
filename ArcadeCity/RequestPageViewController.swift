@@ -40,7 +40,7 @@ class RequestPageViewController: UIViewController, UITableViewDelegate, UITableV
     var profilePicsCache: [String : UIImage] = [:]
     var loadedAllCells = false
     var introText: UILabel?
-    //var viewFirstAppeared = false
+    var refreshRequestList = true
     
     
     override func viewDidLoad() {
@@ -183,8 +183,13 @@ class RequestPageViewController: UIViewController, UITableViewDelegate, UITableV
             LoadRequests.gRef.child("Requests").removeAllObservers()
         }
         //basically refreshes the ride request list
-        LoadRequests.clear()
-        loadRequests.startListening()
+        //refreshRequestList is set to false when going to rideDetail
+        if refreshRequestList == true  {
+            LoadRequests.clear()
+            loadRequests.startListening()
+        } else {
+            refreshRequestList = true
+        }
     }
     
     /* Spacing between cells*/
@@ -294,6 +299,7 @@ class RequestPageViewController: UIViewController, UITableViewDelegate, UITableV
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if let vc = segue.destination as? RideDetailViewController {
+            refreshRequestList = false
             if let request = sender as? RideRequest {
                 vc.rideRequest = request
                 vc.requestPage = self

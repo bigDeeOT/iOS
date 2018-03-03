@@ -187,19 +187,14 @@ class RideDetailViewController: UIViewController, UITableViewDelegate, UITableVi
         delete.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(deleteOptions)))
         delete.isUserInteractionEnabled = true
         delete.frame.size = ImageResize.getNewSize(currentSize: delete.frame.size, maxSize: CGSize(width: 20, height: 20))
+        //let deleteLogic = (rideRequest?.rider?.info["Name"] != RequestPageViewController.userName?.info["Name"]) && (RequestPageViewController.userName?.info["Status"] != "Admin") &&
         if rideRequest?.rider?.info["Name"] != RequestPageViewController.userName?.info["Name"] {
-            delete.isHidden = true
+            if RequestPageViewController.userName?.info["Status"] != "Admin" {
+                delete.isHidden = true
+            }
         } else {
             delete.isHidden = false
         }
-        /*
-        if rideRequest?.info["State"] == "#Resolved" {
-            delete.isHidden = true
-        } else {
-            delete.isHidden = faulse
-        }
-         
- */
         
     }
     

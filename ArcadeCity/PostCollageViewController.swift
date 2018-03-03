@@ -51,11 +51,6 @@ class PostCollageViewController: UIViewController, ETADelegate {
         } else {
             let destination = rideRequest?.info["Location"] ?? "Austin"
             setLocation.setETA(to: destination, for: self)
-            /*
-            Timer.scheduledTimer(withTimeInterval: 1, repeats: false, block: { (time) in
-                self.eta.text = self.rideRequest?.ETA
-            })
- */
             eta.text = rideRequest?.ETA
             print("riderequest eta is \(rideRequest?.ETA ?? "no ride request eta found")")
         }

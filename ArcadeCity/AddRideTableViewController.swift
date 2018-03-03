@@ -45,7 +45,6 @@ class AddRideTableViewController: UITableViewController {
         }
         if let otherInfoText = otherInfo.text {
             if otherInfoText.characters.count >= 3 {
-                ride.text = ride.text! + "\n" + otherInfoText
                 ride.info["Text"] = ride.info["Text"]! + "\n" + otherInfoText
             }
         }
