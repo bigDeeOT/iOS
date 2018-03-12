@@ -24,6 +24,7 @@ class ConfigureDocumentationViewController: UIViewController, UITableViewDelegat
         styleButtons()
         tableView.rowHeight = UITableViewAutomaticDimension
         tableView.estimatedRowHeight = 50
+        tableView.allowsSelection = false
     }
     
     override func viewWillAppear(_ animated: Bool) {

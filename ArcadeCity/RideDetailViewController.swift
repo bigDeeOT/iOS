@@ -189,7 +189,7 @@ class RideDetailViewController: UIViewController, UITableViewDelegate, UITableVi
         delete.frame.size = ImageResize.getNewSize(currentSize: delete.frame.size, maxSize: CGSize(width: 20, height: 20))
         //let deleteLogic = (rideRequest?.rider?.info["Name"] != RequestPageViewController.userName?.info["Name"]) && (RequestPageViewController.userName?.info["Status"] != "Admin") &&
         if rideRequest?.rider?.info["Name"] != RequestPageViewController.userName?.info["Name"] {
-            if RequestPageViewController.userName?.info["Status"] != "Admin" {
+            if RequestPageViewController.userName?.info["Class"] != "Admin" {
                 delete.isHidden = true
             }
         } else {

@@ -73,7 +73,7 @@ class SettingsTableViewController: UITableViewController {
         }
     }
     
-    private func logout() {
+    func logout() {
         FBSDKLoginManager().logOut()
         do {
             try Auth.auth().signOut()

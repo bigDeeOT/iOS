@@ -154,7 +154,7 @@ class LoadRequests {
                 let requestInfo = (child as! DataSnapshot).value as! [String:Any]
                 if key == keyFromLastPage {continue}
                 if key < (self?.requestPageBoundary)! { self?.requestPageBoundary = key }
-                let riderUnique = requestInfo["Rider"] as! String
+                guard let riderUnique = requestInfo["Rider"] as? String else {return}
                 let request = self?.createRideRequest(from: key, with: requestInfo, isNew: false)
                 self?.setRiderForRideRequest(from: riderUnique, with: request!)
             }
@@ -196,7 +196,7 @@ class LoadRequests {
         if request.info["Resolved By"] != nil {
             ref.child("Users").child(request.info["Resolved By"]!).observeSingleEvent(of: .value, with: { [weak self] (snapshotUser) in
                 request.resolvedBy = self?.pullUserFromFirebase(snapshotUser)
-                self?.requestPage.rideRequestList?.reloadData()
+                self?.requestPage?.rideRequestList?.reloadData()
                 request.delegate?.updateUI()
             })
         }

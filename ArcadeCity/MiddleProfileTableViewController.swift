@@ -8,6 +8,7 @@
 
 import UIKit
 import Firebase
+import FBSDKLoginKit
 
 class MiddleProfileTableViewController: UITableViewController {
     var data: [String : String]?
@@ -141,6 +142,17 @@ class MiddleProfileTableViewController: UITableViewController {
             collageBottomView = vc
             vc.profileIsForEditing = profileIsForEditing
         }
+    }
+    
+    func logout() {
+        FBSDKLoginManager().logOut()
+        do {
+            try Auth.auth().signOut()
+        } catch { print("error with firebase logout") }
+        LoadRequests.clear()
+        RequestPageViewController.userName = nil
+        tabBarController?.tabBar.isHidden = true
+        performSegue(withIdentifier: "logout", sender: nil)
     }
 
 }
