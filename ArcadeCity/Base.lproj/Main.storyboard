@@ -18,7 +18,7 @@
         <!--Might-->
         <scene sceneID="S3v-Oc-VGA">
             <objects>
-                <viewController automaticallyAdjustsScrollViewInsets="NO" id="DhC-KY-3sv" customClass="RequestPageViewController" customModule="ArcadeCity" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController automaticallyAdjustsScrollViewInsets="NO" id="DhC-KY-3sv" customClass="RequestPageViewController" customModule="Might" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="P8k-Ws-Qel"/>
                         <viewControllerLayoutGuide type="bottom" id="JZy-HS-17N"/>
@@ -32,7 +32,7 @@
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <inset key="scrollIndicatorInsets" minX="0.0" minY="44" maxX="0.0" maxY="0.0"/>
                                 <prototypes>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="rideRequest" rowHeight="128" id="n5R-hU-3M4" customClass="RequestPageTableViewCell" customModule="ArcadeCity" customModuleProvider="target">
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="rideRequest" rowHeight="128" id="n5R-hU-3M4" customClass="RequestPageTableViewCell" customModule="Might" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="28" width="343" height="128"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="n5R-hU-3M4" id="MHf-Fn-i8H">
@@ -202,7 +202,7 @@
         <!--Ride Detail View Controller-->
         <scene sceneID="wrw-hf-Opw">
             <objects>
-                <viewController id="M67-u6-5eC" customClass="RideDetailViewController" customModule="ArcadeCity" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="M67-u6-5eC" customClass="RideDetailViewController" customModule="Might" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="Mey-Yr-Mpr"/>
                         <viewControllerLayoutGuide type="bottom" id="PYD-Xl-4S2"/>
@@ -215,7 +215,7 @@
                                 <rect key="frame" x="0.0" y="149" width="375" height="405"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <prototypes>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="rideRequestDetail" rowHeight="229" id="FhH-nx-rKS" customClass="RideDetailTableViewCell" customModule="ArcadeCity" customModuleProvider="target">
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="rideRequestDetail" rowHeight="229" id="FhH-nx-rKS" customClass="RideDetailTableViewCell" customModule="Might" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="28" width="375" height="229"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="FhH-nx-rKS" id="710-LN-Izv">
@@ -422,7 +422,7 @@
         <!--Messaging View Controller-->
         <scene sceneID="Afl-BG-mZg">
             <objects>
-                <viewController id="COF-y7-xfr" customClass="MessagingViewController" customModule="ArcadeCity" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="COF-y7-xfr" customClass="MessagingViewController" customModule="Might" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="bs3-eU-IkH"/>
                         <viewControllerLayoutGuide type="bottom" id="fSM-o4-1zY"/>
@@ -435,7 +435,7 @@
                                 <rect key="frame" x="0.0" y="64" width="375" height="509"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <prototypes>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="myMessage" rowHeight="37" id="VTd-H3-YmJ" customClass="MyMessageTableViewCell" customModule="ArcadeCity" customModuleProvider="target">
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="myMessage" rowHeight="37" id="VTd-H3-YmJ" customClass="MyMessageTableViewCell" customModule="Might" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="28" width="375" height="37"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="VTd-H3-YmJ" id="Ctn-zx-RIF">
@@ -462,7 +462,7 @@
                                             <outlet property="messageText" destination="m0C-4n-3p4" id="OY5-om-gBR"/>
                                         </connections>
                                     </tableViewCell>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="theirMessage" rowHeight="50" id="X6F-Lh-dhD" customClass="TheirMessageTableViewCell" customModule="ArcadeCity" customModuleProvider="target">
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="theirMessage" rowHeight="50" id="X6F-Lh-dhD" customClass="TheirMessageTableViewCell" customModule="Might" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="65" width="375" height="50"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="X6F-Lh-dhD" id="dFn-dF-SEs">
@@ -538,7 +538,7 @@
         <!--Post Collage View Controller-->
         <scene sceneID="cCf-Ry-27t">
             <objects>
-                <viewController id="b15-VZ-WOL" customClass="PostCollageViewController" customModule="ArcadeCity" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="b15-VZ-WOL" customClass="PostCollageViewController" customModule="Might" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="VQz-h6-imd"/>
                         <viewControllerLayoutGuide type="bottom" id="ZHS-v9-hsw"/>
@@ -627,7 +627,7 @@
         <!--Add Ride Table View Controller-->
         <scene sceneID="opH-X5-V1v">
             <objects>
-                <tableViewController id="A2e-Ol-9cn" customClass="AddRideTableViewController" customModule="ArcadeCity" customModuleProvider="target" sceneMemberID="viewController">
+                <tableViewController id="A2e-Ol-9cn" customClass="AddRideTableViewController" customModule="Might" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="static" style="plain" separatorStyle="none" allowsSelection="NO" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" id="Mpd-ey-sqH">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -825,7 +825,7 @@
         <!--Google Maps View Controller-->
         <scene sceneID="agD-VG-RB1">
             <objects>
-                <viewController id="adi-f3-5A0" customClass="GoogleMapsViewController" customModule="ArcadeCity" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="adi-f3-5A0" customClass="GoogleMapsViewController" customModule="Might" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="ceT-6i-nTI"/>
                         <viewControllerLayoutGuide type="bottom" id="viA-Yg-Kn6"/>
@@ -843,7 +843,7 @@
         <!--Profile View Controller-->
         <scene sceneID="eH8-PA-fOu">
             <objects>
-                <viewController storyboardIdentifier="profileViewController" useStoryboardIdentifierAsRestorationIdentifier="YES" id="ahN-i3-rFa" customClass="ProfileViewController" customModule="ArcadeCity" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="profileViewController" useStoryboardIdentifierAsRestorationIdentifier="YES" id="ahN-i3-rFa" customClass="ProfileViewController" customModule="Might" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="wnN-y8-tt5"/>
                         <viewControllerLayoutGuide type="bottom" id="ewf-al-2Q7"/>
@@ -881,7 +881,7 @@
         <!--Set User Class View Controller-->
         <scene sceneID="ePn-cR-AiQ">
             <objects>
-                <viewController id="0lg-er-w3c" customClass="SetUserClassViewController" customModule="ArcadeCity" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="0lg-er-w3c" customClass="SetUserClassViewController" customModule="Might" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="Yrv-Fq-pc1"/>
                         <viewControllerLayoutGuide type="bottom" id="Qx1-t6-0Ea"/>
@@ -941,7 +941,7 @@
         <!--List Of Users View Controller-->
         <scene sceneID="we8-xb-GE2">
             <objects>
-                <viewController id="FEV-ta-cZ7" customClass="ListOfUsersViewController" customModule="ArcadeCity" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="FEV-ta-cZ7" customClass="ListOfUsersViewController" customModule="Might" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="m0R-5F-5w0"/>
                         <viewControllerLayoutGuide type="bottom" id="AWi-tL-gev"/>
@@ -954,7 +954,7 @@
                                 <rect key="frame" x="0.0" y="126" width="374" height="492"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <prototypes>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="user" rowHeight="62" id="3Jv-Lz-QYj" customClass="ListOfUsersTableViewCell" customModule="ArcadeCity" customModuleProvider="target">
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="user" rowHeight="62" id="3Jv-Lz-QYj" customClass="ListOfUsersTableViewCell" customModule="Might" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="28" width="374" height="62"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="3Jv-Lz-QYj" id="nff-zA-BY1">
@@ -1061,7 +1061,7 @@
         <!--Add Driver Doc View Controller-->
         <scene sceneID="Vnb-I6-g2l">
             <objects>
-                <viewController id="oAF-kd-xfX" customClass="AddDriverDocViewController" customModule="ArcadeCity" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="oAF-kd-xfX" customClass="AddDriverDocViewController" customModule="Might" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="2jj-bj-ovS"/>
                         <viewControllerLayoutGuide type="bottom" id="rgj-MZ-m1v"/>
@@ -1136,7 +1136,7 @@
         <!--Configure Documentation View Controller-->
         <scene sceneID="vaj-nu-hAk">
             <objects>
-                <viewController id="u1M-QO-zE6" customClass="ConfigureDocumentationViewController" customModule="ArcadeCity" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="u1M-QO-zE6" customClass="ConfigureDocumentationViewController" customModule="Might" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="fId-S0-72h"/>
                         <viewControllerLayoutGuide type="bottom" id="Odv-we-S5A"/>
@@ -1234,7 +1234,7 @@
         <!--Driver Documentation View Controller-->
         <scene sceneID="YnJ-kE-qAw">
             <objects>
-                <viewController id="BA8-BD-sMJ" customClass="DriverDocumentationViewController" customModule="ArcadeCity" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="BA8-BD-sMJ" customClass="DriverDocumentationViewController" customModule="Might" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="yVh-WP-H2u"/>
                         <viewControllerLayoutGuide type="bottom" id="5gq-iN-EFM"/>
@@ -1256,7 +1256,7 @@
                                         <rect key="frame" x="0.0" y="35.5" width="375" height="500.5"/>
                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                         <prototypes>
-                                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="Text" rowHeight="61" id="U8f-2d-eAH" customClass="TextDocumentTableViewCell" customModule="ArcadeCity" customModuleProvider="target">
+                                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="Text" rowHeight="61" id="U8f-2d-eAH" customClass="TextDocumentTableViewCell" customModule="Might" customModuleProvider="target">
                                                 <rect key="frame" x="0.0" y="28" width="375" height="61"/>
                                                 <autoresizingMask key="autoresizingMask"/>
                                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="U8f-2d-eAH" id="WvH-D1-pW4">
@@ -1294,7 +1294,7 @@
                                                     <outlet property="title" destination="JQe-1p-ynM" id="gt5-o3-QNw"/>
                                                 </connections>
                                             </tableViewCell>
-                                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="Date" rowHeight="70" id="ZZJ-M9-kPv" customClass="DateDocumentTableViewCell" customModule="ArcadeCity" customModuleProvider="target">
+                                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="Date" rowHeight="70" id="ZZJ-M9-kPv" customClass="DateDocumentTableViewCell" customModule="Might" customModuleProvider="target">
                                                 <rect key="frame" x="0.0" y="89" width="375" height="70"/>
                                                 <autoresizingMask key="autoresizingMask"/>
                                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="ZZJ-M9-kPv" id="4Eu-YG-D3F">
@@ -1318,7 +1318,7 @@
                                                     <outlet property="title" destination="Ak8-UO-A8S" id="cMV-a6-lMA"/>
                                                 </connections>
                                             </tableViewCell>
-                                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="Picture" rowHeight="261" id="3sT-tC-5Cb" customClass="PictureDocumentTableViewCell" customModule="ArcadeCity" customModuleProvider="target">
+                                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="Picture" rowHeight="261" id="3sT-tC-5Cb" customClass="PictureDocumentTableViewCell" customModule="Might" customModuleProvider="target">
                                                 <rect key="frame" x="0.0" y="159" width="375" height="261"/>
                                                 <autoresizingMask key="autoresizingMask"/>
                                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="3sT-tC-5Cb" id="CNx-7K-YUP">
@@ -1375,7 +1375,7 @@
         <!--Settings Table View Controller-->
         <scene sceneID="nAU-7c-FVy">
             <objects>
-                <tableViewController id="GnB-Ld-ZnT" customClass="SettingsTableViewController" customModule="ArcadeCity" customModuleProvider="target" sceneMemberID="viewController">
+                <tableViewController id="GnB-Ld-ZnT" customClass="SettingsTableViewController" customModule="Might" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" id="tlF-oz-NKc">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="603"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -1437,7 +1437,7 @@
         <!--Might Login View Controller-->
         <scene sceneID="s05-Oy-nxP">
             <objects>
-                <viewController id="lxe-hb-oSR" customClass="MightLoginViewController" customModule="ArcadeCity" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="lxe-hb-oSR" customClass="MightLoginViewController" customModule="Might" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="ODe-de-ajb"/>
                         <viewControllerLayoutGuide type="bottom" id="LF9-eB-EHe"/>
@@ -1527,7 +1527,7 @@
         <!--Login View Controller-->
         <scene sceneID="mvU-Pd-lSy">
             <objects>
-                <viewController id="R8h-4B-xTk" customClass="LoginViewController" customModule="ArcadeCity" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="R8h-4B-xTk" customClass="LoginViewController" customModule="Might" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="mcR-YN-rIA"/>
                         <viewControllerLayoutGuide type="bottom" id="4ck-qd-mqb"/>
@@ -1536,12 +1536,17 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="604"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="loadingPage" translatesAutoresizingMaskIntoConstraints="NO" id="ycF-eK-uyx">
-                                <rect key="frame" x="0.0" y="0.0" width="375" height="603"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="loadingPage" translatesAutoresizingMaskIntoConstraints="NO" id="ycF-eK-uyx">
+                                <rect key="frame" x="0.0" y="0.0" width="375" height="604"/>
                             </imageView>
                         </subviews>
                         <color key="backgroundColor" red="0.17316621541976929" green="0.46384346485137939" blue="0.753001868724823" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <constraints>
+                            <constraint firstItem="ycF-eK-uyx" firstAttribute="top" secondItem="GzO-OG-wQQ" secondAttribute="top" id="TBa-CV-e3O"/>
+                            <constraint firstAttribute="trailing" secondItem="ycF-eK-uyx" secondAttribute="trailing" id="VcX-Ya-axJ"/>
+                            <constraint firstItem="ycF-eK-uyx" firstAttribute="leading" secondItem="GzO-OG-wQQ" secondAttribute="leading" id="cd0-ej-zBt"/>
+                            <constraint firstItem="4ck-qd-mqb" firstAttribute="top" secondItem="ycF-eK-uyx" secondAttribute="bottom" id="w0d-Zq-1AQ"/>
+                        </constraints>
                     </view>
                     <nil key="simulatedStatusBarMetrics"/>
                     <nil key="simulatedTopBarMetrics"/>
@@ -1553,7 +1558,7 @@
         <!--Middle Profile Table View Controller-->
         <scene sceneID="6rP-Wf-FzJ">
             <objects>
-                <tableViewController id="70C-j6-lYR" customClass="MiddleProfileTableViewController" customModule="ArcadeCity" customModuleProvider="target" sceneMemberID="viewController">
+                <tableViewController id="70C-j6-lYR" customClass="MiddleProfileTableViewController" customModule="Might" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" id="z46-w3-Oyy">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="519"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -1585,7 +1590,7 @@
                                 <color key="backgroundColor" red="0.29803922770000002" green="0.29803922770000002" blue="0.29803922770000002" alpha="1" colorSpace="calibratedRGB"/>
                                 <color key="tintColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                             </tableViewCell>
-                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" reuseIdentifier="leftAligned" id="Ubu-0K-5AB" customClass="BioTableViewCell" customModule="ArcadeCity" customModuleProvider="target">
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" reuseIdentifier="leftAligned" id="Ubu-0K-5AB" customClass="BioTableViewCell" customModule="Might" customModuleProvider="target">
                                 <rect key="frame" x="0.0" y="53" width="375" height="44"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="Ubu-0K-5AB" id="syi-hJ-iLZ">
@@ -1633,7 +1638,7 @@
                                     <outlet property="editBio" destination="dzC-2g-AHK" id="VJz-u1-fjc"/>
                                 </connections>
                             </tableViewCell>
-                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" reuseIdentifier="keyValue" rowHeight="36" id="k49-EH-llt" customClass="KeyValueTableViewCell" customModule="ArcadeCity" customModuleProvider="target">
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" reuseIdentifier="keyValue" rowHeight="36" id="k49-EH-llt" customClass="KeyValueTableViewCell" customModule="Might" customModuleProvider="target">
                                 <rect key="frame" x="0.0" y="97" width="375" height="36"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="k49-EH-llt" id="bxa-Xu-7Op">
@@ -1699,7 +1704,7 @@
                                     <outlet property="value" destination="LMF-u0-mXi" id="M6a-xv-Q0f"/>
                                 </connections>
                             </tableViewCell>
-                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" reuseIdentifier="payments" rowHeight="36" id="M9m-0h-Y3D" customClass="PaymentsTableViewCell" customModule="ArcadeCity" customModuleProvider="target">
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" reuseIdentifier="payments" rowHeight="36" id="M9m-0h-Y3D" customClass="PaymentsTableViewCell" customModule="Might" customModuleProvider="target">
                                 <rect key="frame" x="0.0" y="133" width="375" height="36"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="M9m-0h-Y3D" id="SEd-di-M13">
@@ -1785,7 +1790,7 @@
         <!--Bottom Profile View Controller-->
         <scene sceneID="8sa-HJ-oG1">
             <objects>
-                <viewController id="SBG-Dw-qPs" customClass="BottomProfileViewController" customModule="ArcadeCity" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="SBG-Dw-qPs" customClass="BottomProfileViewController" customModule="Might" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="TGt-AM-ddW"/>
                         <viewControllerLayoutGuide type="bottom" id="ZTN-WL-GBf"/>
@@ -1817,7 +1822,7 @@
         <!--Image View Controller-->
         <scene sceneID="9aw-Kh-7Z1">
             <objects>
-                <viewController id="vzy-Gq-5Lc" customClass="ImageViewController" customModule="ArcadeCity" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="vzy-Gq-5Lc" customClass="ImageViewController" customModule="Might" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="nLJ-KN-0d6"/>
                         <viewControllerLayoutGuide type="bottom" id="KSA-0w-utC"/>
@@ -1850,7 +1855,7 @@
         <!--Conversations View Controller-->
         <scene sceneID="w8y-0a-R0c">
             <objects>
-                <viewController id="c3b-Ot-8qE" customClass="ConversationsViewController" customModule="ArcadeCity" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="c3b-Ot-8qE" customClass="ConversationsViewController" customModule="Might" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="K4k-T7-joZ"/>
                         <viewControllerLayoutGuide type="bottom" id="xIx-YJ-8z4"/>
@@ -1864,7 +1869,7 @@
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <prototypes>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="convoCell" rowHeight="74" id="eNW-et-WDV" customClass="ConversationTableViewCell" customModule="ArcadeCity" customModuleProvider="target">
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="convoCell" rowHeight="74" id="eNW-et-WDV" customClass="ConversationTableViewCell" customModule="Might" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="28" width="375" height="74"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="eNW-et-WDV" id="kJN-xs-aB0">

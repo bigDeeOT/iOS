@@ -16,7 +16,6 @@ class LoadRequests {
     static var gRef: DatabaseReference!
     static var requestList = [RideRequest]()
     static var needToLoad = true
-    //var userInfo: [String:String] = [:]
     var requestPage: RequestPageViewController!
     var loginPageDelegate:  MightLoginViewController!
     static var firstPageBoundarySet = false
@@ -163,7 +162,10 @@ class LoadRequests {
     
     func setRiderForRideRequest(from riderUnique: String, with request: RideRequest) {
         ref.child("Users/\(riderUnique)").observeSingleEvent(of: .value, with: { [weak self] (snapShotUser) in
-            LoadRequests.numberOfRequestsLoaded = LoadRequests.numberOfRequestsLoaded + 1
+            LoadRequests.numberOfRequestsLoaded += 1
+            if LoadRequests.numberOfRequestsLoaded == 10 {
+                print("number of requests loaded is ten")
+            }
             guard snapShotUser.exists() else {return}
             let user = self?.pullUserFromFirebase(snapShotUser)
             request.rider = user

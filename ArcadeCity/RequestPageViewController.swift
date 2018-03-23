@@ -9,6 +9,7 @@
 import UIKit
 import FBSDKLoginKit
 import Firebase
+import Crashlytics
 
 class RequestPageViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, OfferRide {
 
@@ -55,7 +56,7 @@ class RequestPageViewController: UIViewController, UITableViewDelegate, UITableV
         tabBarNavBarLogic()
         RequestPageViewController.this = self
         prepareToRemoveLoadingPage()
-        UIView.setAnimationsEnabled(false) //only for debugging on simulator
+        UIView.setAnimationsEnabled(false)           //only for debugging on simulator
         rideRequestList.tableFooterView = UIView()
     }
     
@@ -80,14 +81,14 @@ class RequestPageViewController: UIViewController, UITableViewDelegate, UITableV
         //This waits for all the requests to be loaded then removes loading page
         var timesCheckedIfLoadingFinished = 0.0
         Timer.scheduledTimer(withTimeInterval: 0.2, repeats: true) { (timer) in
-            timesCheckedIfLoadingFinished = timesCheckedIfLoadingFinished + 1
+            timesCheckedIfLoadingFinished += 1
             if LoadRequests.numberOfRequestsLoaded >= LoadRequests.numberOfRequestsInFirebase {
                 if LoadRequests.numberOfRequestsLoaded > 0 {
                     timer.invalidate()
                     self.removeLoginPage()
                 }
             }
-            if timesCheckedIfLoadingFinished * 0.2 > 5 {    //Remove loading page after 5 seconds
+            if timesCheckedIfLoadingFinished * 0.2 > 20 {    //Remove loading page after 5 seconds
                 self.removeLoginPage()
                 timer.invalidate()
                 print("LoadRequests.numberOfRequestsLoaded < LoadRequests.numberOfRequestsInFirebase")
@@ -179,8 +180,8 @@ class RequestPageViewController: UIViewController, UITableViewDelegate, UITableV
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         if (RequestPageViewController.userName == nil) {
-            print("removing observers in view will disappear")
-            LoadRequests.gRef.child("Requests").removeAllObservers()
+            LoadRequests.clear()
+            return
         }
         //basically refreshes the ride request list
         //refreshRequestList is set to false when going to rideDetail

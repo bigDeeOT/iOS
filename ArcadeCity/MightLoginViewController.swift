@@ -49,6 +49,7 @@ class MightLoginViewController: UIViewController, loginDelegate, ETADelegate {
     }
     
     func etaIsReady(text etaText: String, value etaValue: Int) {
+        guard userIsLocal == nil else {return}
         if (etaValue > 5400) {
             userIsLocal = false
         } else {

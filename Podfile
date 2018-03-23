@@ -1,9 +1,11 @@
 # Uncomment the next line to define a global platform for your project
 # platform :ios, '9.0'
 
-target 'ArcadeCity' do
+target 'Might' do
   use_frameworks!
-  # Pods for ArcadeCity
+  # Pods for Might
+  pod 'Fabric'
+  pod 'Crashlytics'
   pod 'Firebase/Core'
   pod 'Firebase/Database'
   pod 'Firebase/Storage'

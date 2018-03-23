@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		3FD327F6492C98DD7E2FCB5F /* Pods_Might.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F76D0D34681D2065129A6EB4 /* Pods_Might.framework */; };
 		5708175B1F2989120062DB68 /* ImageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5708175A1F2989120062DB68 /* ImageViewController.swift */; };
 		573853C31F2EBE6100B37228 /* SetLocation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 573853C21F2EBE6100B37228 /* SetLocation.swift */; };
 		573853C71F31038100B37228 /* GoogleMapsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 573853C61F31038100B37228 /* GoogleMapsViewController.swift */; };
@@ -69,6 +70,8 @@
 
 /* Begin PBXFileReference section */
 		1793F771E381A19DBA654345 /* Pods-ArcadeCity.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ArcadeCity.debug.xcconfig"; path = "Pods/Target Support Files/Pods-ArcadeCity/Pods-ArcadeCity.debug.xcconfig"; sourceTree = "<group>"; };
+		1A07AB56FEEE28370F31E045 /* Pods-Might.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Might.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Might/Pods-Might.debug.xcconfig"; sourceTree = "<group>"; };
+		1A35AD0EAD949CCA24758BE2 /* Pods-Might.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Might.release.xcconfig"; path = "Pods/Target Support Files/Pods-Might/Pods-Might.release.xcconfig"; sourceTree = "<group>"; };
 		47D4409EDB97209FB6509052 /* Pods_ArcadeCity.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_ArcadeCity.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		5708175A1F2989120062DB68 /* ImageViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ImageViewController.swift; sourceTree = "<group>"; };
 		5712C8281F22400A00442110 /* ArcadeCity.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = ArcadeCity.entitlements; sourceTree = "<group>"; };
@@ -117,7 +120,7 @@
 		57D195D41F1A756000F27BB7 /* RideDetailTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RideDetailTableViewCell.swift; sourceTree = "<group>"; };
 		57D195D61F1A7FB700F27BB7 /* User.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
 		57D195DB1F1AE50900F27BB7 /* PostCollageViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PostCollageViewController.swift; sourceTree = "<group>"; };
-		57E65E981F15D59000B39AF4 /* ArcadeCity.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ArcadeCity.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		57E65E981F15D59000B39AF4 /* Might.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Might.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		57E65E9B1F15D59000B39AF4 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		57E65EA01F15D59000B39AF4 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		57E65EA31F15D59000B39AF4 /* ArcadeCity.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = ArcadeCity.xcdatamodel; sourceTree = "<group>"; };
@@ -131,6 +134,7 @@
 		57E65EC51F186E3900B39AF4 /* RequestPageViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RequestPageViewController.swift; sourceTree = "<group>"; };
 		AC3813EA1F1EE33900E79813 /* RequestPageTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RequestPageTableViewCell.swift; sourceTree = "<group>"; };
 		B9F14C6420E689931DC11C49 /* Pods-ArcadeCity.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ArcadeCity.release.xcconfig"; path = "Pods/Target Support Files/Pods-ArcadeCity/Pods-ArcadeCity.release.xcconfig"; sourceTree = "<group>"; };
+		F76D0D34681D2065129A6EB4 /* Pods_Might.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Might.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -140,6 +144,7 @@
 			files = (
 				574724F51F2EA71D003EFFC6 /* CoreLocation.framework in Frameworks */,
 				7C2EE085E9FFEAC069E9450C /* Pods_ArcadeCity.framework in Frameworks */,
+				3FD327F6492C98DD7E2FCB5F /* Pods_Might.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -297,7 +302,7 @@
 		57E65E991F15D59000B39AF4 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				57E65E981F15D59000B39AF4 /* ArcadeCity.app */,
+				57E65E981F15D59000B39AF4 /* Might.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -354,6 +359,8 @@
 			children = (
 				1793F771E381A19DBA654345 /* Pods-ArcadeCity.debug.xcconfig */,
 				B9F14C6420E689931DC11C49 /* Pods-ArcadeCity.release.xcconfig */,
+				1A07AB56FEEE28370F31E045 /* Pods-Might.debug.xcconfig */,
+				1A35AD0EAD949CCA24758BE2 /* Pods-Might.release.xcconfig */,
 			);
 			name = Pods;
 			sourceTree = "<group>";
@@ -363,6 +370,7 @@
 			children = (
 				574724F41F2EA71D003EFFC6 /* CoreLocation.framework */,
 				47D4409EDB97209FB6509052 /* Pods_ArcadeCity.framework */,
+				F76D0D34681D2065129A6EB4 /* Pods_Might.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -370,9 +378,9 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		57E65E971F15D59000B39AF4 /* ArcadeCity */ = {
+		57E65E971F15D59000B39AF4 /* Might */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 57E65EAD1F15D59000B39AF4 /* Build configuration list for PBXNativeTarget "ArcadeCity" */;
+			buildConfigurationList = 57E65EAD1F15D59000B39AF4 /* Build configuration list for PBXNativeTarget "Might" */;
 			buildPhases = (
 				59CE06A363AE54D18556217F /* [CP] Check Pods Manifest.lock */,
 				57E65E941F15D59000B39AF4 /* Sources */,
@@ -380,14 +388,15 @@
 				57E65E961F15D59000B39AF4 /* Resources */,
 				03025FA1F842636DA05721F2 /* [CP] Embed Pods Frameworks */,
 				55F2AD62655D7E9F8002E4E9 /* [CP] Copy Pods Resources */,
+				57B328BD2061FAB0008BB1E1 /* ShellScript */,
 			);
 			buildRules = (
 			);
 			dependencies = (
 			);
-			name = ArcadeCity;
+			name = Might;
 			productName = ArcadeCity;
-			productReference = 57E65E981F15D59000B39AF4 /* ArcadeCity.app */;
+			productReference = 57E65E981F15D59000B39AF4 /* Might.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
@@ -428,7 +437,7 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				57E65E971F15D59000B39AF4 /* ArcadeCity */,
+				57E65E971F15D59000B39AF4 /* Might */,
 			);
 		};
 /* End PBXProject section */
@@ -454,7 +463,7 @@
 			files = (
 			);
 			inputPaths = (
-				"${SRCROOT}/Pods/Target Support Files/Pods-ArcadeCity/Pods-ArcadeCity-frameworks.sh",
+				"${SRCROOT}/Pods/Target Support Files/Pods-Might/Pods-Might-frameworks.sh",
 				"${BUILT_PRODUCTS_DIR}/Bolts/Bolts.framework",
 				"${BUILT_PRODUCTS_DIR}/FBSDKCoreKit/FBSDKCoreKit.framework",
 				"${BUILT_PRODUCTS_DIR}/FBSDKLoginKit/FBSDKLoginKit.framework",
@@ -479,7 +488,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-ArcadeCity/Pods-ArcadeCity-frameworks.sh\"\n";
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-Might/Pods-Might-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		55F2AD62655D7E9F8002E4E9 /* [CP] Copy Pods Resources */ = {
@@ -488,7 +497,7 @@
 			files = (
 			);
 			inputPaths = (
-				"${SRCROOT}/Pods/Target Support Files/Pods-ArcadeCity/Pods-ArcadeCity-resources.sh",
+				"${SRCROOT}/Pods/Target Support Files/Pods-Might/Pods-Might-resources.sh",
 				"${PODS_ROOT}/GoogleMaps/Maps/Frameworks/GoogleMaps.framework/Versions/A/Resources/GoogleMaps.bundle",
 			);
 			name = "[CP] Copy Pods Resources";
@@ -497,8 +506,21 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-ArcadeCity/Pods-ArcadeCity-resources.sh\"\n";
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-Might/Pods-Might-resources.sh\"\n";
 			showEnvVarsInLog = 0;
+		};
+		57B328BD2061FAB0008BB1E1 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"Pods/Fabric/run\"";
 		};
 		59CE06A363AE54D18556217F /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -511,7 +533,7 @@
 			);
 			name = "[CP] Check Pods Manifest.lock";
 			outputPaths = (
-				"$(DERIVED_FILE_DIR)/Pods-ArcadeCity-checkManifestLockResult.txt",
+				"$(DERIVED_FILE_DIR)/Pods-Might-checkManifestLockResult.txt",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
@@ -626,7 +648,7 @@
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				COPY_PHASE_STRIP = NO;
-				DEBUG_INFORMATION_FORMAT = dwarf;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
@@ -697,7 +719,7 @@
 		};
 		57E65EAE1F15D59000B39AF4 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 1793F771E381A19DBA654345 /* Pods-ArcadeCity.debug.xcconfig */;
+			baseConfigurationReference = 1A07AB56FEEE28370F31E045 /* Pods-Might.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = ArcadeCity/ArcadeCity.entitlements;
@@ -714,7 +736,7 @@
 		};
 		57E65EAF1F15D59000B39AF4 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = B9F14C6420E689931DC11C49 /* Pods-ArcadeCity.release.xcconfig */;
+			baseConfigurationReference = 1A35AD0EAD949CCA24758BE2 /* Pods-Might.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = ArcadeCity/ArcadeCity.entitlements;
@@ -741,7 +763,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		57E65EAD1F15D59000B39AF4 /* Build configuration list for PBXNativeTarget "ArcadeCity" */ = {
+		57E65EAD1F15D59000B39AF4 /* Build configuration list for PBXNativeTarget "Might" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				57E65EAE1F15D59000B39AF4 /* Debug */,
