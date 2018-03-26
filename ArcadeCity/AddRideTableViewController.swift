@@ -15,7 +15,6 @@ class AddRideTableViewController: UITableViewController {
 
     @IBOutlet weak var pickUp: UITextField!
     @IBOutlet weak var dropOff: UITextField!
-    @IBOutlet weak var nowOrLater: UISegmentedControl!
     @IBOutlet weak var currentLocation: UISegmentedControl!
     @IBOutlet weak var otherInfo: UITextView!
     var setLocation = SetLocation()
@@ -47,6 +46,7 @@ class AddRideTableViewController: UITableViewController {
             }
         }
         ride.info["Text"] = ride.info["Text"]?.replacingOccurrences(of: " And ", with: " & ")
+        ride.info["Text"] = ride.info["Text"]?.replacingOccurrences(of: " A ", with: " a ")
         ride.date = Date.init()
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "MM-dd-yyyy hh:mm:ss a"
@@ -60,7 +60,6 @@ class AddRideTableViewController: UITableViewController {
         }
         ride.rider?.incrementVariable("Rides Requested")
         ride.info["Location"] = setLocation.latLog ?? "false"
-       // print(setLocation.latLog ?? "false")
         performSegue(withIdentifier: identifier, sender: ride)
     }
     
@@ -142,7 +141,7 @@ class AddRideTableViewController: UITableViewController {
     }
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 6
+        return 5
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {

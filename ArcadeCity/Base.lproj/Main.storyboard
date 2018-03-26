@@ -689,35 +689,8 @@
                                         </tableViewCellContentView>
                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                     </tableViewCell>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" rowHeight="60" id="RCI-Ey-1cc">
-                                        <rect key="frame" x="0.0" y="100" width="375" height="60"/>
-                                        <autoresizingMask key="autoresizingMask"/>
-                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="RCI-Ey-1cc" id="aqn-M6-ANO">
-                                            <rect key="frame" x="0.0" y="0.0" width="375" height="60"/>
-                                            <autoresizingMask key="autoresizingMask"/>
-                                            <subviews>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="4g4-Zp-HTU">
-                                                    <rect key="frame" x="8" y="8" width="0.0" height="0.0"/>
-                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                                    <nil key="textColor"/>
-                                                    <nil key="highlightedColor"/>
-                                                </label>
-                                                <segmentedControl opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="RQ2-WZ-RgX">
-                                                    <rect key="frame" x="8" y="16" width="359" height="29"/>
-                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                                    <segments>
-                                                        <segment title="Now"/>
-                                                        <segment title="Later"/>
-                                                    </segments>
-                                                    <color key="tintColor" red="0.27017667889595032" green="0.52475732564926147" blue="0.77390563488006592" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                                </segmentedControl>
-                                            </subviews>
-                                        </tableViewCellContentView>
-                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                    </tableViewCell>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" rowHeight="88" id="rTV-Sb-orV">
-                                        <rect key="frame" x="0.0" y="160" width="375" height="88"/>
+                                        <rect key="frame" x="0.0" y="100" width="375" height="88"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="rTV-Sb-orV" id="ekE-KU-UJq">
                                             <rect key="frame" x="0.0" y="0.0" width="375" height="88"/>
@@ -745,7 +718,7 @@
                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                     </tableViewCell>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" rowHeight="97" id="cZd-Tm-YSN">
-                                        <rect key="frame" x="0.0" y="248" width="375" height="97"/>
+                                        <rect key="frame" x="0.0" y="188" width="375" height="97"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="cZd-Tm-YSN" id="b79-Gp-aJi">
                                             <rect key="frame" x="0.0" y="0.0" width="375" height="97"/>
@@ -778,7 +751,7 @@
                                         </tableViewCellContentView>
                                     </tableViewCell>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" id="NkU-0H-BPi">
-                                        <rect key="frame" x="0.0" y="345" width="375" height="44"/>
+                                        <rect key="frame" x="0.0" y="285" width="375" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="NkU-0H-BPi" id="fQb-Pu-jGF">
                                             <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
@@ -811,7 +784,6 @@
                     <connections>
                         <outlet property="currentLocation" destination="1Ay-HH-PiJ" id="5kD-Lg-XuY"/>
                         <outlet property="dropOff" destination="zZ2-at-u0j" id="NAZ-GZ-wHk"/>
-                        <outlet property="nowOrLater" destination="RQ2-WZ-RgX" id="4g3-Sg-Mgn"/>
                         <outlet property="otherInfo" destination="rkZ-0E-upG" id="Hfc-e9-wcX"/>
                         <outlet property="pickUp" destination="RI6-Ua-GqM" id="iGb-ga-1ln"/>
                         <segue destination="shL-mC-cWJ" kind="unwind" identifier="requestRide" unwindAction="unwindToRequestPageWithSegue:" id="aB7-qY-sk6"/>

@@ -48,9 +48,13 @@ class AutoCompleteViewController: UIViewController, GMSAutocompleteResultsViewCo
     }
 
     func resultsController(_ resultsController: GMSAutocompleteResultsViewController, didAutocompleteWith place: GMSPlace) {
-        var text = place.formattedAddress!.contains(place.name) ? place.formattedAddress! : place.name + "\n" + place.formattedAddress!
+        var text = place.formattedAddress!.contains(place.name) ? place.formattedAddress! : place.name + " at " + place.formattedAddress!
         text = text.replacingOccurrences(of: ", USA", with: "")
         text = text.replacingOccurrences(of: region, with: "")
+        text = text.substring(to: text.index(text.endIndex, offsetBy: -6))
+        if text.hasSuffix(",") {
+            text = text.substring(to: text.index(text.endIndex, offsetBy: -1))
+        }
         addRideVC?.autoCompleteClicked(text)
         addRideVC?.dismiss(animated: true, completion: nil)
     }
