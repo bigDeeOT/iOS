@@ -42,6 +42,7 @@
 		57A701071F49E7D2007D9E1B /* DateDocumentTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57A701061F49E7D2007D9E1B /* DateDocumentTableViewCell.swift */; };
 		57A701091F49E80A007D9E1B /* PictureDocumentTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57A701081F49E80A007D9E1B /* PictureDocumentTableViewCell.swift */; };
 		57A7010B1F49EBDC007D9E1B /* DriverDocumentationBackend.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57A7010A1F49EBDC007D9E1B /* DriverDocumentationBackend.swift */; };
+		57A823EB206785AF004C3B7E /* AutoCompleteViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57A823EA206785AF004C3B7E /* AutoCompleteViewController.swift */; };
 		57AABB212012CA97003CDA64 /* ConversationBackend.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57AABB202012CA97003CDA64 /* ConversationBackend.swift */; };
 		57AABB232012CAE7003CDA64 /* Conversation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57AABB222012CAE7003CDA64 /* Conversation.swift */; };
 		57AABB272013EC84003CDA64 /* ConversationsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57AABB262013EC84003CDA64 /* ConversationsViewController.swift */; };
@@ -108,6 +109,7 @@
 		57A701061F49E7D2007D9E1B /* DateDocumentTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DateDocumentTableViewCell.swift; sourceTree = "<group>"; };
 		57A701081F49E80A007D9E1B /* PictureDocumentTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PictureDocumentTableViewCell.swift; sourceTree = "<group>"; };
 		57A7010A1F49EBDC007D9E1B /* DriverDocumentationBackend.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DriverDocumentationBackend.swift; sourceTree = "<group>"; };
+		57A823EA206785AF004C3B7E /* AutoCompleteViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AutoCompleteViewController.swift; sourceTree = "<group>"; };
 		57AABB202012CA97003CDA64 /* ConversationBackend.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConversationBackend.swift; sourceTree = "<group>"; };
 		57AABB222012CAE7003CDA64 /* Conversation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Conversation.swift; sourceTree = "<group>"; };
 		57AABB262013EC84003CDA64 /* ConversationsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConversationsViewController.swift; sourceTree = "<group>"; };
@@ -312,6 +314,7 @@
 			children = (
 				5712C8281F22400A00442110 /* ArcadeCity.entitlements */,
 				57E65E9F1F15D59000B39AF4 /* Main.storyboard */,
+				57A823EA206785AF004C3B7E /* AutoCompleteViewController.swift */,
 				57D195CF1F19604F00F27BB7 /* AddRideTableViewController.swift */,
 				5753E31B1F379EF000B930E7 /* MightLoginViewController.swift */,
 				575E7B671F266DCC00C1DD70 /* LoadingPageMain.swift */,
@@ -499,6 +502,7 @@
 			inputPaths = (
 				"${SRCROOT}/Pods/Target Support Files/Pods-Might/Pods-Might-resources.sh",
 				"${PODS_ROOT}/GoogleMaps/Maps/Frameworks/GoogleMaps.framework/Versions/A/Resources/GoogleMaps.bundle",
+				"${PODS_ROOT}/GooglePlaces/Frameworks/GooglePlaces.framework/Versions/A/Resources/GooglePlaces.bundle",
 			);
 			name = "[CP] Copy Pods Resources";
 			outputPaths = (
@@ -583,6 +587,7 @@
 				578969CA1F43E0000039768E /* ListOfUsersViewController.swift in Sources */,
 				573853C71F31038100B37228 /* GoogleMapsViewController.swift in Sources */,
 				57A7010B1F49EBDC007D9E1B /* DriverDocumentationBackend.swift in Sources */,
+				57A823EB206785AF004C3B7E /* AutoCompleteViewController.swift in Sources */,
 				573853C31F2EBE6100B37228 /* SetLocation.swift in Sources */,
 				5770B5791F3A25FC00E23C51 /* MessagingBackend.swift in Sources */,
 				57AABB232012CAE7003CDA64 /* Conversation.swift in Sources */,

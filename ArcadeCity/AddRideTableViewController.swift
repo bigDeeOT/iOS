@@ -14,22 +14,20 @@ class AddRideTableViewController: UITableViewController {
     var identifier = "requestRide"
 
     @IBOutlet weak var pickUp: UITextField!
-    
     @IBOutlet weak var dropOff: UITextField!
-    
     @IBOutlet weak var nowOrLater: UISegmentedControl!
-    
     @IBOutlet weak var currentLocation: UISegmentedControl!
-    
     @IBOutlet weak var otherInfo: UITextView!
     var setLocation = SetLocation()
-    
     var location: String!
-        
+    var pickUpGoogleButton: UIButton?
+    var dropOffGoogleButton: UIButton?
+    var selectedPickUpButton = true
+    
     @IBAction func requestRide(_ sender: UIButton) {
         let ride = RideRequest()
         if let pickUpText = pickUp.text{
-            if pickUpText.characters.count <= 1 {
+            if pickUpText.count <= 1 {
                 //invalid pickup
                 return
             }
@@ -39,12 +37,12 @@ class AddRideTableViewController: UITableViewController {
             return
         }
         if let dropOffText = dropOff.text{
-            if dropOffText.characters.count >= 2 {
-                ride.info["Text"] = ride.info["Text"]! + " to \(dropOffText)"
+            if dropOffText.count >= 2 {
+                ride.info["Text"] = ride.info["Text"]! + " to\n\(dropOffText)"
             }
         }
         if let otherInfoText = otherInfo.text {
-            if otherInfoText.characters.count >= 3 {
+            if otherInfoText.count >= 3 {
                 ride.info["Text"] = ride.info["Text"]! + "\n" + otherInfoText
             }
         }
@@ -81,6 +79,55 @@ class AddRideTableViewController: UITableViewController {
         pickUp.becomeFirstResponder()
         pickUp.addTarget(dropOff, action: #selector(becomeFirstResponder), for: UIControlEvents.editingDidEndOnExit)
         dropOff.addTarget(otherInfo, action: #selector(becomeFirstResponder), for: UIControlEvents.editingDidEndOnExit)
+        addAutoCompleteButtons()
+    }
+    
+    private func addAutoCompleteButtons() {
+        pickUpGoogleButton = UIButton(type: .custom)
+        pickUpGoogleButton?.setImage(UIImage(named: "autoComplete"), for: .normal)
+        pickUpGoogleButton?.addTarget(self, action: #selector(autoCompleteButton(_:)), for: .touchUpInside)
+        pickUpGoogleButton?.frame = CGRect(x: 0, y: 0, width: 25, height: 25)
+        pickUp.leftView = pickUpGoogleButton
+        pickUp.leftViewMode = .whileEditing
+        dropOffGoogleButton = UIButton(type: .custom)
+        dropOffGoogleButton?.setImage(UIImage(named: "autoComplete"), for: .normal)
+        dropOffGoogleButton?.addTarget(self, action: #selector(autoCompleteButton(_:)), for: .touchUpInside)
+        dropOffGoogleButton?.frame = CGRect(x: 0, y: 0, width: 25, height: 25)
+        dropOff.leftView = dropOffGoogleButton
+        dropOff.leftViewMode = .whileEditing
+    }
+    
+    func autoCompleteButton(_ sender:UIButton) {
+        let autoCompleteVC = AutoCompleteViewController()
+        if sender == pickUpGoogleButton {
+            selectedPickUpButton = true
+            autoCompleteVC.searchPretext = pickUp.text
+        } else  {
+            selectedPickUpButton = false
+            autoCompleteVC.searchPretext = dropOff.text
+        }
+        autoCompleteVC.addRideVC = self
+        let navVC = UINavigationController(rootViewController: autoCompleteVC)
+        present(navVC, animated: true, completion: nil)
+    }
+    
+    func autoCompleteClicked(_ name: String) {
+        if selectedPickUpButton {
+            pickUp.text = name
+            dropOff.becomeFirstResponder()
+        } else {
+            dropOff.text = name
+            otherInfo.becomeFirstResponder()
+        }
+    }
+    
+    func autoCompleteCanceled() {
+        dismiss(animated: true, completion: nil)
+        if selectedPickUpButton {
+            pickUp.becomeFirstResponder()
+        } else {
+            dropOff.becomeFirstResponder()
+        }
     }
     
     func dismissKeyboard() {

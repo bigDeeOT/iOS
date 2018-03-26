@@ -14,6 +14,7 @@ import FirebaseMessaging
 import UserNotifications
 import FBSDKCoreKit
 import GoogleMaps
+import GooglePlaces
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterDelegate, MessagingDelegate {
@@ -30,6 +31,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         UIApplication.shared.applicationIconBadgeNumber = 0
         FBSDKApplicationDelegate.sharedInstance().application(application, didFinishLaunchingWithOptions: launchOptions)
         GMSServices.provideAPIKey("AIzaSyAJxvbSc0wd1jJYCpqEC0iAB4PPlMu03UE")
+        GMSPlacesClient.provideAPIKey("AIzaSyBiCwJQ2ZyY-hNN3NHBmRjvw78Nr8i4R0w")
         UITabBar.appearance().tintColor = UIColor(red:0.02, green:0.44, blue:0.75, alpha:1.0)
         if #available(iOS 10.0, *) {
             // For iOS 10 display notification (sent via APNS)

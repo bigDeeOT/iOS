@@ -61,6 +61,8 @@ PODS:
   - GoogleMaps/Base (2.3.0)
   - GoogleMaps/Maps (2.3.0):
     - GoogleMaps/Base
+  - GooglePlaces (2.3.0):
+    - GoogleMaps/Base (= 2.3.0)
   - GoogleToolboxForMac/DebugUtils (2.1.3):
     - GoogleToolboxForMac/Defines (= 2.1.3)
   - GoogleToolboxForMac/Defines (2.1.3)
@@ -83,8 +85,8 @@ PODS:
   - Protobuf (3.4.0)
 
 DEPENDENCIES:
-  - Crashlytics (~> 3.10.1)
-  - Fabric (~> 1.7.5)
+  - Crashlytics
+  - Fabric
   - FBSDKCoreKit
   - FBSDKLoginKit
   - FBSDKShareKit
@@ -94,6 +96,7 @@ DEPENDENCIES:
   - Firebase/Messaging
   - Firebase/Storage
   - GoogleMaps (= 2.3.0)
+  - GooglePlaces
 
 SPEC CHECKSUMS:
   Bolts: 8a7995239dbe724f9cba2248b766d48b7ebdd322
@@ -111,12 +114,13 @@ SPEC CHECKSUMS:
   FirebaseMessaging: e25dc87045e76dfe9e920a5741dc3fe7e3ef2268
   FirebaseStorage: 0cca42d9b889a0227c3a50121f45a4469fc9eb27
   GoogleMaps: 340a6a0bebd17c2db8abcd3921976c7c53c86cb8
+  GooglePlaces: 74d322c74184ea4576184089b496d291cf0dcd38
   GoogleToolboxForMac: 2501e2ad72a52eb3dfe7bd9aee7dad11b858bd20
   GTMSessionFetcher: ebaa1f79a5366922c1735f1566901f50beba23b7
   leveldb-library: 10fb39c39e243db4af1828441162405bbcec1404
   nanopb: 5601e6bca2dbf1ed831b519092ec110f66982ca3
   Protobuf: 03eef2ee0b674770735cf79d9c4d3659cf6908e8
 
-PODFILE CHECKSUM: ea99078898b6717790b0e2caa99ccf238d8152b4
+PODFILE CHECKSUM: 777293b66cec9e716be4cd51cb408f888f43d775
 
 COCOAPODS: 1.3.1

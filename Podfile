@@ -15,4 +15,5 @@ target 'Might' do
   pod 'FBSDKLoginKit'
   pod 'Firebase/Auth'
   pod 'GoogleMaps', '= 2.3.0'
+  pod 'GooglePlaces'
 end
