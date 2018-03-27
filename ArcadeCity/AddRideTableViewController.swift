@@ -9,7 +9,6 @@
 import UIKit
 
 class AddRideTableViewController: UITableViewController {
-
     
     var identifier = "requestRide"
 
@@ -59,7 +58,7 @@ class AddRideTableViewController: UITableViewController {
             ride.info["Show ETA"] = "False"
         }
         ride.rider?.incrementVariable("Rides Requested")
-        ride.info["Location"] = setLocation.latLog ?? "false"
+        ride.info["Location"] = setLocation.latLog ?? "n/a"
         performSegue(withIdentifier: identifier, sender: ride)
     }
     

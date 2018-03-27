@@ -93,7 +93,7 @@ class PaymentsTableViewCell: UITableViewCell, userInfoDelegate {
     }
     
     private func allowDriverToTogglePaymentOptions() {
-        for (paymentName,(payment, toggleGesture)) in paymentOptions! {
+        for (_,(payment, toggleGesture)) in paymentOptions! {
             payment.addGestureRecognizer(toggleGesture)
             payment.isUserInteractionEnabled = true
         }
