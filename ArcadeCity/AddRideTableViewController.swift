@@ -68,6 +68,7 @@ class AddRideTableViewController: UITableViewController {
         tableView.tableFooterView = UIView()
         otherInfo.layer.borderWidth = 1
         otherInfo.layer.borderColor = UIColor.lightGray.cgColor
+        otherInfo.layer.cornerRadius = 5
         tableView.tableFooterView = UIView(frame: CGRect(x: 0, y: 0, width: tableView.frame.size.width, height: 1))
         let tap = UITapGestureRecognizer(target: self, action: #selector(dismissKeyboard))
         view.addGestureRecognizer(tap)
