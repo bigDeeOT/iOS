@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import Firebase
 
 class PaymentsTableViewCell: UITableViewCell, userInfoDelegate {
     @IBOutlet weak var cellTitle: UILabel!
@@ -17,10 +18,9 @@ class PaymentsTableViewCell: UITableViewCell, userInfoDelegate {
     @IBOutlet weak var squareCash: UIImageView!
     var controller: MiddleProfileTableViewController?
     var paymentOptions: [String : (UIImageView, UIGestureRecognizer)]?
-    var paymentOptionsIndex: [String]?
     var toggleGesture: UIGestureRecognizer?
     var user: User?
-    
+    let paymentIndex = ["Credit Card", "Venmo", "PayPal", "Square Cash"]
     var payments = "cash"
     var venmoName: String?
     var paypalName: String?
@@ -37,6 +37,34 @@ class PaymentsTableViewCell: UITableViewCell, userInfoDelegate {
             allowDriverToTogglePaymentOptions()
             highlightPaymentsDriverSelected()
         }
+        if controller?.profileIsForEditing == false {
+            setupViewingOfUsernames()
+        }
+    }
+    
+    private func setupViewingOfUsernames() {
+        paymentOptions = [
+            paymentIndex[0]           : (self.creditCard, UITapGestureRecognizer(target: self, action: nil)),
+            paymentIndex[1]           : (self.venmo, UITapGestureRecognizer(target: self, action: #selector(viewUserName(_:)))),
+            paymentIndex[2]           : (self.payPal, UITapGestureRecognizer(target: self, action: #selector(viewUserName(_:)))),
+            paymentIndex[3]           : (self.squareCash, UITapGestureRecognizer(target: self, action: #selector(viewUserName(_:))))
+        ]
+        for (_,(payment, toggleGesture)) in paymentOptions! {
+            payment.addGestureRecognizer(toggleGesture)
+            payment.isUserInteractionEnabled = true
+        }
+    }
+    
+    func viewUserName(_ sender: AnyObject) {
+        let paymentName = paymentIndex[sender.view.tag]
+        guard let username = user?.info[paymentName + "userName"] else {return}
+        guard username != ""  else {return}
+        let message = "\(user?.info["Name"] ?? "n.a")'s \(paymentName) username has been copied to your clipboard"
+        let alertController = UIAlertController(title: username, message: message, preferredStyle: .alert)
+        let okAction = UIAlertAction(title: "Ok", style: .default, handler: nil)
+        alertController.addAction(okAction)
+        controller?.present(alertController, animated: true, completion: nil)
+        UIPasteboard.general.string = username
     }
     
     private func setupClickingOutsideOfCell() {
@@ -54,13 +82,6 @@ class PaymentsTableViewCell: UITableViewCell, userInfoDelegate {
         payPal.tag = 2
         squareCash.image = UIImage(named: "squareCash")
         squareCash.tag = 3
-        paymentOptions = [
-            "creditCard"    : (self.creditCard, UITapGestureRecognizer(target: self, action: #selector(togglePaymentOption(_:)))),
-            "venmo"         : (self.venmo, UITapGestureRecognizer(target: self, action: #selector(togglePaymentOption(_:)))),
-            "payPal"        : (self.payPal, UITapGestureRecognizer(target: self, action: #selector(togglePaymentOption(_:)))),
-            "squareCash"    : (self.squareCash, UITapGestureRecognizer(target: self, action: #selector(togglePaymentOption(_:))))
-        ]
-        paymentOptionsIndex = ["creditCard", "venmo", "payPal", "squareCash"]
     }
     
     private func highlightAllPayments() {
@@ -78,21 +99,27 @@ class PaymentsTableViewCell: UITableViewCell, userInfoDelegate {
     
     private func showDriversAvailablePayments() {
         highlightAllPayments()
-        if !payments.contains("creditCard") {creditCard.isHidden = true}
-        if !payments.contains("venmo") {venmo.isHidden = true}
-        if !payments.contains("payPal") {payPal.isHidden = true}
-        if !payments.contains("squareCash") {squareCash.isHidden = true}
+        if !payments.contains("Credit Card") {creditCard.isHidden = true}
+        if !payments.contains("Venmo") {venmo.isHidden = true}
+        if !payments.contains("PayPal") {payPal.isHidden = true}
+        if !payments.contains("Square Cash") {squareCash.isHidden = true}
     }
     
     private func highlightPaymentsDriverSelected() {
         highlightAllPayments()
-        if !payments.contains("creditCard") {creditCard.alpha = 0.2}
-        if !payments.contains("venmo") {venmo.alpha = 0.2}
-        if !payments.contains("payPal") {payPal.alpha = 0.2}
-        if !payments.contains("squareCash") {squareCash.alpha = 0.2}
+        if !payments.contains("Credit Card") {creditCard.alpha = 0.2}
+        if !payments.contains("Venmo") {venmo.alpha = 0.2}
+        if !payments.contains("PayPal") {payPal.alpha = 0.2}
+        if !payments.contains("Square Cash") {squareCash.alpha = 0.2}
     }
     
     private func allowDriverToTogglePaymentOptions() {
+        paymentOptions = [
+            paymentIndex[0]          : (self.creditCard, UITapGestureRecognizer(target: self, action: #selector(togglePaymentOption(_:)))),
+            paymentIndex[1]          : (self.venmo, UITapGestureRecognizer(target: self, action: #selector(togglePaymentOption(_:)))),
+            paymentIndex[2]          : (self.payPal, UITapGestureRecognizer(target: self, action: #selector(togglePaymentOption(_:)))),
+            paymentIndex[3]          : (self.squareCash, UITapGestureRecognizer(target: self, action: #selector(togglePaymentOption(_:))))
+        ]
         for (_,(payment, toggleGesture)) in paymentOptions! {
             payment.addGestureRecognizer(toggleGesture)
             payment.isUserInteractionEnabled = true
@@ -107,13 +134,39 @@ class PaymentsTableViewCell: UITableViewCell, userInfoDelegate {
     
     func togglePaymentOption(_ sender: AnyObject) {
         let tag = sender.view!.tag
-        let paymentName = paymentOptionsIndex?[tag]
-        if payments.contains(paymentName!) {
-            payments = payments.replacingOccurrences(of: paymentName!, with: "")
+        let paymentName = paymentIndex[tag]
+        if payments.contains(paymentName) {
+            payments = payments.replacingOccurrences(of: paymentName, with: "")
+            highlightPaymentsDriverSelected()
         } else {
-            payments = payments + paymentName!
+            if paymentName == "Credit Card" {
+                payments = payments + paymentName
+                highlightPaymentsDriverSelected()
+            } else {
+                turnOnPaymentAndEnterUserName(paymentName)
+            }
         }
-        highlightPaymentsDriverSelected()
+    }
+    
+    func turnOnPaymentAndEnterUserName(_ paymentName: String) {
+        let paymentUserName = user?.info[paymentName + "userName"]
+        let title = "Enter your " + paymentName + " username"
+        let actionSheet = UIAlertController(title: nil , message: title, preferredStyle: .alert)
+        actionSheet.addTextField { (textField) in
+            textField.placeholder = "Enter username"
+            textField.text = paymentUserName
+        }
+        let okAction = UIAlertAction(title: "Ok", style: .default) { (action) in
+            guard let newPaymentUsername = actionSheet.textFields?[0].text else { return }
+            guard !newPaymentUsername.isEmpty else {return}
+            self.payments = self.payments + paymentName
+            self.user?.info[paymentName + "userName"] = newPaymentUsername
+            self.highlightPaymentsDriverSelected()
+        }
+        let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
+        actionSheet.addAction(okAction)
+        actionSheet.addAction(cancelAction)
+        controller?.present(actionSheet, animated: true, completion: nil)
     }
     
     func dismissKeyboard() {
@@ -126,7 +179,6 @@ class PaymentsTableViewCell: UITableViewCell, userInfoDelegate {
     private func updateUserInfo() {
         user?.info["Payments"] = payments
         LoadRequests.updateUser(user: user!)
-       // LoadRequests.gRef.child("Users").child((user?.unique)!).child("Payments").setValue(payments)
     }
     
 }

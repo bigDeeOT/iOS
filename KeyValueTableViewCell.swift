@@ -14,7 +14,6 @@ class KeyValueTableViewCell: UITableViewCell, userInfoDelegate, UITextFieldDeleg
     
     @IBOutlet weak var message: UIImageView!
     @IBOutlet weak var editValue: UITextField!
-   // @IBOutlet weak var editValue: UITextView!
     @IBOutlet weak var value: UILabel!
     @IBOutlet weak var key: UILabel!
     var cellCanBeEdited = false
@@ -31,7 +30,7 @@ class KeyValueTableViewCell: UITableViewCell, userInfoDelegate, UITextFieldDeleg
             message.isUserInteractionEnabled = true
             message.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(messageUser)))
         }
-        if key.text == "Member since" {
+        if key.text == "Date Joined" {
             if value.text != nil {
                 value.text = TimeAgo.get(value.text!)
             }
@@ -49,7 +48,6 @@ class KeyValueTableViewCell: UITableViewCell, userInfoDelegate, UITextFieldDeleg
                 editValue.keyboardType = .numbersAndPunctuation
                 message.isHidden = true
             }
-           // editValue.frame.origin.x = value.frame.origin.x + 17
             editValue.frame.size.width = value.frame.size.width
             editValue.textAlignment = .right
             controller?.addAbilityToDismissKeyboard(tapsRequired: 1)
@@ -81,7 +79,6 @@ class KeyValueTableViewCell: UITableViewCell, userInfoDelegate, UITextFieldDeleg
     func updateUserInfo() {
         user?.info[key.text!] = value.text!
         LoadRequests.updateUser(user: user!)
-       // LoadRequests.gRef.child("Users").child((user?.unique)!).child(key.text!).setValue(value.text!)
     }
     
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {

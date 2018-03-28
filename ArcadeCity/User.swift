@@ -105,6 +105,11 @@ class User {
             info[key] = value
         }
         unique = info["Unique"]
+        guard info["Date Joined"] == nil else {return}
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "MM-dd-yyyy hh:mm:ss a"
+        let date = dateFormatter.string(from: Date())
+        info["Date Joined"] = date
     }
     func getViewableData() -> [String:String] {
         var data = info
