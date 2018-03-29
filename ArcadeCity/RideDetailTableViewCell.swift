@@ -32,7 +32,6 @@ class RideDetailTableViewCell: UITableViewCell {
         name.text = offer.driver?.info["Name"]
         clickToGoToUserProfile()
         etaLogic()
-        //phone.text = offer.driver?.info["Phone"]
         comment.text = offer.comment
         date.text = TimeAgo.get(offer.date ?? Date())
         loadImage()
@@ -42,6 +41,7 @@ class RideDetailTableViewCell: UITableViewCell {
         collage.isUserInteractionEnabled = true
         message.isUserInteractionEnabled = true
         message.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(messageUser)))
+        guard !(offer.driver?.info["Phone"])!.contains("555-5555") else {phone.isHidden = true; return}
         phone.isUserInteractionEnabled = true
         phone.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(callOrText)))
     }

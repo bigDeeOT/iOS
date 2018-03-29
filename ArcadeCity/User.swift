@@ -70,7 +70,7 @@ class User {
         
         //hard coded default values
        // info["Collage URL"] =          "http://i.imgur.com/TkcP25X.jpg"
-        info["Phone"] =                "512-867-5309"
+        info["Phone"] =                "512-555-5555"
         info["Bio"] = User.defaultBio
         info["Rides Requested"] =      "0"
         info["Rides Taken"] =          "0"

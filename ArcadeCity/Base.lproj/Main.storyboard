@@ -409,9 +409,9 @@
                         <segue destination="b15-VZ-WOL" kind="show" identifier="postCollage" id="rFs-ok-mfD"/>
                         <segue destination="vzy-Gq-5Lc" kind="show" identifier="viewImage" id="DkE-KO-NXk"/>
                         <segue destination="imW-Oe-O2x" kind="unwind" identifier="deleteRequest" unwindAction="unwindToRequestPageWithSegue:" id="IUb-q2-2zO"/>
-                        <segue destination="adi-f3-5A0" kind="show" identifier="GoogleMaps" id="Mbq-0V-1Jv"/>
                         <segue destination="COF-y7-xfr" kind="show" identifier="messageUser" id="NGZ-bO-1xA"/>
                         <segue destination="ahN-i3-rFa" kind="show" identifier="goToUserProfile" id="vBx-mQ-Ppy"/>
+                        <segue destination="adi-f3-5A0" kind="show" identifier="GoogleMaps" id="88Q-uK-DDs"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="UZv-ZB-9IC" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -1989,9 +1989,9 @@
     <inferredMetricsTieBreakers>
         <segue reference="DkE-KO-NXk"/>
         <segue reference="G5n-5X-V7h"/>
-        <segue reference="sIC-zf-HG2"/>
-        <segue reference="hNd-ET-JVO"/>
-        <segue reference="cAv-c0-Az0"/>
+        <segue reference="vBx-mQ-Ppy"/>
+        <segue reference="rFs-ok-mfD"/>
+        <segue reference="NGZ-bO-1xA"/>
         <segue reference="f00-Zg-XAw"/>
     </inferredMetricsTieBreakers>
     <color key="tintColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>

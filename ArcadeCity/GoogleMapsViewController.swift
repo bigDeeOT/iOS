@@ -8,6 +8,7 @@
 
 import UIKit
 import GoogleMaps
+import GooglePlaces
 
 class GoogleMapsViewController: UIViewController, GMSMapViewDelegate {
 
@@ -39,6 +40,7 @@ class GoogleMapsViewController: UIViewController, GMSMapViewDelegate {
     func createMap() {
         setLatitudeLongitude((rideRequest?.info["Location"])!)
         let camera = GMSCameraPosition.camera(withLatitude: Double(latitude)!, longitude: Double(longitude)!, zoom: 11.0)
+        GMSServices.provideAPIKey("AIzaSyAJxvbSc0wd1jJYCpqEC0iAB4PPlMu03UE")
         mapView = GMSMapView.map(withFrame: CGRect.zero, camera: camera)
         view = mapView
         mapView.delegate = self
