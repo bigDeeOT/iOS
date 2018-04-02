@@ -235,7 +235,7 @@ class LoadRequests {
                     offer.driver = offerDriver
                     request.offers?.append(offer)
                     request.delegate?.reload()
-                    self?.requestPage.rideRequestList?.reloadData()
+                    self?.requestPage?.rideRequestList?.reloadData()
                     request.delegate?.updateUI()
                 })
             })
@@ -322,13 +322,15 @@ class LoadRequests {
                 print("Facebook accessToken is nil")
                 return
             }
-            self?.loginPageDelegate.finishedLogin()
+            //self?.loginPageDelegate.finishedLogin()
             let credential = FacebookAuthProvider.credential(withAccessToken: accessToken)
             //sign in with firebase
             self?.configureFirebase()
             Auth.auth().signIn(with: credential) { [weak self] (user, err) in
+               self?.loginPageDelegate.finishedLogin()
                 if err != nil {
                     print("\ncould not authenticate firebase fb signin",err ?? "")
+                    self?.requestPage?.logout()
                     return
                 }
                 print("Firebase user ID is ",Auth.auth().currentUser?.uid ?? "error with firebase login ID in LoadRequest.login()")
@@ -336,6 +338,7 @@ class LoadRequests {
             }
         }
     }
+    
     
     func setNotificationToken(_ firebaseID: String) {
         let token = Messaging.messaging().fcmToken

@@ -36,7 +36,7 @@ class AddRideTableViewController: UITableViewController {
         }
         if let dropOffText = dropOff.text{
             if dropOffText.count >= 2 {
-                ride.info["Text"] = ride.info["Text"]! + " to\n\(dropOffText)"
+                ride.info["Text"] = ride.info["Text"]! + " ->\n\(dropOffText)"
             }
         }
         if let otherInfoText = otherInfo.text {

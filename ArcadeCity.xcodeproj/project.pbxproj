@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		3FD327F6492C98DD7E2FCB5F /* Pods_Might.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F76D0D34681D2065129A6EB4 /* Pods_Might.framework */; };
 		5708175B1F2989120062DB68 /* ImageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5708175A1F2989120062DB68 /* ImageViewController.swift */; };
+		57226C312071A62100CA934B /* AboutViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57226C302071A62100CA934B /* AboutViewController.swift */; };
 		573853C31F2EBE6100B37228 /* SetLocation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 573853C21F2EBE6100B37228 /* SetLocation.swift */; };
 		573853C71F31038100B37228 /* GoogleMapsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 573853C61F31038100B37228 /* GoogleMapsViewController.swift */; };
 		573FEC4F1F2B0AB6007A001F /* PreselectedDrivers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 573FEC4E1F2B0AB6007A001F /* PreselectedDrivers.swift */; };
@@ -76,6 +77,7 @@
 		47D4409EDB97209FB6509052 /* Pods_ArcadeCity.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_ArcadeCity.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		5708175A1F2989120062DB68 /* ImageViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ImageViewController.swift; sourceTree = "<group>"; };
 		5712C8281F22400A00442110 /* ArcadeCity.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = ArcadeCity.entitlements; sourceTree = "<group>"; };
+		57226C302071A62100CA934B /* AboutViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AboutViewController.swift; sourceTree = "<group>"; };
 		573853C21F2EBE6100B37228 /* SetLocation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SetLocation.swift; sourceTree = "<group>"; };
 		573853C61F31038100B37228 /* GoogleMapsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GoogleMapsViewController.swift; sourceTree = "<group>"; };
 		573FEC4E1F2B0AB6007A001F /* PreselectedDrivers.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PreselectedDrivers.swift; sourceTree = "<group>"; };
@@ -166,6 +168,7 @@
 			isa = PBXGroup;
 			children = (
 				574724CC1F2D6619003EFFC6 /* SettingsTableViewController.swift */,
+				57226C302071A62100CA934B /* AboutViewController.swift */,
 				57A701021F49D84E007D9E1B /* Driver Documentation */,
 				578969CD1F43E04C0039768E /* List of Users */,
 				578970D01F47BF000093D8E5 /* Configure Driver Docs */,
@@ -563,6 +566,7 @@
 				5753E31C1F379EF000B930E7 /* MightLoginViewController.swift in Sources */,
 				57A701091F49E80A007D9E1B /* PictureDocumentTableViewCell.swift in Sources */,
 				57954CB61F35750100516A61 /* BioTableViewCell.swift in Sources */,
+				57226C312071A62100CA934B /* AboutViewController.swift in Sources */,
 				5770B57D1F3B57A900E23C51 /* MyMessageTableViewCell.swift in Sources */,
 				57E65EBD1F185A1200B39AF4 /* RideRequest.swift in Sources */,
 				5770B57F1F3B57E500E23C51 /* TheirMessageTableViewCell.swift in Sources */,

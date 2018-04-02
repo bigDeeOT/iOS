@@ -12,7 +12,7 @@ import FBSDKLoginKit
 
 class SettingsTableViewController: UITableViewController {
     
-    var settings = [["User Directory", "Driver Documentation", "Configure Driver Docs"],["Logout"]]
+    var settings = [["User Directory", "My Documents", "Configure Driver Docs", "About", "Privacy Policy"],["Logout"]]
     override func viewDidLoad() {
         super.viewDidLoad()
         tableView.backgroundView = nil
@@ -25,7 +25,7 @@ class SettingsTableViewController: UITableViewController {
             settings[0].remove(at: settings[0].index(of: "Configure Driver Docs")!)
         }
         if (userClass == "Rider") {
-            settings[0][settings[0].index(of: "Driver Documentation")!] = "Drive for Might"
+            settings[0][settings[0].index(of: "My Documents")!] = "Drive for Might"
         }
     }
     
@@ -37,12 +37,10 @@ class SettingsTableViewController: UITableViewController {
     // MARK: - Table view data source
 
     override func numberOfSections(in tableView: UITableView) -> Int {
-        // #warning Incomplete implementation, return the number of sections
         return settings.count
     }
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        // #warning Incomplete implementation, return the number of rows
         return settings[section].count
     }
 
@@ -62,14 +60,22 @@ class SettingsTableViewController: UITableViewController {
     }
 
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        if indexPath.section == (settings.count - 1) {
+        let row = indexPath.row
+        let section = indexPath.section
+        if section == (settings.count - 1) {
             logout()
-        } else if indexPath.row == settings[0].index(of: "User Directory") {
+        } else if row == settings[section].index(of: "User Directory") {
             performSegue(withIdentifier: "listOfUsers", sender: nil)
-        } else if indexPath.row == settings[0].index(of: "Configure Driver Docs") {
+        } else if row == settings[section].index(of: "Configure Driver Docs") {
             performSegue(withIdentifier: "configureDocumentation", sender: nil)
-        } else if (indexPath.row == settings[0].index(of: "Driver Documentation")) || (indexPath.row == settings[0].index(of: "Drive for Might")){
+        } else if (row == settings[section].index(of: "My Documents")) || (row == settings[0].index(of: "Drive for Might")){
             performSegue(withIdentifier: "DriverDocs", sender: nil)
+        } else if (row == settings[section].index(of: "About")) {
+            let aboutVC = AboutViewController()
+            navigationController?.pushViewController(aboutVC, animated: true)
+        } else if (row == settings[section].index(of: "Privacy Policy")) {
+            let url = URL(string: "https://drive.google.com/open?id=10sgB54IXbuIXHMCpygt3_JpqsHGKyar1")
+            UIApplication.shared.open(url!, options: [:], completionHandler: nil)
         }
     }
     
@@ -81,7 +87,9 @@ class SettingsTableViewController: UITableViewController {
         LoadRequests.clear()
         RequestPageViewController.userName = nil
         tabBarController?.tabBar.isHidden = true
-        performSegue(withIdentifier: "logout", sender: nil)
+        let sb = UIStoryboard(name: "Main", bundle: nil)
+        let vc = sb.instantiateViewController(withIdentifier: "loginVC")
+        present(vc, animated: true, completion: nil)
     }
     
 

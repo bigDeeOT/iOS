@@ -19,33 +19,52 @@ class MightLoginViewController: UIViewController, loginDelegate, ETADelegate {
     var loadRequests = LoadRequests()
     let location = SetLocation()
     var proceedWithAutomaticSignIn = false
-    var userIsLocal: Bool? {
-        didSet {
-            if proceedWithAutomaticSignIn == true && userIsLocal == true {
-                finishedLogin()
-                loadRequests.checkIfUserExists()
-            }
-        }
-    }
-    
+    var spinner: UIActivityIndicatorView?
     @IBOutlet weak var login: UIButton!
+    var locationBarrier: Bool?
+    var userIsLocal: Bool? {
+        didSet { loginLogic() }
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
         configureButton()
-        print("might login viewDidLoad")
+        spinner = UIActivityIndicatorView(activityIndicatorStyle: .whiteLarge)
+        view.addSubview(spinner!)
+        spinner?.center = view.center
+        login.isHidden = true
+    }
+    
+    private func loginLogic() {
+        if (proceedWithAutomaticSignIn == true && userIsLocal == true) || (proceedWithAutomaticSignIn == true && locationBarrier == false) {
+            finishedLogin()
+            loadRequests.checkIfUserExists()
+        } else {
+            login.isHidden = false
+        }
+        spinner?.stopAnimating()
     }
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
+        login.isHidden = true
+        spinner?.startAnimating()
+        setLocationBarrier()
         location.setETA(to: "Austin", for: self)
-        guard let _ = Auth.auth().currentUser?.uid else {return}
-        guard let _ = FBSDKAccessToken.current()?.tokenString else {return}
-        if userIsLocal == true {
-            finishedLogin()
-            loadRequests.checkIfUserExists()
+        if Auth.auth().currentUser?.uid != nil && FBSDKAccessToken.current()?.tokenString != nil {
+            proceedWithAutomaticSignIn = true
         }
-        proceedWithAutomaticSignIn = true;
+    }
+    
+    private func setLocationBarrier() {
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "MM-dd-yyyy"
+        let date = dateFormatter.date(from: "04-15-2018")
+        if Date().timeIntervalSince(date!) > 0 {
+            self.locationBarrier = true
+        } else {
+            self.locationBarrier = false
+        }
     }
     
     func etaIsReady(text etaText: String, value etaValue: Int) {
@@ -65,15 +84,12 @@ class MightLoginViewController: UIViewController, loginDelegate, ETADelegate {
     
     
     @IBAction func login(_ sender: UIButton) {
-        guard userIsLocal == true else {
-            print("The user is not within the specified area.")
-            return
-        }
         loadRequests.login(fromViewController: self)
         loadRequests.loginPageDelegate = self
     }
     
     func finishedLogin() {
+        spinner?.stopAnimating()
         performSegue(withIdentifier: loginSegueIdentifier, sender: nil)
     }
     
@@ -82,7 +98,6 @@ class MightLoginViewController: UIViewController, loginDelegate, ETADelegate {
         guard let navigationVc = tabBarVc.viewControllers?[0] as? UINavigationController else {return}
         guard let requestPage = navigationVc.viewControllers[0] as? RequestPageViewController else {return}
         requestPage.loadRequests = loadRequests
-        //loadRequests.requestPage = requestPage //?? need this?
     }
     
 }

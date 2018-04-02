@@ -1409,7 +1409,7 @@
         <!--Might Login View Controller-->
         <scene sceneID="s05-Oy-nxP">
             <objects>
-                <viewController id="lxe-hb-oSR" customClass="MightLoginViewController" customModule="Might" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="loginVC" id="lxe-hb-oSR" customClass="MightLoginViewController" customModule="Might" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="ODe-de-ajb"/>
                         <viewControllerLayoutGuide type="bottom" id="LF9-eB-EHe"/>
@@ -1989,8 +1989,8 @@
     <inferredMetricsTieBreakers>
         <segue reference="DkE-KO-NXk"/>
         <segue reference="G5n-5X-V7h"/>
-        <segue reference="vBx-mQ-Ppy"/>
-        <segue reference="rFs-ok-mfD"/>
+        <segue reference="sIC-zf-HG2"/>
+        <segue reference="hNd-ET-JVO"/>
         <segue reference="NGZ-bO-1xA"/>
         <segue reference="f00-Zg-XAw"/>
     </inferredMetricsTieBreakers>

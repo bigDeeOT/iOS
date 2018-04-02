@@ -113,6 +113,7 @@ class RequestPageViewController: UIViewController, UITableViewDelegate, UITableV
         }
     }
     
+
     func removeLoginPage() {
         rideRequestList.reloadData()
         loginPageView.isHidden = true
@@ -149,13 +150,15 @@ class RequestPageViewController: UIViewController, UITableViewDelegate, UITableV
         do {
             try Auth.auth().signOut()
         } catch { print("error with firebase logout") }
-        
-        RequestPageViewController.userName = nil
-        LoadRequests.gRef.child("Requests").removeAllObservers()
         LoadRequests.clear()
-        tabBarController?.selectedIndex = 0
-        
+        RequestPageViewController.userName = nil
+        tabBarController?.tabBar.isHidden = true
+        //performSegue(withIdentifier: "logout", sender: nil)
+        let sb = UIStoryboard(name: "Main", bundle: nil)
+        let vc = sb.instantiateViewController(withIdentifier: "loginVC")
+        present(vc, animated: true, completion: nil)
     }
+    
     
     private func addRequestButtonLogic() {
         if Auth.auth().currentUser?.uid == nil {
