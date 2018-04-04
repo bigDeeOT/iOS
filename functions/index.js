@@ -1,11 +1,11 @@
 const functions = require('firebase-functions');
-let admin = require('firebase-admin');
-admin.initializeApp(functions.config().firebase);
+const admin = require('firebase-admin');
+admin.initializeApp();
 
 
-exports.newRideRequest = functions.database.ref('Requests/{RequestID}').onWrite(event => {
-	let newRide = event.data.val();
-	if (event.data.previous.exists()) {return;}
+exports.newRideRequest = functions.database.ref('Requests/{RequestID}').onWrite((change, context) => {
+	let newRide = change.after.val();
+	if (change.before.exists()) {return;}
 	let msg = `${newRide.Text}`;
 	return loadUsers().then(users => {
 	        let tokens = [];
@@ -29,7 +29,7 @@ exports.newRideRequest = functions.database.ref('Requests/{RequestID}').onWrite(
 function loadUsers() {
 	let dbRef = admin.database().ref('Users');
 	let defer = new Promise((resolve, reject) => {
-		dbRef.once('value', (snap) => {
+		dbRef.once('value', (snap, context) => {
 			let data = snap.val();
 			let users = [];
 			for (var property in data) {
@@ -45,21 +45,21 @@ function loadUsers() {
 
 /***** Offer Notification ****/
 
-exports.newRideOffer = functions.database.ref('Offers/{OfferID}').onWrite(event => {
-	let newOffer = event.data.val();
+exports.newRideOffer = functions.database.ref('Offers/{OfferID}').onWrite((data, context) => {
+	let newOffer = data.after.val();
 	let driverID = newOffer.Driver;
 	let rideRequestID = newOffer['Ride Request'];
 	let offerComment = newOffer.Comment;
 	let dbRefDriver = admin.database().ref(`Users/${driverID}`);
-	dbRefDriver.once('value', (snapDriver) => {
+	dbRefDriver.once('value', (snapDriver, context) => {
 		let driverData = snapDriver.val();
 		let driverName = driverData.Name;
 		let dbRefRideRequest = admin.database().ref(`Requests/${rideRequestID}`);
-		dbRefRideRequest.once('value', (snapRideRequest) => {
+		dbRefRideRequest.once('value', (snapRideRequest, context) => {
 			let riderData = snapRideRequest.val();
 			let riderID = riderData.Rider;
 			let dbRefRider = admin.database().ref(`Users/${riderID}`);
-			dbRefRider.once('value', (snapRider) => {
+			dbRefRider.once('value', (snapRider, context) => {
 				let riderData = snapRider.val();
 				let riderToken = riderData.pushToken;
 		        let payload = {
@@ -76,8 +76,8 @@ exports.newRideOffer = functions.database.ref('Offers/{OfferID}').onWrite(event 
 	});
 });
 
-exports.newChatMessage = functions.database.ref('Conversation Meta Data/{convoID}').onWrite(event => {
-	let metaData = event.data.val();
+exports.newChatMessage = functions.database.ref('Conversation Meta Data/{convoID}').onWrite((data, context) => {
+	let metaData = data.after.val();
 	var userID = ""
 	var senderID = ""
 	for (var key in metaData) {
@@ -90,9 +90,9 @@ exports.newChatMessage = functions.database.ref('Conversation Meta Data/{convoID
 	}
 	if (userID == "") {return;}
 	let msg = metaData['Last Message'];
-	admin.database().ref(`Users/${senderID}/Name`).once('value', snapShotSender => {
+	admin.database().ref(`Users/${senderID}/Name`).once('value', (snapShotSender, context) => {
 		let senderName = snapShotSender.val();
-		admin.database().ref(`Users/${userID}/pushToken`).once('value', (snapShot) => {
+		admin.database().ref(`Users/${userID}/pushToken`).once('value', (snapShot, context) => {
 			let riderToken = snapShot.val();
 			let payload = {
 				notification: {

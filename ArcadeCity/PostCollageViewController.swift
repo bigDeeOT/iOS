@@ -18,16 +18,12 @@ class PostCollageViewController: UIViewController, ETADelegate {
     
     @IBAction func submit(_ sender: Any) {
         let offer = Offer(user: RequestPageViewController.userName!, comment: comment.text, date: Date())
-        if let rideRequest = rideRequest {
-            //need to get updated rideRequest state here
-            if rideRequest.info["State"] == "Unresolved" {
-                offer.location = setLocation.latLog
-                offer.eta = rideRequest.ETA
-                LoadRequests.addOffer(offer, for: rideRequest)
-                RequestPageViewController.userName?.incrementVariable("Rides Offered")
-            }
-            
-        }
+        guard let rideRequest = rideRequest else { return }
+        offer.location = setLocation.latLog
+        offer.eta = rideRequest.ETA
+        LoadRequests.addOffer(offer, for: rideRequest)
+        offer.driver?.info["offerRideComment"] = comment.text
+        RequestPageViewController.userName?.incrementVariable("Rides Offered")
         
         //we don't want user to go "back" to this page
       
@@ -59,6 +55,9 @@ class PostCollageViewController: UIViewController, ETADelegate {
         comment.tintColor = UIColor(red:0.16, green:0.46, blue:0.75, alpha:1.0)
         let tap = UITapGestureRecognizer(target: self, action: #selector(dismissKeyboard))
         view.addGestureRecognizer(tap)
+        comment.text = RequestPageViewController.userName!.info["offerRideComment"]
+        comment.selectedTextRange = comment.textRange(from: comment.beginningOfDocument, to: comment.endOfDocument)
+        comment.becomeFirstResponder()
     }
     
     func etaIsReady(text etaText: String, value etaValue: Int) {
