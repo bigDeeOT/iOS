@@ -42,13 +42,11 @@ class PostCollageViewController: UIViewController, ETADelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
         if rideRequest?.info["Show ETA"] == "False" {
-            print("removed eta")
             eta.isHidden = true
         } else {
             let destination = rideRequest?.info["Location"] ?? "Austin"
             setLocation.setETA(to: destination, for: self)
             eta.text = rideRequest?.ETA
-            print("riderequest eta is \(rideRequest?.ETA ?? "no ride request eta found")")
         }
         comment.layer.borderWidth = 1
         comment.layer.borderColor = UIColor.lightGray.cgColor

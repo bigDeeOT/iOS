@@ -282,7 +282,7 @@ class RideDetailViewController: UIViewController, UITableViewDelegate, UITableVi
             if let user = sender as? User {
                 let otherUserName = user.info["Name"]!
                 vc.otherUser = user
-                vc.preSelectedMessage = "Hey \(otherUserName) can I get a ride from \(pickUpText.text!)?"
+                vc.preSelectedMessage = preScriptedMessage(otherUserName, pickUpText.text!)
             }
         }
         if let vc = segue.destination as? ProfileViewController {
@@ -317,7 +317,7 @@ class RideDetailViewController: UIViewController, UITableViewDelegate, UITableVi
         let textAction = UIAlertAction(title: "Text", style: .default) { (action) in
             guard MFMessageComposeViewController.canSendText() else {return}
             let controller = MFMessageComposeViewController()
-            controller.body = "Hey \(name) can I get a ride from \(self.pickUpText.text!)?"
+            controller.body = self.preScriptedMessage(name, self.pickUpText.text!)
             controller.recipients = [phone]
             controller.messageComposeDelegate = self
             self.present(controller, animated: true, completion: nil)
@@ -334,5 +334,12 @@ class RideDetailViewController: UIViewController, UITableViewDelegate, UITableVi
     
     func messageComposeViewController(_ controller: MFMessageComposeViewController, didFinishWith result: MessageComposeResult) {
         dismiss(animated: true, completion: nil)
+    }
+    private func preScriptedMessage(_ name: String, _ text: String) -> String {
+        if RequestPageViewController.userName?.info["Name"] == rideRequest?.rider?.info["Name"] {
+            return "Hey \(name) can I get a ride from \(text)?"
+        } else {
+            return ""
+        }
     }
 }
