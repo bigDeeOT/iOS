@@ -36,11 +36,14 @@ class MightLoginViewController: UIViewController, loginDelegate, ETADelegate {
     }
     
     private func loginLogic() {
-        if (proceedWithAutomaticSignIn == true && userIsLocal == true) || (proceedWithAutomaticSignIn == true && locationBarrier == false) {
+        let inRange = userIsLocal == true || locationBarrier == false
+        if proceedWithAutomaticSignIn && inRange {
             finishedLogin()
             loadRequests.checkIfUserExists()
-        } else {
+        } else if inRange {
             login.isHidden = false
+        } else {
+            onlyInAustin()
         }
         spinner?.stopAnimating()
     }
@@ -59,7 +62,7 @@ class MightLoginViewController: UIViewController, loginDelegate, ETADelegate {
     private func setLocationBarrier() {
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "MM-dd-yyyy"
-        let date = dateFormatter.date(from: "04-15-2018")
+        let date = dateFormatter.date(from: "04-20-2018")
         if Date().timeIntervalSince(date!) > 0 {
             self.locationBarrier = true
         } else {
@@ -91,6 +94,14 @@ class MightLoginViewController: UIViewController, loginDelegate, ETADelegate {
     func finishedLogin() {
         spinner?.stopAnimating()
         performSegue(withIdentifier: loginSegueIdentifier, sender: nil)
+    }
+    
+    private func onlyInAustin() {
+        let label = UILabel()
+        label.text = "Might is only available in Austin, TX"
+        label.sizeToFit()
+        label.center = self.view.center
+        self.view.addSubview(label)
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
