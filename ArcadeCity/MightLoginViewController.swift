@@ -32,6 +32,7 @@ class MightLoginViewController: UIViewController, loginDelegate, ETADelegate {
         spinner = UIActivityIndicatorView(activityIndicatorStyle: .whiteLarge)
         view.addSubview(spinner!)
         spinner?.center = view.center
+        spinner?.frame.origin.y += 100
         login.isHidden = true
     }
     
@@ -101,6 +102,7 @@ class MightLoginViewController: UIViewController, loginDelegate, ETADelegate {
         label.text = "Might is only available in Austin, TX"
         label.sizeToFit()
         label.center = self.view.center
+        label.frame.origin.y += 100
         self.view.addSubview(label)
     }
     
