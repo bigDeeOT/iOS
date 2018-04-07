@@ -10,7 +10,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "ArcadeCity/RideDetailViewController.swift"
-            timestampString = "544750271.197747"
+            timestampString = "544757485.075989"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "275"
@@ -25,29 +25,13 @@
             shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "ArcadeCity/RequestPageViewController.swift"
-            timestampString = "544661339.778241"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "48"
-            endingLineNumber = "48"
-            landmarkName = "viewDidLoad()"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
             filePath = "ArcadeCity/LoadRequests.swift"
-            timestampString = "544750271.199873"
+            timestampString = "544757485.087281"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "305"
-            endingLineNumber = "305"
-            landmarkName = "configureFirebase()"
+            startingLineNumber = "408"
+            endingLineNumber = "408"
+            landmarkName = "listenForUserChanges()"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>

@@ -362,6 +362,7 @@ class LoadRequests {
             self?.setNotificationToken(firebaseID)
             let user = self?.pullUserFromFirebase(snapshot)
             RequestPageViewController.userName = user
+            guard user?.info["Class"] != "Banned" else { self?.requestPage.logout(); return }
             self?.startListening()
             self?.requestPage?.rideRequestList?.reloadData()
         })
@@ -405,6 +406,9 @@ class LoadRequests {
             let user = RequestPageViewController.userName
             user?.info[snapshot.key] = snapshot.value as? String
             user?.profileDetails?.updateUI()
+            if snapshot.key == "Class" {
+                user?.profileDetails?.logout()
+            }
         })
     }
     

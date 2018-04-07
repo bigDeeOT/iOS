@@ -152,7 +152,9 @@ class MiddleProfileTableViewController: UITableViewController {
         LoadRequests.clear()
         RequestPageViewController.userName = nil
         tabBarController?.tabBar.isHidden = true
-        performSegue(withIdentifier: "logout", sender: nil)
+        let sb = UIStoryboard(name: "Main", bundle: nil)
+        let vc = sb.instantiateViewController(withIdentifier: "loginVC")
+        present(vc, animated: true, completion: nil)
     }
 
 }

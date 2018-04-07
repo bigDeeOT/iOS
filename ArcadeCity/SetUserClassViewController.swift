@@ -51,7 +51,7 @@ class SetUserClassViewController: UIViewController {
         user.info["Class"] = userClass
         LoadRequests.updateUser(user: user)
         if user.unique == RequestPageViewController.userName?.unique {
-            RequestPageViewController.userName = user
+            RequestPageViewController.userName?.info = user.info
         }
         performSegue(withIdentifier: "unwindToListOfUsers", sender: nil)
     }
