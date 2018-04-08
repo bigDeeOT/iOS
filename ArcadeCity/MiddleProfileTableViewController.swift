@@ -45,6 +45,11 @@ class MiddleProfileTableViewController: UITableViewController {
         }
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        updateUI()
+    }
+    
     func addAbilityToDismissKeyboard(tapsRequired taps: Int) {
         if taps == 2 {
             gestureToDismissKeyboard = UITapGestureRecognizer(target: self, action: #selector(prepareToDismissKeyboard))

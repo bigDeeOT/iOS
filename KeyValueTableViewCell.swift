@@ -22,9 +22,6 @@ class KeyValueTableViewCell: UITableViewCell, userInfoDelegate, UITextFieldDeleg
     override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
         message.isHidden = true
-        if key.text == "Phone" {
-            key.text = "Contact"
-        }
         if key.text == "Contact" {
             message.isHidden = false
             message.isUserInteractionEnabled = true
@@ -77,6 +74,8 @@ class KeyValueTableViewCell: UITableViewCell, userInfoDelegate, UITextFieldDeleg
     }
     
     func updateUserInfo() {
+//        let key = key.text!
+//        if key == "Contact" {key = "Phone"}
         user?.info[key.text!] = value.text!
         LoadRequests.updateUser(user: user!)
     }

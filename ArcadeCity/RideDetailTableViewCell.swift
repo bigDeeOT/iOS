@@ -41,13 +41,13 @@ class RideDetailTableViewCell: UITableViewCell {
         collage.isUserInteractionEnabled = true
         message.isUserInteractionEnabled = true
         message.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(messageUser)))
-        guard !(offer.driver?.info["Phone"])!.contains("555-5555") else {phone.isHidden = true; return}
+        guard !(offer.driver?.info["Contact"])!.contains("555-5555") else {phone.isHidden = true; return}
         phone.isUserInteractionEnabled = true
         phone.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(callOrText)))
     }
     
     func callOrText() {
-       controller?.callOrText(name.text!, (offer.driver?.info["Phone"])!)
+       controller?.callOrText(name.text!, (offer.driver?.info["Contact"])!)
     }
     
     private func clickToGoToUserProfile() {

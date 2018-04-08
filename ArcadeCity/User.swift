@@ -26,10 +26,10 @@ class User {
             info["Unique"] = unique
         }
     }
-    var keys = ["Name", "Class", "Bio", "Phone", "Car", "Payments", "Date Joined", "Profile Pic URL", "Rides Requested", "Rides Taken", "Rides Offered", "Rides Given", "Collage URL"]
+    var keys = ["Name", "Class", "Bio", "Contact", "Car", "Payments", "Date Joined", "Profile Pic URL", "Rides Requested", "Rides Taken", "Rides Offered", "Rides Given", "Collage URL"]
     var keysToNotDisplay: Set = ["Profile Pic URL", "Collage URL"]
-    var keysOnlyForDrivers: Set = ["Rides Given", "Rides Offered", "Car", "Phone"]
-    var keysForEditing = ["Phone", "Bio", "Car", "Payments"]
+    var keysOnlyForDrivers: Set = ["Rides Given", "Rides Offered", "Car", "Contact"]
+    var keysForEditing = ["Contact", "Bio", "Car", "Payments"]
     static let defaultBio = "I'm just an ordinary person doing ordinary things. \nClick to add your own bio\n😎💥"
     var keysToDisplay: [String] {
         get {
@@ -70,7 +70,7 @@ class User {
         
         //hard coded default values
        // info["Collage URL"] =          "http://i.imgur.com/TkcP25X.jpg"
-        info["Phone"] =                "512-555-5555"
+        info["Contact"] =                "512-555-5555"
         info["Bio"] = User.defaultBio
         info["Rides Requested"] =      "0"
         info["Rides Taken"] =          "0"
