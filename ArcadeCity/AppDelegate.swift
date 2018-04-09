@@ -84,7 +84,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         if LoadRequests.tabBarController?.selectedIndex != 2 {
             LoadRequests.newMessage()
         }
-        ConversationsViewController.refreshOnViewWillAppear = true
     }
     
     func applicationWillResignActive(_ application: UIApplication) {

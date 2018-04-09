@@ -21,7 +21,6 @@ class ConversationBackend {
     var conversationsDelegate: ConversationsDelegate?
     
     func pullConversations() {
-        ConversationsViewController.refreshOnViewWillAppear = false
         ref?.child("User Conversations/\(user.unique!)").observe(.childAdded, with: { [weak self] (snapShot) in
             guard snapShot.exists() else {return}
             let conversation = Conversation()
@@ -56,9 +55,6 @@ class ConversationBackend {
                     self?.ref?.child("Conversation Meta Data/\(conversation.ID!)").observe(.childChanged, with: { (snapShot3) in
                         self?.ref?.child("Conversation Meta Data/\(conversation.ID!)").removeAllObservers()
                         guard snapShot3.key == "Last Message" else {return}
-//                        self?.conversations.removeAll()
-//                        self?.pullConversations()
-//                        ConversationsViewController.refreshOnViewWillAppear = false
                         self?.conversationsDelegate?.refreshConversationList()
                     })
                 })

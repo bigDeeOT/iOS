@@ -14,7 +14,6 @@ class ConversationsViewController: UIViewController, UITableViewDelegate, UITabl
     var profilePicsCache: [String: UIImage] = [:]
     @IBOutlet weak var convoTable: UITableView!
     var navBarColor = UIColor(red:0.16, green:0.46, blue:0.75, alpha:1.0)
-    static var refreshOnViewWillAppear = false
     var maxConversationsLoaded = 0
     var conversationsLoaded = 0
     
@@ -29,21 +28,17 @@ class ConversationsViewController: UIViewController, UITableViewDelegate, UITabl
         navigationBarStyle()
         convoTable.allowsSelection = true
         convoTable.tableFooterView = UIView()
-        //refreshConversationList()
     }
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         navigationController?.navigationBar.isTranslucent = true
         LoadRequests.clearMessages()
-        //if ConversationsViewController.refreshOnViewWillAppear {
-            refreshConversationList()
-       // }
+        refreshConversationList()
     }
     
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
-        //refreshConversationList()
     }
     
     private func navigationBarStyle() {
@@ -95,5 +90,4 @@ class ConversationsViewController: UIViewController, UITableViewDelegate, UITabl
         }
     }
     
-
 }

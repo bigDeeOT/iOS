@@ -61,6 +61,35 @@ class RequestPageViewController: UIViewController, UITableViewDelegate, UITableV
         rideRequestList.tableFooterView = UIView()
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(false)
+        guard RequestPageViewController.userName?.info["Class"] != "Banned" else { logout(); return }
+        requestJustAdded = nil
+        rideRequestList.reloadData()
+        navigationController?.navigationBar.isHidden = false
+        if unwindedNowGoToRideDetail == true {
+            unwindedNowGoToRideDetail = false
+            justClickOfferRide = true
+            performSegue(withIdentifier: "rideRequestDetails", sender: pendingRequest)
+        }
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        if (RequestPageViewController.userName == nil) {
+            LoadRequests.clear()
+            return
+        }
+        //basically refreshes the ride request list
+        //refreshRequestList is set to false when going to rideDetail
+        if refreshRequestList == true  {
+            LoadRequests.clear()
+            loadRequests.startListening()
+        } else {
+            refreshRequestList = true
+        }
+    }
+    
     func addViewForNoRides() {
         guard LoadRequests.requestList.isEmpty else {
             introText?.removeFromSuperview()
@@ -165,35 +194,6 @@ class RequestPageViewController: UIViewController, UITableViewDelegate, UITableV
             addRequest.isEnabled = false
         } else {
             addRequest.isEnabled = true
-        }
-    }
-    
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(false)
-        guard RequestPageViewController.userName?.info["Class"] != "Banned" else { logout(); return }
-        requestJustAdded = nil
-        rideRequestList.reloadData()
-        navigationController?.navigationBar.isHidden = false
-        if unwindedNowGoToRideDetail == true {
-            unwindedNowGoToRideDetail = false
-            justClickOfferRide = true
-            performSegue(withIdentifier: "rideRequestDetails", sender: pendingRequest)
-        }
-    }
-    
-    override func viewWillDisappear(_ animated: Bool) {
-        super.viewWillDisappear(animated)
-        if (RequestPageViewController.userName == nil) {
-            LoadRequests.clear()
-            return
-        }
-        //basically refreshes the ride request list
-        //refreshRequestList is set to false when going to rideDetail
-        if refreshRequestList == true  {
-            LoadRequests.clear()
-            loadRequests.startListening()
-        } else {
-            refreshRequestList = true
         }
     }
     
