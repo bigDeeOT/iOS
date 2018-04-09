@@ -90,6 +90,4 @@ class MessagingBackend {
         ref?.child("Conversation Meta Data/\(conversationID!)").setValue(metaDataDetails)
     }
     
-    
-    
 }

@@ -1,0 +1,5 @@
+How to upload firebase functions code
+
+firebase deploy --only functions
+
+in the functions folder

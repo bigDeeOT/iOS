@@ -28,7 +28,6 @@ class RequestPageTableViewCell: UITableViewCell, ETADelegate {
     @IBOutlet weak var offerRideButton: UIButton!
     @IBOutlet weak var eta: UILabel!
     let cellWidthFactor: CGFloat = 0.92
-    var imageWasDownloaded = false
     
     private func updateUI() {
         requestPage = requestPageDelegate as? RequestPageViewController
@@ -71,7 +70,9 @@ class RequestPageTableViewCell: UITableViewCell, ETADelegate {
     }
     
     private func loadPicture() {
-        if let pictureID = requestPage?.profilePicsCache[(rideRequest?.unique)!] {
+        //debuggingPicture()
+        let unique = rideRequest?.rider?.unique
+        if let pictureID = requestPage?.profilePicsCache[(rideRequest?.rider?.unique)!] {
             profilePic.image = pictureID
             return
         }
@@ -82,16 +83,33 @@ class RequestPageTableViewCell: UITableViewCell, ETADelegate {
                 [weak self] in
                 if let imageData = NSData(contentsOf: url) {
                     DispatchQueue.main.async {
+                        guard unique == self?.rideRequest?.rider?.unique else {return}
                         self?.profilePic.image = UIImage(data: imageData as Data)
                         self?.profilePic.layer.cornerRadius = 4
                         self?.profilePic.layer.masksToBounds = true
-                        self?.imageWasDownloaded = true
-                        self?.requestPage?.profilePicsCache[(self?.rideRequest?.unique)!] = UIImage(data: imageData as Data)
+                        self?.requestPage?.profilePicsCache[(self?.rideRequest?.rider?.unique)!] = UIImage(data: imageData as Data)
                     }
                 }
             }
             } else {
             print("invalid profile pic url")
+        }
+    }
+    
+    private func debuggingPicture() {
+        print((rideRequest?.unique)! + "\n")
+        print(pickUp.text! + "\n")
+        if requestPage != nil {
+            print("requestPage exists\n")
+            
+        } else {
+            print("NO requestPage ***\n")
+        }
+        if rideRequest != nil {
+            print("rideRequest exists\n")
+            
+        } else {
+            print("NO rideRequest ***\n")
         }
     }
     

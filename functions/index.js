@@ -100,6 +100,9 @@ exports.newChatMessage = functions.database.ref('Conversation Meta Data/{convoID
 					body: msg,
 					sound: 'default',
 					badge: '1'
+				},
+				data: {
+					isMessage: 'true'
 				}
 			};
 			return admin.messaging().sendToDevice(riderToken, payload);

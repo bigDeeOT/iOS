@@ -43,6 +43,11 @@ class MessagingViewController: UIViewController, UITableViewDelegate, UITableVie
         view.window?.backgroundColor = UIColor.white
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        LoadRequests.clearMessages()
+    }
+    
     override func viewDidDisappear(_ animated: Bool) {
         super.viewDidDisappear(animated)
         backend.ref?.child("Conversations/\((backend.conversationID)!)").removeAllObservers()

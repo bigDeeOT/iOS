@@ -46,6 +46,7 @@ class RequestPageViewController: UIViewController, UITableViewDelegate, UITableV
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        LoadRequests.tabBarController = tabBarController
         rideRequestList.delegate = self
         rideRequestList.dataSource = self
         style()
@@ -56,7 +57,7 @@ class RequestPageViewController: UIViewController, UITableViewDelegate, UITableV
         tabBarNavBarLogic()
         RequestPageViewController.this = self
         prepareToRemoveLoadingPage()
-        UIView.setAnimationsEnabled(false)           //only for debugging on simulator
+        //UIView.setAnimationsEnabled(false)           //only for debugging on simulator
         rideRequestList.tableFooterView = UIView()
     }
     
@@ -255,18 +256,17 @@ class RequestPageViewController: UIViewController, UITableViewDelegate, UITableV
             cell.rideRequest = rideRequest
             
             //highlight new ride requests
-           // if LoadRequests.requestList.count > (LoadRequests.numberOfRequestsInFirebase + 5) {
-                if (rideRequest.unique == requestJustAdded?.unique) && (rideRequest.unique != nil) {
-                    requestJustAdded = nil
-                    cell.layer.borderWidth = 1
-                    cell.layer.borderColor = UIColor.black.cgColor
-                    requestJustAdded = nil
-                    Timer.scheduledTimer(withTimeInterval: 1, repeats: false, block: { (time) in
-                        cell.layer.borderWidth = 0
-                        cell.layer.borderColor = UIColor.white.cgColor
-                    })
-                }
-          //  }
+            if (rideRequest.unique == requestJustAdded?.unique) && (rideRequest.unique != nil) {
+                requestJustAdded = nil
+                cell.layer.borderWidth = 1
+                cell.layer.borderColor = UIColor.black.cgColor
+                requestJustAdded = nil
+                Timer.scheduledTimer(withTimeInterval: 1, repeats: false, block: { (time) in
+                    cell.layer.borderWidth = 0
+                    cell.layer.borderColor = UIColor.white.cgColor
+                })
+            }
+
             //calculate eta
             if rideRequest.info["Location"] != nil {
                 if !ETA.shouldHideEta(rideRequest) && (rideRequest.ETA == nil) {

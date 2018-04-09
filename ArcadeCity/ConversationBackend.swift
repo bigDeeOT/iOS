@@ -11,6 +11,7 @@ import Firebase
 
 protocol ConversationsDelegate {
     func newConversationAvailable()
+    func refreshConversationList()
 }
 
 class ConversationBackend {
@@ -20,6 +21,7 @@ class ConversationBackend {
     var conversationsDelegate: ConversationsDelegate?
     
     func pullConversations() {
+        ConversationsViewController.refreshOnViewWillAppear = false
         ref?.child("User Conversations/\(user.unique!)").observe(.childAdded, with: { [weak self] (snapShot) in
             guard snapShot.exists() else {return}
             let conversation = Conversation()
@@ -47,7 +49,18 @@ class ConversationBackend {
                         let date2 = -Int(convo2.date.timeIntervalSinceNow)
                         return date1 < date2
                     })
-                    self?.conversationsDelegate?.newConversationAvailable()
+                    DispatchQueue.main.async {
+                        self?.conversationsDelegate?.newConversationAvailable()
+                    }
+                    self?.ref?.child("Conversation Meta Data/\(conversation.ID!)").removeAllObservers()
+                    self?.ref?.child("Conversation Meta Data/\(conversation.ID!)").observe(.childChanged, with: { (snapShot3) in
+                        self?.ref?.child("Conversation Meta Data/\(conversation.ID!)").removeAllObservers()
+                        guard snapShot3.key == "Last Message" else {return}
+//                        self?.conversations.removeAll()
+//                        self?.pullConversations()
+//                        ConversationsViewController.refreshOnViewWillAppear = false
+                        self?.conversationsDelegate?.refreshConversationList()
+                    })
                 })
             })
         })

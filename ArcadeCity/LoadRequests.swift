@@ -10,6 +10,7 @@ import Foundation
 import Firebase
 import FirebaseStorage
 import FBSDKLoginKit
+import UIKit
 
 class LoadRequests {
     var ref: DatabaseReference!
@@ -27,6 +28,23 @@ class LoadRequests {
     static var requestEditedLocally: String?
     static var recentlyDeletedRequest: String?
     static var recentOffer: String?
+    static var tabBarController: UITabBarController?
+    
+    static func newMessage() {
+        guard let tabBarCon = tabBarController else {return}
+        if let number = tabBarCon.tabBar.items![2].badgeValue {
+            var int = Int(number)!
+            int += 1
+            tabBarCon.tabBar.items![2].badgeValue = String(int)
+        } else {
+            tabBarCon.tabBar.items![2].badgeValue = "1"
+        }
+    }
+    
+    static func clearMessages() {
+        guard let tabBarCon = tabBarController else {return}
+        tabBarCon.tabBar.items![2].badgeValue = nil
+    }
     
     static func clear() {
         for request in requestList {
