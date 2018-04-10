@@ -9,8 +9,9 @@
 import UIKit
 import Firebase
 import FBSDKLoginKit
+import MessageUI
 
-class MiddleProfileTableViewController: UITableViewController {
+class MiddleProfileTableViewController: UITableViewController, MFMessageComposeViewControllerDelegate {
     var data: [String : String]?
     var keys: [String]?
     var keysForEditing: [String]?
@@ -147,6 +148,31 @@ class MiddleProfileTableViewController: UITableViewController {
             collageBottomView = vc
             vc.profileIsForEditing = profileIsForEditing
         }
+    }
+    
+    func callOrText() {
+        let phone = (user?.info["Contact"])!
+        let actionSheet = UIAlertController(title: "Call or Text?", message: nil, preferredStyle: .actionSheet)
+        let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
+        let textAction = UIAlertAction(title: "Text", style: .default) { (action) in
+            guard MFMessageComposeViewController.canSendText() else {return}
+            let controller = MFMessageComposeViewController()
+            controller.recipients = [phone]
+            controller.messageComposeDelegate = self
+            self.present(controller, animated: true, completion: nil)
+        }
+        let callAction = UIAlertAction(title: "Call", style: .default) { (action) in
+            let number = URL(string: "tel://\(phone)")
+            UIApplication.shared.open(number!, options: [:], completionHandler: nil)
+        }
+        actionSheet.addAction(cancelAction)
+        actionSheet.addAction(textAction)
+        actionSheet.addAction(callAction)
+        present(actionSheet, animated: true, completion: nil)
+    }
+    
+    func messageComposeViewController(_ controller: MFMessageComposeViewController, didFinishWith result: MessageComposeResult) {
+        dismiss(animated: true, completion: nil)
     }
     
     func logout() {

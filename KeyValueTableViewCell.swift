@@ -26,6 +26,10 @@ class KeyValueTableViewCell: UITableViewCell, userInfoDelegate, UITextFieldDeleg
             message.isHidden = false
             message.isUserInteractionEnabled = true
             message.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(messageUser)))
+            if controller?.profileIsForEditing == false {
+                value.addGestureRecognizer(UITapGestureRecognizer(target: controller, action: #selector(MiddleProfileTableViewController.callOrText)))
+                value.isUserInteractionEnabled = true
+            }
         }
         if key.text == "Date Joined" {
             if value.text != nil {
@@ -54,7 +58,7 @@ class KeyValueTableViewCell: UITableViewCell, userInfoDelegate, UITextFieldDeleg
             value.isHidden = true
         }
     }
-    
+
     func messageUser() {
         controller?.profileDelegate?.performSegue(withIdentifier: "messageUser", sender: user)
         controller?.profileDelegate?.navigationController?.navigationBar.isHidden = false
@@ -74,8 +78,6 @@ class KeyValueTableViewCell: UITableViewCell, userInfoDelegate, UITextFieldDeleg
     }
     
     func updateUserInfo() {
-//        let key = key.text!
-//        if key == "Contact" {key = "Phone"}
         user?.info[key.text!] = value.text!
         LoadRequests.updateUser(user: user!)
     }
@@ -89,7 +91,6 @@ class KeyValueTableViewCell: UITableViewCell, userInfoDelegate, UITextFieldDeleg
         DispatchQueue.main.async {
             textField.selectAll(nil)
         }
-        
-    }    
+    }
 
 }
