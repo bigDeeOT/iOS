@@ -26,6 +26,7 @@ class RideDetailViewController: UIViewController, UITableViewDelegate, UITableVi
     var justClickOfferRide = false
     var loadedImage = false
     var requestPage: RequestPageViewController?
+    var spinner: UIActivityIndicatorView?
     @IBAction func offerRide(_ sender: UIButton) {
         if sender.currentTitle == "Offer Ride" {    //post collage
             sender.setTitle("Resolve?", for: .normal)
@@ -68,6 +69,7 @@ class RideDetailViewController: UIViewController, UITableViewDelegate, UITableVi
         tableView.estimatedRowHeight = 600 //208
         rideRequest?.delegate = self
         LoadRequests.rideDetailPage = self
+        addSpinner()
     }
 
     func updateUI() {
@@ -320,11 +322,13 @@ class RideDetailViewController: UIViewController, UITableViewDelegate, UITableVi
             controller.body = self.preScriptedMessage(name, self.pickUpText.text!)
             controller.recipients = [phone]
             controller.messageComposeDelegate = self
-            self.present(controller, animated: true, completion: nil)
+            self.spinner?.startAnimating()
+            self.present(controller, animated: true, completion: {self.spinner?.stopAnimating()})
         }
         let callAction = UIAlertAction(title: "Call", style: .default) { (action) in
+            self.spinner?.startAnimating()
             let number = URL(string: "tel://\(phone)")
-            UIApplication.shared.open(number!, options: [:], completionHandler: nil)
+            UIApplication.shared.open(number!, options: [:], completionHandler: {bool in self.spinner?.stopAnimating()})
         }
         actionSheet.addAction(cancelAction)
         actionSheet.addAction(textAction)
@@ -341,5 +345,11 @@ class RideDetailViewController: UIViewController, UITableViewDelegate, UITableVi
         } else {
             return ""
         }
+    }
+    
+    private func addSpinner() {
+        spinner = UIActivityIndicatorView(activityIndicatorStyle: .whiteLarge)
+        view.addSubview(spinner!)
+        spinner?.center = view.center
     }
 }

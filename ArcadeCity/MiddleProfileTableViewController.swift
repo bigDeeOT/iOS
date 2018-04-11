@@ -22,6 +22,7 @@ class MiddleProfileTableViewController: UITableViewController, MFMessageComposeV
     var profileIsForEditing = true
     var profileDelegate: ProfileViewController?
     var collageBottomView: BottomProfileViewController?
+    var spinner: UIActivityIndicatorView?
     var user: User? {
         didSet {
             updateUI()
@@ -44,6 +45,7 @@ class MiddleProfileTableViewController: UITableViewController, MFMessageComposeV
         if user?.info["Class"] == "Rider" || user?.info["Class"] == "Pending Driver" {
             tableView.tableFooterView?.isHidden = true
         }
+        addSpinner()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -152,18 +154,21 @@ class MiddleProfileTableViewController: UITableViewController, MFMessageComposeV
     
     func callOrText() {
         let phone = (user?.info["Contact"])!
+        guard !phone.contains("555-5555") else {return}
         let actionSheet = UIAlertController(title: "Call or Text?", message: nil, preferredStyle: .actionSheet)
         let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
         let textAction = UIAlertAction(title: "Text", style: .default) { (action) in
             guard MFMessageComposeViewController.canSendText() else {return}
+            self.spinner?.startAnimating()
             let controller = MFMessageComposeViewController()
             controller.recipients = [phone]
             controller.messageComposeDelegate = self
-            self.present(controller, animated: true, completion: nil)
+            self.present(controller, animated: true, completion: {self.spinner?.stopAnimating()})
         }
         let callAction = UIAlertAction(title: "Call", style: .default) { (action) in
+            self.spinner?.startAnimating()
             let number = URL(string: "tel://\(phone)")
-            UIApplication.shared.open(number!, options: [:], completionHandler: nil)
+            UIApplication.shared.open(number!, options: [:], completionHandler: {bool in self.spinner?.stopAnimating()})
         }
         actionSheet.addAction(cancelAction)
         actionSheet.addAction(textAction)
@@ -173,6 +178,12 @@ class MiddleProfileTableViewController: UITableViewController, MFMessageComposeV
     
     func messageComposeViewController(_ controller: MFMessageComposeViewController, didFinishWith result: MessageComposeResult) {
         dismiss(animated: true, completion: nil)
+    }
+    
+    private func addSpinner() {
+        spinner = UIActivityIndicatorView(activityIndicatorStyle: .whiteLarge)
+        view.addSubview(spinner!)
+        spinner?.center = view.center
     }
     
     func logout() {

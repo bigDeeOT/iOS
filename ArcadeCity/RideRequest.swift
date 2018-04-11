@@ -33,7 +33,7 @@ class RideRequest {
             let dateFormatter = DateFormatter()
             dateFormatter.dateFormat = "MM-dd-yyyy hh:mm:ss a"
             let dateValue = dateFormatter.date(from: info["Date"]!)
-            if Date().timeIntervalSince(dateValue!) > 60*2000 {
+            if Date().timeIntervalSince(dateValue!) > 60*20 {
                 return true
             }
             return false
