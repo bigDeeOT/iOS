@@ -153,7 +153,8 @@ class RequestPageViewController: UIViewController, UITableViewDelegate, UITableV
     
     private func style() {
         let navBar = navigationController?.navigationBar
-        view.backgroundColor = UIColor(patternImage: UIImage(named: "background")!)
+        //setBackground()
+        view.layer.contents = UIImage(named: "background")?.cgImage
         navBar?.barTintColor = navBarColor
         navBar?.tintColor = UIColor.white
         navBar?.titleTextAttributes = [
@@ -169,6 +170,14 @@ class RequestPageViewController: UIViewController, UITableViewDelegate, UITableV
         rideRequestList.showsVerticalScrollIndicator = false
         rideRequestList.rowHeight = UITableViewAutomaticDimension
         rideRequestList.estimatedRowHeight = 128
+    }
+    
+    private func setBackground() {
+        UIGraphicsBeginImageContext(view.frame.size)
+        UIImage(named: "background")?.draw(in: view.bounds)
+        let backgroundImage = UIGraphicsGetImageFromCurrentImageContext()
+        UIGraphicsEndImageContext()
+        view.backgroundColor = UIColor(patternImage: backgroundImage!)
     }
     
     func login() {          // Deprecated ????????
