@@ -32,6 +32,15 @@ class ConversationTableViewCell: UITableViewCell {
         clickToGoToUserProfile()
         readIcon.image = #imageLiteral(resourceName: "messageReadDot")
         readIcon.isHidden = conversation.read
+        name.isUserInteractionEnabled = true
+        name.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(linkToProfile)))
+    }
+    
+    func linkToProfile() {
+        let sb = UIStoryboard(name: "Main", bundle: nil)
+        let profileVC = sb.instantiateViewController(withIdentifier: "profileViewController") as! ProfileViewController
+        profileVC.user = conversation.otherUser
+        convoPage?.navigationController?.pushViewController(profileVC, animated: true)
     }
     
     private func clickToGoToUserProfile() {
