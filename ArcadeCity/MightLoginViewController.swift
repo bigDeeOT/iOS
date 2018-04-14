@@ -21,6 +21,7 @@ class MightLoginViewController: UIViewController, loginDelegate, ETADelegate {
     var proceedWithAutomaticSignIn = false
     var spinner: UIActivityIndicatorView?
     @IBOutlet weak var login: UIButton!
+    @IBOutlet weak var mightLogo: UILabel!
     var locationBarrier: Bool?
     var userIsLocal: Bool? {
         didSet { loginLogic() }
@@ -34,6 +35,16 @@ class MightLoginViewController: UIViewController, loginDelegate, ETADelegate {
         spinner?.center = view.center
         spinner?.frame.origin.y += 100
         login.isHidden = true
+        addBackground()
+    }
+    
+    private func addBackground() {
+        let bg = UIImageView(image: UIImage(named: "loginBG"))
+        bg.frame = UIScreen.main.bounds
+        view.addSubview(bg)
+        view.sendSubview(toBack: bg)
+        bg.alpha = 0.5
+        view.backgroundColor = UIColor.black
     }
     
     private func loginLogic() {
@@ -42,7 +53,8 @@ class MightLoginViewController: UIViewController, loginDelegate, ETADelegate {
             finishedLogin()
             loadRequests.checkIfUserExists()
         } else if inRange {
-            login.isHidden = false
+            //login.isHidden = false
+            showLoginButton()
         } else {
             onlyInAustin()
         }
@@ -81,11 +93,28 @@ class MightLoginViewController: UIViewController, loginDelegate, ETADelegate {
     }
     
     func configureButton() {
+        let loginCenter = login.center
+        login.frame.size.width = 30
+        login.center = loginCenter
+        login.setTitleColor(UIColor.clear, for: .normal)
         login.layer.borderWidth = 3
         login.layer.borderColor = UIColor.white.cgColor
         login.layer.cornerRadius = 15
     }
     
+    func showLoginButton() {
+        login.isHidden = false
+        let loginCenter = login.center
+        UIView.animate(withDuration: 0.7, animations: {
+            self.login.frame.size.width = 230
+            self.login.center = loginCenter
+        }) { (bool) in
+            UIView.transition(with: self.login, duration: 0.3, options: .transitionCrossDissolve, animations: {
+                self.login.setTitleColor(UIColor.white, for: .normal)
+            }, completion: nil)
+        }
+    }
+
     
     @IBAction func login(_ sender: UIButton) {
         loadRequests.login(fromViewController: self)
@@ -94,7 +123,17 @@ class MightLoginViewController: UIViewController, loginDelegate, ETADelegate {
     
     func finishedLogin() {
         spinner?.stopAnimating()
-        performSegue(withIdentifier: loginSegueIdentifier, sender: nil)
+        UIView.animate(withDuration: 0.4, animations: {
+            self.mightLogo.transform = CGAffineTransform(scaleX: 0.7, y: 0.7)
+        }) { (bool) in
+            UIView.animate(withDuration: 0.4, animations: {
+                self.mightLogo.alpha = 0
+                self.mightLogo.transform = CGAffineTransform(scaleX: 20, y: 20)
+            }) { (bool) in
+                self.performSegue(withIdentifier: self.loginSegueIdentifier, sender: nil)
+            }
+        }
+
     }
     
     private func onlyInAustin() {

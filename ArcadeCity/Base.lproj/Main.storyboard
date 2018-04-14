@@ -1438,6 +1438,7 @@
                     </view>
                     <connections>
                         <outlet property="login" destination="iBs-yv-yx9" id="tzx-Q2-iXd"/>
+                        <outlet property="mightLogo" destination="F5H-Pn-9QC" id="xTx-4d-KsD"/>
                         <segue destination="2zh-lU-N98" kind="show" identifier="goToRequestPage" id="lJ8-DV-SPQ"/>
                     </connections>
                 </viewController>
