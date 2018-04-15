@@ -22,7 +22,9 @@ class MessagingViewController: UIViewController, UITableViewDelegate, UITableVie
     var viewTransform: CGAffineTransform?
     var viewRecentFrame: CGRect?
     var typeOriginalFrame: CGRect?
+    var typeRecentFrame: CGRect?
     var tableViewOriginalFrame: CGRect?
+    var tableViewRecentFrame: CGRect?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -34,12 +36,6 @@ class MessagingViewController: UIViewController, UITableViewDelegate, UITableVie
         type.layer.borderColor = UIColor.lightGray.cgColor
         type.layer.borderWidth = 1
         type.delegate = self
-        viewRecentFrame = view.frame
-        typeOriginalFrame = type.frame
-        tableViewOriginalFrame = tableView.frame
-        if let msg = preSelectedMessage {
-            type.text = msg
-        }
         send.isUserInteractionEnabled = true
         send.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(sendMessage)))
         tableView.rowHeight = UITableViewAutomaticDimension
@@ -50,15 +46,50 @@ class MessagingViewController: UIViewController, UITableViewDelegate, UITableVie
         tableView.transform = CGAffineTransform(rotationAngle: -(CGFloat).pi)
         navigationItem.title = otherUser.info["Name"]
         view.window?.backgroundColor = UIColor.white
+        testing()
+    }
+    
+    private func testing() {
+       
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        viewRecentFrame = view.frame
+        if typeOriginalFrame == nil {typeOriginalFrame = type.frame}
+        setupRemoveKeyboardGesture()
+        LoadRequests.clearMessagesNotification()
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardChangedSize), name: .UIKeyboardWillChangeFrame, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(enteringForeground), name: .UIApplicationWillEnterForeground, object: nil)
+        if let msg = preSelectedMessage {
+            type.text = msg
+        }
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        textViewDidChange(type)
+    }
+    
+    override func viewDidDisappear(_ animated: Bool) {
+        super.viewDidDisappear(animated)
+        backend.ref?.child("Conversations/\((backend.conversationID)!)").removeAllObservers()
+        type.endEditing(true)
+        NotificationCenter.default.removeObserver(self, name: .UIKeyboardWillChangeFrame, object: nil)
+        NotificationCenter.default.removeObserver(self, name: .UIApplicationWillEnterForeground, object: nil)
     }
     
     func textViewDidChange(_ textView: UITextView) {
-        return
         guard let font = textView.font else {return}
+        guard textView.text.isEmpty == false else {return}
+        if tableViewOriginalFrame == nil {tableViewOriginalFrame = tableView.frame}
         let lines = Int((textView.contentSize.height - textView.textContainerInset.top - textView.textContainerInset.bottom) / font.lineHeight)
+        guard lines <= 10 else {return}
         let displacement = (CGFloat(lines) - 1) * font.lineHeight
         type.frame.size.height = typeOriginalFrame!.size.height + displacement
+        type.frame.origin.y = typeOriginalFrame!.origin.y - displacement
         tableView.frame.size.height = tableViewOriginalFrame!.size.height - displacement
+        typeRecentFrame = type.frame
+        tableViewRecentFrame = tableView.frame
     }
     
     func keyboardChangedSize(notification: NSNotification) {
@@ -90,22 +121,8 @@ class MessagingViewController: UIViewController, UITableViewDelegate, UITableVie
     
     func enteringForeground() {
         view.frame = viewRecentFrame!
-    }
-    
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        setupRemoveKeyboardGesture()
-        LoadRequests.clearMessagesNotification()
-        NotificationCenter.default.addObserver(self, selector: #selector(keyboardChangedSize), name: .UIKeyboardWillChangeFrame, object: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(enteringForeground), name: .UIApplicationWillEnterForeground, object: nil)
-    }
-    
-    override func viewDidDisappear(_ animated: Bool) {
-        super.viewDidDisappear(animated)
-        backend.ref?.child("Conversations/\((backend.conversationID)!)").removeAllObservers()
-        type.endEditing(true)
-        NotificationCenter.default.removeObserver(self, name: .UIKeyboardWillChangeFrame, object: nil)
-        NotificationCenter.default.removeObserver(self, name: .UIApplicationWillEnterForeground, object: nil)
+        if tableViewRecentFrame != nil {tableView.frame = tableViewRecentFrame!}
+        if typeRecentFrame != nil {type.frame = typeRecentFrame!}
     }
     
     func swipeDownToRemoveKeyboard() {
@@ -115,6 +132,9 @@ class MessagingViewController: UIViewController, UITableViewDelegate, UITableVie
     func sendMessage() {
         guard type.text != nil else {return}
         backend.addMessage(type.text)
+        type.frame = typeOriginalFrame!
+        if tableViewOriginalFrame == nil {tableViewOriginalFrame = tableView.frame}
+        tableView.frame = tableViewOriginalFrame!
         type.text = ""
         type.endEditing(true)
     }

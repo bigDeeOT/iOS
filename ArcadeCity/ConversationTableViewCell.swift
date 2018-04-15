@@ -32,8 +32,8 @@ class ConversationTableViewCell: UITableViewCell {
         clickToGoToUserProfile()
         readIcon.image = #imageLiteral(resourceName: "messageReadDot")
         readIcon.isHidden = conversation.read
-        name.isUserInteractionEnabled = true
-        name.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(linkToProfile)))
+        picture.isUserInteractionEnabled = true
+        picture.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(linkToProfile)))
     }
     
     func linkToProfile() {

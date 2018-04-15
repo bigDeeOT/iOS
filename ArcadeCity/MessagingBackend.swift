@@ -34,7 +34,7 @@ class MessagingBackend {
                 self?.conversationID = snap.value as? String
             }
             //Now get all the messages
-            self?.ref?.child("Conversations/\((self?.conversationID)!)").observe(.childAdded, with: { [weak self] (snapShot) in
+            self?.ref?.child("Conversations/\((self?.conversationID)!)").queryLimited(toLast: 1000).queryOrdered(byChild: "Order").observe(.childAdded, with: { [weak self] (snapShot) in
                 self?.pullMessages(snapShot)
                 self?.ref?.child("Conversation Meta Data/\((self?.conversationID)!)/\(user1)").setValue("Read")
                 self?.messagesDelegate?.doneLoadingMessages()
@@ -46,14 +46,26 @@ class MessagingBackend {
         guard snap.exists() == true else {
             return
         }
-        let messageInfo = snap.value as! [String:String]
+        let messageInfo = snap.value as! [String:Any]
         let message = Message()
-        message.date = messageInfo["Date"]
-        message.string = messageInfo["String"]
-        message.user = messageInfo["User"]
+        message.date = messageInfo["Date"] as? String
+        message.string = messageInfo["String"] as? String
+        message.user = messageInfo["User"] as? String
         message.unique = snap.key
+        if true {
+            let order = messageOrder(message.date!)
+            ref?.child("Conversations/\(conversationID!)/\(message.unique!)/Order").setValue(order)
+        }
         if (messages.count != 0) && (message.unique == messages[messages.count - 1].unique) {return}
-        messages.append(message)
+        messages.insert(message, at: 0)
+    }
+    
+    private func messageOrder(_ dateTxt: String) -> Int {
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "MM-dd-yyyy hh:mm:ss a"
+        let messageDate = dateFormatter.date(from: dateTxt)
+        let time = messageDate?.timeIntervalSince1970
+        return Int(-time!)
     }
     
     func addMessage(_ string: String) {
@@ -69,8 +81,9 @@ class MessagingBackend {
         let messageDetails = [
             "String"    : string,
             "Date"      : message.date!,
-            "User"      : message.user!
-            ]
+            "User"      : message.user!,
+            "Order"     : messageOrder(message.date!)
+            ] as [String : Any]
         ref?.child("Conversations/\(conversationID!)/\(message.unique!)").setValue(messageDetails)
         var metaDataDetails: [String:String]
         if user1 != user2 {
