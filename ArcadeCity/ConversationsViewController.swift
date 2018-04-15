@@ -33,7 +33,7 @@ class ConversationsViewController: UIViewController, UITableViewDelegate, UITabl
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         navigationController?.navigationBar.isTranslucent = true
-        LoadRequests.clearMessages()
+        LoadRequests.clearMessagesNotification()
         refreshConversationList()
     }
     

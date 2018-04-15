@@ -123,10 +123,10 @@ class MightLoginViewController: UIViewController, loginDelegate, ETADelegate {
     
     func finishedLogin() {
         spinner?.stopAnimating()
-        UIView.animate(withDuration: 0.4, animations: {
+        UIView.animate(withDuration: 0.3, animations: {
             self.mightLogo.transform = CGAffineTransform(scaleX: 0.7, y: 0.7)
         }) { (bool) in
-            UIView.animate(withDuration: 0.4, animations: {
+            UIView.animate(withDuration: 0.2, animations: {
                 self.mightLogo.alpha = 0
                 self.mightLogo.transform = CGAffineTransform(scaleX: 20, y: 20)
             }) { (bool) in

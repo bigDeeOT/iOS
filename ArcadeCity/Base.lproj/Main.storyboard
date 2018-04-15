@@ -522,6 +522,7 @@
                     </view>
                     <connections>
                         <outlet property="send" destination="sQb-IW-Rhc" id="YgY-Vy-CcI"/>
+                        <outlet property="stackView" destination="hin-Ra-lig" id="BMQ-ee-PnZ"/>
                         <outlet property="tableView" destination="OYU-IO-HZg" id="Vsv-3V-WRG"/>
                         <outlet property="type" destination="iFV-ls-Enk" id="Urh-qB-GG3"/>
                     </connections>

@@ -41,7 +41,7 @@ class LoadRequests {
         }
     }
     
-    static func clearMessages() {
+    static func clearMessagesNotification() {
         guard let tabBarCon = tabBarController else {return}
         tabBarCon.tabBar.items![2].badgeValue = nil
     }

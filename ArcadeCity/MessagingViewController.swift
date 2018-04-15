@@ -8,7 +8,7 @@
 
 import UIKit
 
-class MessagingViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, MessagesDelegate, UITextViewDelegate {
+class MessagingViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, MessagesDelegate, UITextViewDelegate, UIScrollViewDelegate {
     var myMessage = "myMessage"
     var theirMessage = "theirMessage"
     var otherUser: User!
@@ -17,6 +17,7 @@ class MessagingViewController: UIViewController, UITableViewDelegate, UITableVie
     @IBOutlet weak var tableView: UITableView!
     var backend: MessagingBackend!
     var preSelectedMessage: String?
+    @IBOutlet weak var stackView: UIStackView!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -43,14 +44,35 @@ class MessagingViewController: UIViewController, UITableViewDelegate, UITableVie
         view.window?.backgroundColor = UIColor.white
     }
     
+    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        guard scrollView == type as UIScrollView else {return}
+        if scrollView.panGestureRecognizer.translation(in: scrollView).y > 0 {
+           type.endEditing(true)
+        }
+    }
+    
+    private func setupRemoveKeyboardGesture() {
+        let swipe = UISwipeGestureRecognizer(target: self, action: #selector(swipeDownToRemoveKeyboard))
+        swipe.direction = .down
+        swipe.numberOfTouchesRequired = 1
+        type.addGestureRecognizer(swipe)
+    }
+    
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        LoadRequests.clearMessages()
+        setupRemoveKeyboardGesture()
+        LoadRequests.clearMessagesNotification()
     }
     
     override func viewDidDisappear(_ animated: Bool) {
         super.viewDidDisappear(animated)
         backend.ref?.child("Conversations/\((backend.conversationID)!)").removeAllObservers()
+        type.endEditing(true)
+        
+    }
+    
+    func swipeDownToRemoveKeyboard() {
+        type.endEditing(true)
     }
     
     func textViewDidEndEditing(_ textView: UITextView) {
@@ -63,23 +85,16 @@ class MessagingViewController: UIViewController, UITableViewDelegate, UITableVie
     
     func animateTextField(up: Bool)
     {
-        let movementDistance:CGFloat = -165
-        let movementDuration: Double = 0.3
-        
-        var movement:CGFloat = 0
-        if up
-        {
-            movement = movementDistance
+        if up {
+            UIView.animate(withDuration: 0.3) {
+                self.view.transform = CGAffineTransform(translationX: 0, y: -165)
+            }
+        } else {
+            UIView.animate(withDuration: 0.3) {
+                self.view.transform = CGAffineTransform(translationX: 0, y: 0)
+                //self.view.transform = .identity
+            }
         }
-        else
-        {
-            movement = -movementDistance
-        }
-        UIView.beginAnimations("animateTextField", context: nil)
-        UIView.setAnimationBeginsFromCurrentState(true)
-        UIView.setAnimationDuration(movementDuration)
-        self.view.frame = self.view.frame.offsetBy(dx: 0, dy: movement)
-        UIView.commitAnimations()
     }
     
     func sendMessage() {
