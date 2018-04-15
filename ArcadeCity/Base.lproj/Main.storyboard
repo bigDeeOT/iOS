@@ -514,9 +514,13 @@
                             <constraint firstItem="hin-Ra-lig" firstAttribute="leading" secondItem="Aq1-tl-Ylo" secondAttribute="leading" constant="15" id="3eR-uy-EsM"/>
                             <constraint firstItem="fSM-o4-1zY" firstAttribute="top" secondItem="hin-Ra-lig" secondAttribute="bottom" constant="10" id="7t5-NQ-AHq"/>
                             <constraint firstAttribute="trailing" secondItem="OYU-IO-HZg" secondAttribute="trailing" id="Q2q-8y-dcm"/>
+                            <constraint firstItem="OYU-IO-HZg" firstAttribute="leading" secondItem="Aq1-tl-Ylo" secondAttribute="leading" id="V77-fZ-Ecr"/>
                             <constraint firstItem="OYU-IO-HZg" firstAttribute="leading" secondItem="Aq1-tl-Ylo" secondAttribute="leading" id="e7H-Tf-Uvs"/>
                             <constraint firstItem="hin-Ra-lig" firstAttribute="top" secondItem="OYU-IO-HZg" secondAttribute="bottom" constant="5" id="hNF-yb-iHn"/>
+                            <constraint firstItem="hin-Ra-lig" firstAttribute="top" secondItem="OYU-IO-HZg" secondAttribute="bottom" constant="5" id="iW0-Wp-APA"/>
+                            <constraint firstAttribute="trailing" secondItem="OYU-IO-HZg" secondAttribute="trailing" id="kcT-lW-Zin"/>
                             <constraint firstAttribute="trailing" secondItem="hin-Ra-lig" secondAttribute="trailing" constant="5" id="nd2-wB-eUb"/>
+                            <constraint firstItem="OYU-IO-HZg" firstAttribute="top" secondItem="bs3-eU-IkH" secondAttribute="bottom" id="s8s-BO-ta3"/>
                             <constraint firstItem="OYU-IO-HZg" firstAttribute="top" secondItem="bs3-eU-IkH" secondAttribute="bottom" id="x56-25-RpE"/>
                         </constraints>
                     </view>

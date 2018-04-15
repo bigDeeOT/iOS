@@ -17,7 +17,12 @@ class MessagingViewController: UIViewController, UITableViewDelegate, UITableVie
     @IBOutlet weak var tableView: UITableView!
     var backend: MessagingBackend!
     var preSelectedMessage: String?
+    var viewTranslation: CGFloat?
     @IBOutlet weak var stackView: UIStackView!
+    var viewTransform: CGAffineTransform?
+    var viewRecentFrame: CGRect?
+    var typeOriginalFrame: CGRect?
+    var tableViewOriginalFrame: CGRect?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -29,6 +34,9 @@ class MessagingViewController: UIViewController, UITableViewDelegate, UITableVie
         type.layer.borderColor = UIColor.lightGray.cgColor
         type.layer.borderWidth = 1
         type.delegate = self
+        viewRecentFrame = view.frame
+        typeOriginalFrame = type.frame
+        tableViewOriginalFrame = tableView.frame
         if let msg = preSelectedMessage {
             type.text = msg
         }
@@ -44,10 +52,32 @@ class MessagingViewController: UIViewController, UITableViewDelegate, UITableVie
         view.window?.backgroundColor = UIColor.white
     }
     
+    func textViewDidChange(_ textView: UITextView) {
+        return
+        guard let font = textView.font else {return}
+        let lines = Int((textView.contentSize.height - textView.textContainerInset.top - textView.textContainerInset.bottom) / font.lineHeight)
+        let displacement = (CGFloat(lines) - 1) * font.lineHeight
+        type.frame.size.height = typeOriginalFrame!.size.height + displacement
+        tableView.frame.size.height = tableViewOriginalFrame!.size.height - displacement
+    }
+    
+    func keyboardChangedSize(notification: NSNotification) {
+        guard let keyboardFrame = (notification.userInfo?[UIKeyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue else {return}
+        guard let tabBarHeight = tabBarController?.tabBar.frame.height else {return}
+        let keyboardIsUp = keyboardFrame.origin.y < UIScreen.main.bounds.height
+        viewTranslation = keyboardFrame.height - tabBarHeight
+        if keyboardIsUp {
+            view.transform = CGAffineTransform(translationX: 0, y: -viewTranslation!)
+        } else {
+            view.transform = .identity
+        }
+        viewRecentFrame = view.frame
+    }
+    
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
         guard scrollView == type as UIScrollView else {return}
         if scrollView.panGestureRecognizer.translation(in: scrollView).y > 0 {
-           type.endEditing(true)
+            type.endEditing(true)
         }
     }
     
@@ -58,45 +88,30 @@ class MessagingViewController: UIViewController, UITableViewDelegate, UITableVie
         type.addGestureRecognizer(swipe)
     }
     
+    func enteringForeground() {
+        view.frame = viewRecentFrame!
+    }
+    
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         setupRemoveKeyboardGesture()
         LoadRequests.clearMessagesNotification()
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardChangedSize), name: .UIKeyboardWillChangeFrame, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(enteringForeground), name: .UIApplicationWillEnterForeground, object: nil)
     }
     
     override func viewDidDisappear(_ animated: Bool) {
         super.viewDidDisappear(animated)
         backend.ref?.child("Conversations/\((backend.conversationID)!)").removeAllObservers()
         type.endEditing(true)
-        
+        NotificationCenter.default.removeObserver(self, name: .UIKeyboardWillChangeFrame, object: nil)
+        NotificationCenter.default.removeObserver(self, name: .UIApplicationWillEnterForeground, object: nil)
     }
     
     func swipeDownToRemoveKeyboard() {
         type.endEditing(true)
     }
-    
-    func textViewDidEndEditing(_ textView: UITextView) {
-        animateTextField(up: false)
-    }
-    
-    func textViewDidBeginEditing(_ textView: UITextView) {
-        animateTextField(up: true)
-    }
-    
-    func animateTextField(up: Bool)
-    {
-        if up {
-            UIView.animate(withDuration: 0.3) {
-                self.view.transform = CGAffineTransform(translationX: 0, y: -165)
-            }
-        } else {
-            UIView.animate(withDuration: 0.3) {
-                self.view.transform = CGAffineTransform(translationX: 0, y: 0)
-                //self.view.transform = .identity
-            }
-        }
-    }
-    
+
     func sendMessage() {
         guard type.text != nil else {return}
         backend.addMessage(type.text)
@@ -111,7 +126,7 @@ class MessagingViewController: UIViewController, UITableViewDelegate, UITableVie
     func numberOfSections(in tableView: UITableView) -> Int {
         return 1
     }
-
+    
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         var cell: UITableViewCell
         let message = backend.messages[backend.messages.count - 1 - indexPath.row]

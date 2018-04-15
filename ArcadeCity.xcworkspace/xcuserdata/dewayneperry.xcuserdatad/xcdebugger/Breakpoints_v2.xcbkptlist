@@ -26,7 +26,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "ArcadeCity/LoadRequests.swift"
-            timestampString = "545453876.625983"
+            timestampString = "545467381.718665"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "426"
@@ -64,6 +64,22 @@
             startingLineNumber = "26"
             endingLineNumber = "26"
             landmarkName = "setSelected(_:animated:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "ArcadeCity/MessagingViewController.swift"
+            timestampString = "545467381.720805"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "69"
+            endingLineNumber = "69"
+            landmarkName = "keyboardChangedSize(notification:)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
