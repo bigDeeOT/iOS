@@ -40,15 +40,16 @@ class MessagingBackend {
     }
     
     private func listenForNewMessages() {
-        ref?.child("Conversations/\(conversationID!)").queryLimited(toFirst: 1).queryOrdered(byChild: "Order").observe(.childAdded, with: { [weak self] (snapShot) in
+        ref?.child("Conversations/\(conversationID!)").queryLimited(toLast: 1).observe(.childAdded, with: { [weak self] (snapShot) in
             guard snapShot.exists() == true else {return}
             let messageInfo = snapShot.value as! [String:Any]
             self?.constructMessage(messageInfo, unique: snapShot.key, isNew: true)
             self?.ref?.child("Conversation Meta Data/\((self?.conversationID)!)/\((self?.user1)!)").setValue("Read")
-            self?.messagesDelegate?.doneLoadingMessages()
             if self?.lastMessageID == nil {
                 self?.lastMessageID = snapShot.key
                 self?.getPageOfMessages()
+            } else {
+                self?.messagesDelegate?.doneLoadingMessages()
             }
         })
     }

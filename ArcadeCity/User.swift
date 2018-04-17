@@ -28,7 +28,7 @@ class User {
     }
     var keys = ["Name", "Class", "Bio", "Contact", "Car", "Payments", "Date Joined", "Profile Pic URL", "Rides Requested", "Rides Taken", "Rides Offered", "Rides Given", "Collage URL"]
     var keysToNotDisplay: Set = ["Profile Pic URL", "Collage URL"]
-    var keysOnlyForDrivers: Set = ["Rides Given", "Rides Offered", "Car", "Contact"]
+    var keysOnlyForDrivers: Set = ["Rides Given", "Rides Offered", "Car"]
     var keysForEditing = ["Contact", "Bio", "Car", "Payments"]
     static let defaultBio = "I'm just an ordinary person doing ordinary things. \nClick to add your own bio\n😎💥"
     var keysToDisplay: [String] {

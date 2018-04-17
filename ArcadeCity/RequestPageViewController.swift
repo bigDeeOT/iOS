@@ -42,6 +42,7 @@ class RequestPageViewController: UIViewController, UITableViewDelegate, UITableV
     var loadedAllCells = false
     var introText: UILabel?
     var refreshRequestList = true
+    var lastIndexTableRefreshed = 0
     
     
     override func viewDidLoad() {
@@ -53,12 +54,11 @@ class RequestPageViewController: UIViewController, UITableViewDelegate, UITableV
         requestList = loadRequests.get()
         addRequestButtonLogic()
         loadRequests.requestPage = self
-        loadRequests.getNumberOfRideRequests()
         tabBarNavBarLogic()
         RequestPageViewController.this = self
-        prepareToRemoveLoadingPage()
         //UIView.setAnimationsEnabled(false)           //only for debugging on simulator
         rideRequestList.tableFooterView = UIView()
+        removeSlowLoadingPage()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -88,6 +88,7 @@ class RequestPageViewController: UIViewController, UITableViewDelegate, UITableV
         } else {
             refreshRequestList = true
         }
+        lastIndexTableRefreshed = 0
     }
     
     func addViewForNoRides() {
@@ -107,26 +108,6 @@ class RequestPageViewController: UIViewController, UITableViewDelegate, UITableV
         self.view.addSubview(introText!);
     }
     
-    func prepareToRemoveLoadingPage() {
-        //This waits for all the requests to be loaded then removes loading page
-        var timesCheckedIfLoadingFinished = 0.0
-        Timer.scheduledTimer(withTimeInterval: 0.2, repeats: true) { (timer) in
-            timesCheckedIfLoadingFinished += 1
-            if LoadRequests.numberOfRequestsLoaded >= LoadRequests.numberOfRequestsInFirebase {
-                if LoadRequests.numberOfRequestsLoaded > 0 {
-                    timer.invalidate()
-                    self.removeLoginPage()
-                }
-            }
-            if timesCheckedIfLoadingFinished * 0.2 > 20 {    //Remove loading page after 5 seconds
-                self.removeLoginPage()
-                timer.invalidate()
-                print("LoadRequests.numberOfRequestsLoaded < LoadRequests.numberOfRequestsInFirebase")
-                print("Loading page removed because it was taking too long to load")
-            }
-        }
-    }
-    
     func tabBarNavBarLogic() {
         if loginPageView.isHidden == false {
 
@@ -144,11 +125,25 @@ class RequestPageViewController: UIViewController, UITableViewDelegate, UITableV
     }
     
 
-    func removeLoginPage() {
+    func removeLoadingPlaceHolder() {
         rideRequestList.reloadData()
         loginPageView.isHidden = true
         tabBarNavBarLogic()
         addRequestButtonLogic()
+    }
+    
+    
+    private func removeSlowLoadingPage() {
+        guard loadRequests.showLoadingPage else {
+            removeLoadingPlaceHolder()
+            loadRequests.showLoadingPage = true
+            return
+        }
+        Timer.scheduledTimer(withTimeInterval: 6, repeats: false) { (timer) in
+            if self.loginPageView.isHidden == false {
+                self.removeLoadingPlaceHolder()
+            }
+        }
     }
     
     private func style() {
@@ -288,8 +283,9 @@ class RequestPageViewController: UIViewController, UITableViewDelegate, UITableV
     }
     
     func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
+        guard indexPath.section != lastIndexTableRefreshed else {return}
         if indexPath.section == (LoadRequests.requestList.count - 1) {
-            //guard loadedAllCells == false else {return}
+            lastIndexTableRefreshed = indexPath.section
             loadRequests.listenForMoreRequest()
         }
     }

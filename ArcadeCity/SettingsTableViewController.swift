@@ -84,8 +84,8 @@ class SettingsTableViewController: UITableViewController {
         do {
             try Auth.auth().signOut()
         } catch { print("error with firebase logout") }
-        LoadRequests.clear()
         RequestPageViewController.userName = nil
+        LoadRequests.clear()
         tabBarController?.tabBar.isHidden = true
         let sb = UIStoryboard(name: "Main", bundle: nil)
         let vc = sb.instantiateViewController(withIdentifier: "loginVC")

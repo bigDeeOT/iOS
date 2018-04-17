@@ -21,7 +21,7 @@ class LoadRequests {
     weak var loginPageDelegate:  MightLoginViewController!
     static var firstPageBoundarySet = false
     var requestPageSize: UInt = 10
-    var requestPageBoundary: String!
+    static var pageBoundary: String?
     static weak var rideDetailPage: RideDetailViewController!
     static var numberOfRequestsInFirebase = 0
     static var numberOfRequestsLoaded = 0
@@ -29,6 +29,8 @@ class LoadRequests {
     static var recentlyDeletedRequest: String?
     static var recentOffer: String?
     static var tabBarController: UITabBarController?
+    static var lastRequestOfFirstPage: String?
+    var showLoadingPage = true
     
     static func newMessage() {
         guard let tabBarCon = tabBarController else {return}
@@ -57,11 +59,10 @@ class LoadRequests {
             gRef.child("Requests by Users/\(userUnique)/Requests").removeAllObservers()
         }
         requestList.removeAll()
-        numberOfRequestsLoaded = 0
-        numberOfRequestsInFirebase = 0
-        firstPageBoundarySet = false
-        // loadRequestsFullOfJunk()
-        // now call startListening() after calling clear()
+        LoadRequests.pageBoundary = nil
+        if RequestPageViewController.userName == nil {
+            LoadRequests.lastRequestOfFirstPage = nil
+        }
     }
     
     func get() -> [RideRequest] {
@@ -122,15 +123,6 @@ class LoadRequests {
         LoadRequests.gRef.child("Requests by Users/\((rideRequest.rider?.unique)!)/Requests/\(rideRequest.unique!)/Offers/\(offerID)").setValue("True")
     }
     
-    func getNumberOfRideRequests() {
-        self.ref.child("Requests").queryLimited(toLast: requestPageSize).observeSingleEvent(of: .value, with: { (snapshot) in
-            guard snapshot.exists() else {return}
-            let requests = snapshot.value as! [String:Any?]
-            LoadRequests.numberOfRequestsInFirebase = requests.count
-            print("numberOfRequestsInFirebase is ", requests.count)
-        })
-    }
-    
     //currently not used
     func getRequestDirectory() -> String {
         var requestDirectory = "Requests"
@@ -144,11 +136,7 @@ class LoadRequests {
     
     func listenForRequest() {
         let requestDirectory = "Requests"
-        self.ref.child(requestDirectory).queryLimited(toLast: requestPageSize).observe(.childAdded, with: { [weak self] (snapshot) in
-            if LoadRequests.firstPageBoundarySet == false {
-                LoadRequests.firstPageBoundarySet = true
-                self?.requestPageBoundary = snapshot.key
-            }
+        self.ref.child(requestDirectory).queryLimited(toLast: 1).observe(.childAdded, with: { [weak self] (snapshot) in
             guard LoadRequests.requestList.last?.unique != snapshot.key else {
                 //If current user just made a request
                 self?.listenForOffer((LoadRequests.requestList.last)!)
@@ -157,20 +145,23 @@ class LoadRequests {
             guard let riderUnique = (snapshot.value as? [String:Any])?["Rider"] as? String else {return}
             let request = self?.createRideRequest(from: snapshot.key, with: snapshot.value as! [String : Any], isNew: true)
             self?.setRiderForRideRequest(from: riderUnique, with: request!)
+            if LoadRequests.pageBoundary == nil {
+                LoadRequests.pageBoundary = snapshot.key
+                self?.listenForMoreRequest()
+            }
         })
     }
     
     func listenForMoreRequest() {
         let requestDirectory = "Requests"
-        ref.child(requestDirectory).queryOrderedByKey().queryLimited(toLast: requestPageSize).queryEnding(atValue: requestPageBoundary).observeSingleEvent(of: .value, with: { [weak self] (snap) in
+        ref.child(requestDirectory).queryOrderedByKey().queryLimited(toLast: requestPageSize).queryEnding(atValue: LoadRequests.pageBoundary!).observeSingleEvent(of: .value, with: { [weak self] (snap) in
             guard snap.exists() else {return}
-            guard snap.children.allObjects.count > 1 else {self?.requestPage.loadedAllCells = true; return}
-            let keyFromLastPage = (self?.requestPageBoundary)!
-            for child in snap.children {
+            self?.getLastRequestOfFirstPage(snap)
+            for child in snap.children.reversed() {
                 let key = (child as! DataSnapshot).key
                 let requestInfo = (child as! DataSnapshot).value as! [String:Any]
-                if key == keyFromLastPage {continue}
-                if key < (self?.requestPageBoundary)! { self?.requestPageBoundary = key }
+                if key == (LoadRequests.pageBoundary)! {continue}
+                if key < (LoadRequests.pageBoundary)! { LoadRequests.pageBoundary = key }
                 guard let riderUnique = requestInfo["Rider"] as? String else {return}
                 let request = self?.createRideRequest(from: key, with: requestInfo, isNew: false)
                 self?.setRiderForRideRequest(from: riderUnique, with: request!)
@@ -178,12 +169,17 @@ class LoadRequests {
         })
     }
     
+    func getLastRequestOfFirstPage(_ snap: DataSnapshot) {
+        guard LoadRequests.lastRequestOfFirstPage == nil else {return}
+        for child in snap.children {
+            LoadRequests.lastRequestOfFirstPage = (child as! DataSnapshot).key
+            break
+        }
+        return
+    }
+    
     func setRiderForRideRequest(from riderUnique: String, with request: RideRequest) {
         ref.child("Users/\(riderUnique)").observeSingleEvent(of: .value, with: { [weak self] (snapShotUser) in
-            LoadRequests.numberOfRequestsLoaded += 1
-            if LoadRequests.numberOfRequestsLoaded == 10 {
-                print("number of requests loaded is ten")
-            }
             guard snapShotUser.exists() else {return}
             let user = self?.pullUserFromFirebase(snapShotUser)
             request.rider = user
@@ -191,6 +187,12 @@ class LoadRequests {
             self?.listenForOffer(request)
             self?.requestPage?.rideRequestList?.reloadData()
             self?.requestPage?.requestJustAdded = request
+            if LoadRequests.lastRequestOfFirstPage == request.unique! {
+                self?.requestPage?.removeLoadingPlaceHolder()
+                if self?.requestPage == nil {
+                    self?.showLoadingPage = false
+                }
+            }
         })
     }
     
@@ -494,89 +496,4 @@ class LoadRequests {
         }
         user.profileDetails?.updateUI()
     }
-    
-    
-    static private func loadRequestsFullOfJunk() {
-        let dateFormatter = DateFormatter()
-        dateFormatter.dateFormat = "MM-dd-yyyy hh:mm:ss a"
-        let date = dateFormatter.date(from: "07-07-2017 10:08:13 am")
-        
-        var rider = User(url: URL(string: "http://i.imgur.com/ezZRRss.jpg")!, name: "Donald J Trump")
-        rider.info["Profile Pic URL"] = "http://i.imgur.com/ezZRRss.jpg"
-        rider.phone = "512 686-7920"
-        rider.info["Name"] = rider.name
-        var request = RideRequest(rider: rider)
-        request.text = "Airport to Capitol please"
-        request.info["Text"] = "Airport to Capitol please"
-        request.date = date
-        request.info["Date"] = "07-07-2017 2:52:33 pm"
-        request.ETA = "ETA: 9 min"
-        request.state = RideRequest.State.canceled
-        request.info["State"] = "#Canceled"
-        request.unique = "E"
-        LoadRequests.requestList.append(request)
-        
-        rider = User(url: URL(string: "http://i.imgur.com/9QBGS2m.jpg")!, name: "Gregory Fenves")
-        rider.info["Profile Pic URL"] = "http://i.imgur.com/9QBGS2m.jpg"
-        rider.phone = "512 686-7920"
-        rider.info["Name"] = rider.name
-        request = RideRequest(rider: rider)
-        request.text = "Redbud to UT asap"
-        request.info["Text"] = "Redbud to UT asap"
-        request.date = date
-        request.info["Date"] = "07-07-2017 11:49:10 am"
-        request.ETA = "ETA: 9 min"
-        request.info["State"] = "Unresolved"
-        request.unique = "D"
-        LoadRequests.requestList.append(request)
-        
-        rider = User(url: URL(string: "http://i.imgur.com/1jP1Zwv.jpg")!, name: "Asher Lostak")
-        rider.info["Profile Pic URL"] = "http://i.imgur.com/qbMs1s6.jpg"
-        rider.phone = "512 686-7920"
-        rider.info["Name"] = rider.name
-        request = RideRequest(rider: rider)
-        request.text = "Hey guys I have a favor to ask. I don't know if this is the right place but is it possible for someone to pick up my dog from my apartment and bring him to the vet? I'm so worried about him please help!"
-        request.info["Text"] = "Riverside to Airport\nAnyone nearby? I'm late for my flight! ✈️"
-        request.date = date
-        request.info["Date"] = "07-07-2017 1:01:13 pm"
-        request.ETA = "ETA: 9 min"
-        request.state = RideRequest.State.resolved
-        request.info["State"] = "#Resolved"
-        request.unique = "C"
-        LoadRequests.requestList.append(request)
-        
-
-        
-        rider = User(url: URL(string: "http://i.imgur.com/dSFFSzV.jpg")!, name: "Bobby Carlisle")
-        rider.info["Profile Pic URL"] = "http://i.imgur.com/dSFFSzV.jpg"
-        rider.phone = "512 686-7920"
-        rider.info["Name"] = rider.name
-        request = RideRequest(rider: rider)
-        request.text = "Pickup domain to riveride"
-        request.info["Text"] = "Pickup domain to downtown\nGot a big day today, lets roll 😎"
-        request.date = date
-        request.info["Date"] = "07-07-2017 11:48:41 am"
-        request.ETA = "ETA: 9 min"
-        request.state = RideRequest.State.resolved
-        request.info["State"] = "#Resolved"
-        request.unique = "B"
-        LoadRequests.requestList.append(request)
-        
-        rider = User(url: URL(string: "http://i.imgur.com/BLlMnuQ.jpg")!, name: "Jennifer Bezos")
-        rider.info["Profile Pic URL"] = "http://i.imgur.com/BLlMnuQ.jpg"
-        rider.phone = "512 686-7920"
-        rider.info["Name"] = rider.name
-        request = RideRequest(rider: rider)
-        request.text = "Hyde Park to Zilker"
-        request.info["Text"] = "Hyde Park to Zilker"
-        request.date = date
-        request.info["Date"] = "07-07-2017 10:08:13 am"
-        request.ETA = "ETA: 9 min"
-        request.state = RideRequest.State.resolved
-        request.info["State"] = "#Resolved"
-        request.unique = "A"
-        LoadRequests.requestList.append(request)
-    }
-
-    
 }
