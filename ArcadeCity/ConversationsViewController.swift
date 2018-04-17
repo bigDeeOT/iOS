@@ -66,18 +66,17 @@ class ConversationsViewController: UIViewController, UITableViewDelegate, UITabl
     }
 
     func newConversationAvailable() {
-//        conversationsLoaded += 1
-//        if conversationsLoaded > maxConversationsLoaded {
-//            maxConversationsLoaded = conversationsLoaded
-//        }
-//        if conversationsLoaded == maxConversationsLoaded {
-//            convoTable.reloadData()
-//        }
-//
-        convoTable.reloadData()
+        conversationsLoaded += 1
+        if conversationsLoaded > maxConversationsLoaded {
+            maxConversationsLoaded = conversationsLoaded
+        }
+        if conversationsLoaded == maxConversationsLoaded {
+            convoTable.reloadData()
+        }
     }
 
     func refreshConversationList() {
+        guard conversationsLoaded == maxConversationsLoaded else {return}
         conversationsLoaded = 0
         backend.conversations.removeAll()
         backend.pullConversations()

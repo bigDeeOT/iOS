@@ -14,6 +14,8 @@ protocol MessagesDelegate {
 }
 
 class MessagingBackend {
+    var lastMessageID: String?
+    var pageSize: UInt = 40
     let ref = LoadRequests.gRef
     var messages = [Message]()
     var conversationID: String!
@@ -33,31 +35,54 @@ class MessagingBackend {
             } else {
                 self?.conversationID = snap.value as? String
             }
-            //Now get all the messages
-            self?.ref?.child("Conversations/\((self?.conversationID)!)").queryLimited(toFirst: 1000).queryOrdered(byChild: "Order").observe(.childAdded, with: { [weak self] (snapShot) in
-                self?.pullMessages(snapShot)
-                self?.ref?.child("Conversation Meta Data/\((self?.conversationID)!)/\(user1)").setValue("Read")
-                self?.messagesDelegate?.doneLoadingMessages()
-            })
+            self?.listenForNewMessages()
         })
     }
     
-    private func pullMessages(_ snap: DataSnapshot) {
-        guard snap.exists() == true else {
-            return
-        }
-        let messageInfo = snap.value as! [String:Any]
+    private func listenForNewMessages() {
+        ref?.child("Conversations/\(conversationID!)").queryLimited(toFirst: 1).queryOrdered(byChild: "Order").observe(.childAdded, with: { [weak self] (snapShot) in
+            guard snapShot.exists() == true else {return}
+            let messageInfo = snapShot.value as! [String:Any]
+            self?.constructMessage(messageInfo, unique: snapShot.key, isNew: true)
+            self?.ref?.child("Conversation Meta Data/\((self?.conversationID)!)/\((self?.user1)!)").setValue("Read")
+            self?.messagesDelegate?.doneLoadingMessages()
+            if self?.lastMessageID == nil {
+                self?.lastMessageID = snapShot.key
+                self?.getPageOfMessages()
+            }
+        })
+    }
+    
+    func getPageOfMessages() {
+        ref?.child("Conversations/\(conversationID!)").queryOrderedByKey().queryLimited(toLast: pageSize).queryEnding(atValue: lastMessageID!).observeSingleEvent(of: .value, with: { [weak self] (snapShot) in
+            guard snapShot.exists() else {return}
+            for child in snapShot.children.reversed() {
+                let unique = (child as! DataSnapshot).key
+                let msgInfo = (child as! DataSnapshot).value as! [String : Any]
+                guard unique != self?.lastMessageID else {continue}
+                if unique < (self?.lastMessageID)! {self?.lastMessageID = unique}
+                self?.constructMessage(msgInfo, unique: unique, isNew: false)
+            }
+            self?.messagesDelegate?.doneLoadingMessages()
+        })
+    }
+    
+    private func constructMessage(_ messageInfo: [String:Any], unique: String, isNew: Bool) {
         let message = Message()
         message.date = messageInfo["Date"] as? String
         message.string = messageInfo["String"] as? String
         message.user = messageInfo["User"] as? String
-        message.unique = snap.key
+        message.unique = unique
         if true {
             let order = messageOrder(message.date!)
             ref?.child("Conversations/\(conversationID!)/\(message.unique!)/Order").setValue(order)
         }
         if (messages.count != 0) && (message.unique == messages[messages.count - 1].unique) {return}
-        messages.insert(message, at: 0)
+        if isNew {
+            messages.append(message)
+        } else {
+            messages.insert(message, at: 0)
+        }
     }
     
     private func messageOrder(_ dateTxt: String) -> Int {

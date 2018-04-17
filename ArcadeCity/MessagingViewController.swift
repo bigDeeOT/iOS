@@ -9,13 +9,13 @@
 import UIKit
 
 class MessagingViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, MessagesDelegate, UITextViewDelegate, UIScrollViewDelegate {
+    var backend: MessagingBackend!
     var myMessage = "myMessage"
     var theirMessage = "theirMessage"
     var otherUser: User!
     @IBOutlet weak var send: UIImageView!
     @IBOutlet weak var type: UITextView!
     @IBOutlet weak var tableView: UITableView!
-    var backend: MessagingBackend!
     var preSelectedMessage: String?
     var viewTranslation: CGFloat?
     @IBOutlet weak var stackView: UIStackView!
@@ -25,6 +25,7 @@ class MessagingViewController: UIViewController, UITableViewDelegate, UITableVie
     var typeRecentFrame: CGRect?
     var tableViewOriginalFrame: CGRect?
     var tableViewRecentFrame: CGRect?
+    var lastIndexRowTableRefreshed = 0
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -46,11 +47,24 @@ class MessagingViewController: UIViewController, UITableViewDelegate, UITableVie
         tableView.transform = CGAffineTransform(rotationAngle: -(CGFloat).pi)
         navigationItem.title = otherUser.info["Name"]
         view.window?.backgroundColor = UIColor.white
-        testing()
+        //testing()
     }
     
     private func testing() {
-       
+        let press = UIView()
+        press.frame.size = CGSize(width: 50, height: 50)
+        press.center = view.center
+        press.backgroundColor = UIColor.red
+        press.alpha = 0.5
+        press.layer.cornerRadius = 25
+        press.clipsToBounds = true
+        press.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(getPage)))
+        press.isUserInteractionEnabled = true
+        view.addSubview(press)
+    }
+    
+    func getPage() {
+        backend.getPageOfMessages()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -163,6 +177,14 @@ class MessagingViewController: UIViewController, UITableViewDelegate, UITableVie
         }
         cell.transform = CGAffineTransform(rotationAngle: (CGFloat).pi)
         return cell
+    }
+    
+    func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
+        guard indexPath.row != lastIndexRowTableRefreshed else {return}
+        if indexPath.row == backend.messages.count - 1 {
+            lastIndexRowTableRefreshed = indexPath.row
+            backend.getPageOfMessages()
+        }
     }
     
     func doneLoadingMessages() {

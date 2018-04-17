@@ -41,7 +41,7 @@ class AddRideTableViewController: UITableViewController {
         }
         if let otherInfoText = otherInfo.text {
             if otherInfoText.count >= 3 {
-                ride.info["Text"] = ride.info["Text"]! + "\n" + otherInfoText
+                ride.info["Text"] = ride.info["Text"]! + "\n\n" + otherInfoText
             }
         }
         ride.info["Text"] = ride.info["Text"]?.replacingOccurrences(of: " And ", with: " & ")
