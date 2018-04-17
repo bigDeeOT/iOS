@@ -34,7 +34,7 @@ class MessagingBackend {
                 self?.conversationID = snap.value as? String
             }
             //Now get all the messages
-            self?.ref?.child("Conversations/\((self?.conversationID)!)").queryLimited(toLast: 1000).queryOrdered(byChild: "Order").observe(.childAdded, with: { [weak self] (snapShot) in
+            self?.ref?.child("Conversations/\((self?.conversationID)!)").queryLimited(toFirst: 1000).queryOrdered(byChild: "Order").observe(.childAdded, with: { [weak self] (snapShot) in
                 self?.pullMessages(snapShot)
                 self?.ref?.child("Conversation Meta Data/\((self?.conversationID)!)/\(user1)").setValue("Read")
                 self?.messagesDelegate?.doneLoadingMessages()

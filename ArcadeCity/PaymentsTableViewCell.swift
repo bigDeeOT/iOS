@@ -16,7 +16,7 @@ class PaymentsTableViewCell: UITableViewCell, userInfoDelegate {
     @IBOutlet weak var venmo: UIImageView!
     @IBOutlet weak var payPal: UIImageView!
     @IBOutlet weak var squareCash: UIImageView!
-    var controller: MiddleProfileTableViewController?
+    weak var controller: MiddleProfileTableViewController?
     var paymentOptions: [String : (UIImageView, UIGestureRecognizer)]?
     var toggleGesture: UIGestureRecognizer?
     var user: User?

@@ -11,7 +11,7 @@ import UIKit
 class DateDocumentTableViewCell: UITableViewCell {
 
     @IBOutlet weak var title: UILabel!
-    var controller: DriverDocumentationViewController!
+    weak var controller: DriverDocumentationViewController!
     var datePicker: UIDatePicker!
     var indexPath: IndexPath!
     var document: Document! {

@@ -14,7 +14,7 @@ class ConversationTableViewCell: UITableViewCell {
     @IBOutlet weak var date: UILabel!
     @IBOutlet weak var message: UILabel!
     @IBOutlet weak var name: UILabel!
-    var convoPage: ConversationsViewController?
+    weak var convoPage: ConversationsViewController?
     var conversation: Conversation!
     @IBOutlet weak var readIcon: UIImageView!
     

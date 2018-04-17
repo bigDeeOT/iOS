@@ -13,9 +13,7 @@ protocol userInfoDelegate {
 }
 
 class BioTableViewCell: UITableViewCell, userInfoDelegate, UITextViewDelegate {
-    var controller: MiddleProfileTableViewController?
-   // @IBOutlet weak var bio: UITextView!
-    
+    weak var controller: MiddleProfileTableViewController?    
     @IBOutlet weak var bio: UILabel!
     @IBOutlet weak var editBio: UITextView!
     var user: User?

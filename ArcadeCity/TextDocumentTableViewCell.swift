@@ -11,7 +11,7 @@ import UIKit
 class TextDocumentTableViewCell: UITableViewCell, UITextFieldDelegate {
     @IBOutlet weak var title: UILabel!
     @IBOutlet weak var textField: UITextField!
-    var controller: DriverDocumentationViewController!
+    weak var controller: DriverDocumentationViewController!
     var indexPath: IndexPath!
     var screenIsMovedUp = false
     var document: Document! {

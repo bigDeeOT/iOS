@@ -17,12 +17,12 @@ class LoadRequests {
     static var gRef: DatabaseReference!
     static var requestList = [RideRequest]()
     static var needToLoad = true
-    var requestPage: RequestPageViewController!
-    var loginPageDelegate:  MightLoginViewController!
+    weak var requestPage: RequestPageViewController!
+    weak var loginPageDelegate:  MightLoginViewController!
     static var firstPageBoundarySet = false
     var requestPageSize: UInt = 10
     var requestPageBoundary: String!
-    static var rideDetailPage: RideDetailViewController!
+    static weak var rideDetailPage: RideDetailViewController!
     static var numberOfRequestsInFirebase = 0
     static var numberOfRequestsLoaded = 0
     static var requestEditedLocally: String?
@@ -242,16 +242,15 @@ class LoadRequests {
                 if offerETA == "none" { offer.eta = nil }
                 offer.comment = offerDetails["Comment"] as? String
                 offer.unique = offerUnique
-                Timer.scheduledTimer(withTimeInterval: 60*20, repeats: false, block: { (time) in
-                   // Doesn't work for some reason
-                    self?.ref.child("Requests/\(request.unique!)/Offers").removeAllObservers()
-                })
                 //get user who made offer
                 let offerDriverUnique = offerDetails["Driver"] as! String
                 self?.ref.child("Users/\(offerDriverUnique)").observeSingleEvent(of: .value, with: { (offerDriverSnapshot) in
                     let offerDriver = self?.pullUserFromFirebase(offerDriverSnapshot)
                     offer.driver = offerDriver
                     request.offers?.append(offer)
+                    request.offers?.sort(by: { (offer1, offer2) -> Bool in
+                        return offer1.date!.timeIntervalSince(offer2.date!) < 0.0
+                    })
                     request.delegate?.reload()
                     self?.requestPage?.rideRequestList?.reloadData()
                     request.delegate?.updateUI()

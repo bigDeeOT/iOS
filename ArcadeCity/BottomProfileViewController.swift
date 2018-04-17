@@ -14,7 +14,7 @@ class BottomProfileViewController: UIViewController, UIImagePickerControllerDele
     @IBOutlet weak var collage: UIImageView!
     var user: User?
     var maxImageSize = CGSize(width: UIScreen.main.bounds.width, height: 115)
-    var containingView: ProfileViewController?
+    weak var containingView: ProfileViewController?
     var profileIsForEditing = true
     
     override func viewDidLoad() {

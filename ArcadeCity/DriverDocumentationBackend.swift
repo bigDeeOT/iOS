@@ -12,7 +12,7 @@ import FirebaseStorage
 
 class DriverDocumentationBackend {
     var documents: [Document] = []
-    var controller: DriverDocumentationViewController?
+    weak var controller: DriverDocumentationViewController?
     var docID: String?
     var user: User?
     

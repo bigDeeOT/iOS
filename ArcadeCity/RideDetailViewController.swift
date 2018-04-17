@@ -25,7 +25,7 @@ class RideDetailViewController: UIViewController, UITableViewDelegate, UITableVi
     var collagePicsCache: [String : UIImage] = [:]
     var justClickOfferRide = false
     var loadedImage = false
-    var requestPage: RequestPageViewController?
+    weak var requestPage: RequestPageViewController?
     var spinner: UIActivityIndicatorView?
     @IBAction func offerRide(_ sender: UIButton) {
         if sender.currentTitle == "Offer Ride" {    //post collage

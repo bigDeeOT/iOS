@@ -12,7 +12,7 @@ class PictureDocumentTableViewCell: UITableViewCell, UIImagePickerControllerDele
 
     @IBOutlet weak var picture: UIImageView!
     @IBOutlet weak var title: UILabel!
-    var controller: DriverDocumentationViewController!
+    weak var controller: DriverDocumentationViewController!
     var maxImageSize = CGSize(width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.width / (4/3))
     var indexPath: IndexPath!
     var document: Document! {

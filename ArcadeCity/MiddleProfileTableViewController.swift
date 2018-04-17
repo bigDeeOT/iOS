@@ -20,7 +20,7 @@ class MiddleProfileTableViewController: UITableViewController, MFMessageComposeV
     var singleTapGestureWaitsForDoubleTap: UIGestureRecognizer?
     var allowCellSelection = true
     var profileIsForEditing = true
-    var profileDelegate: ProfileViewController?
+    weak var profileDelegate: ProfileViewController?
     var collageBottomView: BottomProfileViewController?
     var spinner: UIActivityIndicatorView?
     var user: User? {

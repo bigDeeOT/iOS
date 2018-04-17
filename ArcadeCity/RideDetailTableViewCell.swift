@@ -25,7 +25,7 @@ class RideDetailTableViewCell: UITableViewCell {
     @IBOutlet weak var comment: UILabel!
     @IBOutlet weak var collage: UIImageView!
     @IBOutlet weak var date: UILabel!
-    var controller: RideDetailViewController?
+    weak var controller: RideDetailViewController?
     var maxCollageSize = CGSize(width: UIScreen.main.bounds.width * 0.9, height: 225)
     
     private func updateUI() {

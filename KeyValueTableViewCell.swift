@@ -17,7 +17,7 @@ class KeyValueTableViewCell: UITableViewCell, userInfoDelegate, UITextFieldDeleg
     @IBOutlet weak var value: UILabel!
     @IBOutlet weak var key: UILabel!
     var cellCanBeEdited = false
-    var controller: MiddleProfileTableViewController?
+    weak var controller: MiddleProfileTableViewController?
     var user: User?
     override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)

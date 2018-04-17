@@ -16,7 +16,7 @@ class AutoCompleteViewController: UIViewController, GMSAutocompleteResultsViewCo
     var searchVC: UISearchController?
     var searchBar: UISearchBar?
     var searchResultsVC: GMSAutocompleteResultsViewController?
-    var addRideVC: AddRideTableViewController?
+    weak var addRideVC: AddRideTableViewController?
 
     override func viewDidLoad() {
         super.viewDidLoad()
