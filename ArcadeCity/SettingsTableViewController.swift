@@ -36,9 +36,11 @@ class SettingsTableViewController: UITableViewController, NotificationCellDelega
     }
     
     func notificationsSetOn(_ on: Bool) {
+        let user = RequestPageViewController.userName!
         let value = on ? "True" : "False"
-        RequestPageViewController.userName?.info["Notify"] = value
+        user.info["Notify"] = value
         LoadRequests.updateUser(user: RequestPageViewController.userName!)
+        if on { LoadRequests.setNotificationToken(user.unique!) }
     }
 
     // MARK: - Table view data source

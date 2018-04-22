@@ -14,9 +14,9 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "42A9EE346DEC534B4DE289373687948E"
-               BuildableName = "Pods_Might.framework"
-               BlueprintName = "Pods-Might"
+               BlueprintIdentifier = "C35D02636EED2B3993AABB483CA99054"
+               BuildableName = "GSTouchesShowingWindow_Swift.framework"
+               BlueprintName = "GSTouchesShowingWindow-Swift"
                ReferencedContainer = "container:Pods.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
@@ -45,9 +45,9 @@
       <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "42A9EE346DEC534B4DE289373687948E"
-            BuildableName = "Pods_Might.framework"
-            BlueprintName = "Pods-Might"
+            BlueprintIdentifier = "C35D02636EED2B3993AABB483CA99054"
+            BuildableName = "GSTouchesShowingWindow_Swift.framework"
+            BlueprintName = "GSTouchesShowingWindow-Swift"
             ReferencedContainer = "container:Pods.xcodeproj">
          </BuildableReference>
       </MacroExpansion>

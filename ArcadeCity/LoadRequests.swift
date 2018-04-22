@@ -355,10 +355,9 @@ class LoadRequests {
     }
     
     
-    func setNotificationToken(_ firebaseID: String) {
+    static func setNotificationToken(_ firebaseID: String) {
         let token = Messaging.messaging().fcmToken
-        ref.child("Users").child("\(firebaseID)/pushToken").setValue(token)
-        
+        LoadRequests.gRef.child("Users").child("\(firebaseID)/pushToken").setValue(token)
     }
     
     func checkIfUserExists() {
@@ -374,7 +373,7 @@ class LoadRequests {
                 self?.createNewUserInFirebase(firebaseID)
                 return
             }
-            self?.setNotificationToken(firebaseID)
+            LoadRequests.setNotificationToken(firebaseID)
             let user = self?.pullUserFromFirebase(snapshot)
             RequestPageViewController.userName = user
             guard user?.info["Class"] != "Banned" else { self?.requestPage.logout(); return }
@@ -405,7 +404,7 @@ class LoadRequests {
             let user = User(url: picURL, name: fbInfo["name"]!)
             user.unique = firebaseID
             self?.ref.child("Users").child(firebaseID).setValue(user.info)
-            self?.setNotificationToken(firebaseID)
+            LoadRequests.setNotificationToken(firebaseID)
             RequestPageViewController.userName = user
             self?.startListening()
             self?.requestPage.rideRequestList.reloadData()
