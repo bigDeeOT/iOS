@@ -77,8 +77,8 @@ class User {
         info["Rides Offered"] =        "0"
         info["Rides Given"] =          "0"
         info["Class"] =                "Rider"
-        info["Class"] =                "Rider"
         info["Car"]  =                 "Color Make Model"
+        info["Notify"] =               "True"
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "MM-dd-yyyy hh:mm:ss a"
         let date = dateFormatter.string(from: Date())
@@ -105,6 +105,7 @@ class User {
             info[key] = value
         }
         unique = info["Unique"]
+        if info["Notify"] == nil {info["Notify"] = "True"}
         guard info["Date Joined"] == nil else {return}
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "MM-dd-yyyy hh:mm:ss a"

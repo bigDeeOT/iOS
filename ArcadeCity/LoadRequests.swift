@@ -323,10 +323,6 @@ class LoadRequests {
         if FirebaseApp.app() == nil {
             FirebaseApp.configure()
         }
-        if LoadRequests.needToLoad {
-            //       LoadRequests.loadRequestsFullOfJunk()
-            LoadRequests.needToLoad = false
-        }
         ref = Database.database().reference()
         LoadRequests.gRef = ref
     }
@@ -382,6 +378,10 @@ class LoadRequests {
             let user = self?.pullUserFromFirebase(snapshot)
             RequestPageViewController.userName = user
             guard user?.info["Class"] != "Banned" else { self?.requestPage.logout(); return }
+            if user?.info["LoggedIn"] != "True" {
+                user?.info["LoggedIn"] = "True"
+                self?.ref.child("Users").child(firebaseID).child("LoggedIn").setValue("True")
+            }
             self?.startListening()
             self?.requestPage?.rideRequestList?.reloadData()
         })

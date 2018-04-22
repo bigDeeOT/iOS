@@ -11,10 +11,6 @@ exports.newRideRequest = functions.database.ref('Requests/{RequestID}').onWrite(
 	        let tokens = [];
 	        for (let user of users) {
 				if (user.Class == "Driver" || user.Class == "Moderator" || user.Class == "Admin") {
-					if (!("Notify" in user)) {continue;}
-					if (user.Notify == "False") {continue;}
-					if (!("LoggedIn" in userInfo)) {return;}
-					if (userInfo.LoggedIn == "False") {return;}
 	            	tokens.push(user.pushToken);
 				}
 	        }
@@ -66,10 +62,6 @@ exports.newRideOffer = functions.database.ref('Offers/{OfferID}').onWrite((data,
 			dbRefRider.once('value', (snapRider, context) => {
 				let riderData = snapRider.val();
 				let riderToken = riderData.pushToken;
-				if (!("Notify" in riderData)) {return;}
-				if (riderData.Notify == "False") {return;}
-				if (!("LoggedIn" in userInfo)) {return;}
-				if (userInfo.LoggedIn == "False") {return;}
 		        let payload = {
 		            notification: {
 		                title: `${driverName} offered a ride!`,
@@ -98,16 +90,10 @@ exports.newChatMessage = functions.database.ref('Conversation Meta Data/{convoID
 	}
 	if (userID == "") {return;}
 	let msg = metaData['Last Message'];
-	admin.database().ref(`Users/${senderID}`).once('value', (snapShotSender, context) => {
-		let senderInfo = snapShotSender.val();
-		let senderName = senderInfo.Name;
-		admin.database().ref(`Users/${userID}`).once('value', (snapShot, context) => {
-			let userInfo = snapShot.val();
-			if (!("Notify" in userInfo)) {return;}
-			if (userInfo.Notify == "False") {return;}
-			if (!("LoggedIn" in userInfo)) {return;}
-			if (userInfo.LoggedIn == "False") {return;}
-			let riderToken = userInfo.pushToken
+	admin.database().ref(`Users/${senderID}/Name`).once('value', (snapShotSender, context) => {
+		let senderName = snapShotSender.val();
+		admin.database().ref(`Users/${userID}/pushToken`).once('value', (snapShot, context) => {
+			let riderToken = snapShot.val();
 			let payload = {
 				notification: {
 					title: `${senderName}`,

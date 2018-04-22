@@ -10,14 +10,14 @@ import UIKit
 import Firebase
 import FBSDKLoginKit
 
-class SettingsTableViewController: UITableViewController {
-    
-    var settings = [["User Directory", "My Documents", "Configure Driver Docs", "About", "Privacy Policy"],["Logout"]]
+class SettingsTableViewController: UITableViewController, NotificationCellDelegate {
+    let NormalSections = 0
+    let NotificationSection = 1
+    var settings = [["User Directory", "My Documents", "Configure Driver Docs", "About", "Privacy Policy"], ["Notifications"], ["Logout"]]
     override func viewDidLoad() {
         super.viewDidLoad()
         tableView.backgroundView = nil
         view.backgroundColor = UIColor(red:0.30, green:0.29, blue:0.29, alpha:1.0)
-        tableView.reloadData()
         self.tableView.contentInset = UIEdgeInsetsMake(44,0,0,0);
         tableView.tableFooterView = UIView()
         let userClass = RequestPageViewController.userName?.info["Class"]
@@ -32,6 +32,13 @@ class SettingsTableViewController: UITableViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         navigationController?.navigationBar.isHidden = true
+        tableView.reloadData()
+    }
+    
+    func notificationsSetOn(_ on: Bool) {
+        let value = on ? "True" : "False"
+        RequestPageViewController.userName?.info["Notify"] = value
+        LoadRequests.updateUser(user: RequestPageViewController.userName!)
     }
 
     // MARK: - Table view data source
@@ -46,16 +53,22 @@ class SettingsTableViewController: UITableViewController {
 
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         var cell: UITableViewCell
-        if indexPath.section != (settings.count - 1) {
+        if indexPath.section == NormalSections {
             cell = tableView.dequeueReusableCell(withIdentifier: "settingsCell", for: indexPath)
-            cell.backgroundColor = UIColor.clear
-            cell.selectionStyle = .none
-            
+        } else if indexPath.section == NotificationSection {
+            cell = tableView.dequeueReusableCell(withIdentifier: "notificationCell", for: indexPath)
+            if let cell = cell as? NotificationTableViewCell {
+                let value = RequestPageViewController.userName?.info["Notify"] == "True" ? true : false
+                cell.setNotification(value)
+                cell.delegate = self
+            }
         } else {
             cell = tableView.dequeueReusableCell(withIdentifier: "logout", for: indexPath)
-            cell.backgroundColor = UIColor.clear
         }
+        cell.backgroundColor = UIColor.clear
+        cell.selectionStyle = .none
         cell.textLabel?.text = settings[indexPath.section][indexPath.row]
+        cell.textLabel?.textColor = UIColor.white
         return cell
     }
 
@@ -80,6 +93,8 @@ class SettingsTableViewController: UITableViewController {
     }
     
     func logout() {
+        let userID = RequestPageViewController.userName?.unique
+        LoadRequests.gRef.child("Users").child(userID!).child("LoggedIn").setValue("False")
         FBSDKLoginManager().logOut()
         do {
             try Auth.auth().signOut()

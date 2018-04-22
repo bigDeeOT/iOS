@@ -1391,6 +1391,26 @@
                                     </subviews>
                                 </tableViewCellContentView>
                             </tableViewCell>
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="notificationCell" id="7X3-Uy-UuO" customClass="NotificationTableViewCell" customModule="Might" customModuleProvider="target">
+                                <rect key="frame" x="0.0" y="116" width="375" height="44"/>
+                                <autoresizingMask key="autoresizingMask"/>
+                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="7X3-Uy-UuO" id="oP3-Sv-wLy" customClass="NotificationTableViewCell" customModule="Might" customModuleProvider="target">
+                                    <rect key="frame" x="0.0" y="0.0" width="375" height="43.5"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                    <subviews>
+                                        <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="2gi-pR-3lr">
+                                            <rect key="frame" x="310" y="7" width="49" height="31"/>
+                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                            <connections>
+                                                <action selector="switchChanged:" destination="7X3-Uy-UuO" eventType="valueChanged" id="Hsz-Fd-V3d"/>
+                                            </connections>
+                                        </switch>
+                                    </subviews>
+                                </tableViewCellContentView>
+                                <connections>
+                                    <outlet property="notifySwitch" destination="2gi-pR-3lr" id="LVs-OA-eci"/>
+                                </connections>
+                            </tableViewCell>
                         </prototypes>
                         <connections>
                             <outlet property="dataSource" destination="GnB-Ld-ZnT" id="2T1-wu-CJ2"/>
@@ -1408,7 +1428,7 @@
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="wqU-w6-eyI" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-1124" y="1281"/>
+            <point key="canvasLocation" x="-1124" y="1280.5097451274364"/>
         </scene>
         <!--Might Login View Controller-->
         <scene sceneID="s05-Oy-nxP">
@@ -1993,7 +2013,7 @@
     </resources>
     <inferredMetricsTieBreakers>
         <segue reference="H1h-ZE-g4H"/>
-        <segue reference="G5n-5X-V7h"/>
+        <segue reference="CS6-gY-DAG"/>
         <segue reference="Dd9-Sp-IGG"/>
         <segue reference="hNd-ET-JVO"/>
         <segue reference="c59-gD-Jso"/>

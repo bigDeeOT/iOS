@@ -81,6 +81,7 @@ class MessagingViewController: UIViewController, UITableViewDelegate, UITableVie
     }
     
     override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
         textViewDidChange(type)
     }
     
