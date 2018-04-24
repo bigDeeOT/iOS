@@ -16,5 +16,5 @@ target 'Might' do
   pod 'Firebase/Auth'
   pod 'GoogleMaps'
   pod 'GooglePlaces'
-  pod 'GSTouchesShowingWindow-Swift'
+  #pod 'GSTouchesShowingWindow-Swift'
 end

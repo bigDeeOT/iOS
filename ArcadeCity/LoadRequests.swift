@@ -334,10 +334,9 @@ class LoadRequests {
                 return
             }
             guard let accessToken = FBSDKAccessToken.current()?.tokenString else {
-                print("Facebook accessToken is nil")
+                self?.loginPageDelegate.loginCanceled()
                 return
             }
-            //self?.loginPageDelegate.finishedLogin()
             let credential = FacebookAuthProvider.credential(withAccessToken: accessToken)
             //sign in with firebase
             self?.configureFirebase()

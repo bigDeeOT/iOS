@@ -66,11 +66,13 @@
 		57E65EBF1F185AB800B39AF4 /* Offer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57E65EBE1F185AB800B39AF4 /* Offer.swift */; };
 		57E65EC11F185C3A00B39AF4 /* Driver.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57E65EC01F185C3A00B39AF4 /* Driver.swift */; };
 		57E65EC61F186E3900B39AF4 /* RequestPageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57E65EC51F186E3900B39AF4 /* RequestPageViewController.swift */; };
+		6E2B780FA48653B4E14B8BA2 /* Pods_Might.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 72D89AF08AAD14E374636475 /* Pods_Might.framework */; };
 		AC3813EB1F1EE33900E79813 /* RequestPageTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC3813EA1F1EE33900E79813 /* RequestPageTableViewCell.swift */; };
-		CC1E628516BA757AE6472FC3 /* Pods_Might.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 63AB75C94B4EAF08B65F20E7 /* Pods_Might.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		2845718311BBBF53B7079B22 /* Pods-Might.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Might.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Might/Pods-Might.debug.xcconfig"; sourceTree = "<group>"; };
+		2EC7A1996B38B9BEC8F25ED9 /* Pods-Might.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Might.release.xcconfig"; path = "Pods/Target Support Files/Pods-Might/Pods-Might.release.xcconfig"; sourceTree = "<group>"; };
 		5708175A1F2989120062DB68 /* ImageViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ImageViewController.swift; sourceTree = "<group>"; };
 		5712C8281F22400A00442110 /* ArcadeCity.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = ArcadeCity.entitlements; sourceTree = "<group>"; };
 		57226C302071A62100CA934B /* AboutViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AboutViewController.swift; sourceTree = "<group>"; };
@@ -133,10 +135,8 @@
 		57E65EBE1F185AB800B39AF4 /* Offer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Offer.swift; sourceTree = "<group>"; };
 		57E65EC01F185C3A00B39AF4 /* Driver.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Driver.swift; sourceTree = "<group>"; };
 		57E65EC51F186E3900B39AF4 /* RequestPageViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RequestPageViewController.swift; sourceTree = "<group>"; };
-		63AB75C94B4EAF08B65F20E7 /* Pods_Might.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Might.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		72D89AF08AAD14E374636475 /* Pods_Might.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Might.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		AC3813EA1F1EE33900E79813 /* RequestPageTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RequestPageTableViewCell.swift; sourceTree = "<group>"; };
-		D589BF7402D9847447AEB5C5 /* Pods-Might.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Might.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Might/Pods-Might.debug.xcconfig"; sourceTree = "<group>"; };
-		F9BE448ACF214B1A6E6D9FFA /* Pods-Might.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Might.release.xcconfig"; path = "Pods/Target Support Files/Pods-Might/Pods-Might.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -145,7 +145,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				574724F51F2EA71D003EFFC6 /* CoreLocation.framework in Frameworks */,
-				CC1E628516BA757AE6472FC3 /* Pods_Might.framework in Frameworks */,
+				6E2B780FA48653B4E14B8BA2 /* Pods_Might.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -298,7 +298,7 @@
 				57E65E9A1F15D59000B39AF4 /* ArcadeCity */,
 				57E65E991F15D59000B39AF4 /* Products */,
 				ED5075E26847A8BDB30B547E /* Frameworks */,
-				8C86AB568735E0A31F564335 /* Pods */,
+				76069D577AF371E0E0BA0F2B /* Pods */,
 			);
 			sourceTree = "<group>";
 		};
@@ -358,11 +358,11 @@
 			name = Types;
 			sourceTree = "<group>";
 		};
-		8C86AB568735E0A31F564335 /* Pods */ = {
+		76069D577AF371E0E0BA0F2B /* Pods */ = {
 			isa = PBXGroup;
 			children = (
-				D589BF7402D9847447AEB5C5 /* Pods-Might.debug.xcconfig */,
-				F9BE448ACF214B1A6E6D9FFA /* Pods-Might.release.xcconfig */,
+				2845718311BBBF53B7079B22 /* Pods-Might.debug.xcconfig */,
+				2EC7A1996B38B9BEC8F25ED9 /* Pods-Might.release.xcconfig */,
 			);
 			name = Pods;
 			sourceTree = "<group>";
@@ -371,7 +371,7 @@
 			isa = PBXGroup;
 			children = (
 				574724F41F2EA71D003EFFC6 /* CoreLocation.framework */,
-				63AB75C94B4EAF08B65F20E7 /* Pods_Might.framework */,
+				72D89AF08AAD14E374636475 /* Pods_Might.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -383,13 +383,13 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 57E65EAD1F15D59000B39AF4 /* Build configuration list for PBXNativeTarget "Might" */;
 			buildPhases = (
-				C524A21B228A739F9887CD39 /* [CP] Check Pods Manifest.lock */,
+				5B06B1FCCA5C67F07EF7E47C /* [CP] Check Pods Manifest.lock */,
 				57E65E941F15D59000B39AF4 /* Sources */,
 				57E65E951F15D59000B39AF4 /* Frameworks */,
 				57E65E961F15D59000B39AF4 /* Resources */,
 				57B328BD2061FAB0008BB1E1 /* ShellScript */,
-				D7BC9BB9C6AE2199BC89D38D /* [CP] Embed Pods Frameworks */,
-				BC5AA95A220DA02123774B74 /* [CP] Copy Pods Resources */,
+				A5189092EE66ECEAB04E943E /* [CP] Embed Pods Frameworks */,
+				1760DFE3587D1F039BB983B3 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -458,20 +458,7 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		57B328BD2061FAB0008BB1E1 /* ShellScript */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"Pods/Fabric/run\"";
-		};
-		BC5AA95A220DA02123774B74 /* [CP] Copy Pods Resources */ = {
+		1760DFE3587D1F039BB983B3 /* [CP] Copy Pods Resources */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -490,7 +477,20 @@
 			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-Might/Pods-Might-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
-		C524A21B228A739F9887CD39 /* [CP] Check Pods Manifest.lock */ = {
+		57B328BD2061FAB0008BB1E1 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"Pods/Fabric/run\"";
+		};
+		5B06B1FCCA5C67F07EF7E47C /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -508,7 +508,7 @@
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
-		D7BC9BB9C6AE2199BC89D38D /* [CP] Embed Pods Frameworks */ = {
+		A5189092EE66ECEAB04E943E /* [CP] Embed Pods Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -519,7 +519,6 @@
 				"${BUILT_PRODUCTS_DIR}/FBSDKCoreKit/FBSDKCoreKit.framework",
 				"${BUILT_PRODUCTS_DIR}/FBSDKLoginKit/FBSDKLoginKit.framework",
 				"${BUILT_PRODUCTS_DIR}/FBSDKShareKit/FBSDKShareKit.framework",
-				"${BUILT_PRODUCTS_DIR}/GSTouchesShowingWindow-Swift/GSTouchesShowingWindow_Swift.framework",
 				"${BUILT_PRODUCTS_DIR}/GTMSessionFetcher/GTMSessionFetcher.framework",
 				"${BUILT_PRODUCTS_DIR}/GoogleToolboxForMac/GoogleToolboxForMac.framework",
 				"${BUILT_PRODUCTS_DIR}/Protobuf/Protobuf.framework",
@@ -532,7 +531,6 @@
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/FBSDKCoreKit.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/FBSDKLoginKit.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/FBSDKShareKit.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GSTouchesShowingWindow_Swift.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GTMSessionFetcher.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GoogleToolboxForMac.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Protobuf.framework",
@@ -726,7 +724,7 @@
 		};
 		57E65EAE1F15D59000B39AF4 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = D589BF7402D9847447AEB5C5 /* Pods-Might.debug.xcconfig */;
+			baseConfigurationReference = 2845718311BBBF53B7079B22 /* Pods-Might.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = ArcadeCity/ArcadeCity.entitlements;
@@ -743,7 +741,7 @@
 		};
 		57E65EAF1F15D59000B39AF4 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = F9BE448ACF214B1A6E6D9FFA /* Pods-Might.release.xcconfig */;
+			baseConfigurationReference = 2EC7A1996B38B9BEC8F25ED9 /* Pods-Might.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = ArcadeCity/ArcadeCity.entitlements;

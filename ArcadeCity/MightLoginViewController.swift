@@ -12,6 +12,7 @@ import FBSDKLoginKit
 
 protocol loginDelegate {
     func finishedLogin()
+    //func loginCanceled()
 }
 
 class MightLoginViewController: UIViewController, loginDelegate, ETADelegate {
@@ -23,6 +24,7 @@ class MightLoginViewController: UIViewController, loginDelegate, ETADelegate {
     @IBOutlet weak var login: UIButton!
     @IBOutlet weak var mightLogo: UILabel!
     var locationBarrier: Bool?
+    var loginWasCanceled = false
     var userIsLocal: Bool? {
         didSet { loginLogic() }
     }
@@ -53,7 +55,6 @@ class MightLoginViewController: UIViewController, loginDelegate, ETADelegate {
             finishedLogin()
             loadRequests.checkIfUserExists()
         } else if inRange {
-            //login.isHidden = false
             showLoginButton()
         } else {
             onlyInAustin()
@@ -63,6 +64,7 @@ class MightLoginViewController: UIViewController, loginDelegate, ETADelegate {
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
+        guard loginWasCanceled == false else {return}
         login.isHidden = true
         spinner?.startAnimating()
         setLocationBarrier()
@@ -117,8 +119,9 @@ class MightLoginViewController: UIViewController, loginDelegate, ETADelegate {
 
     
     @IBAction func login(_ sender: UIButton) {
-        loadRequests.login(fromViewController: self)
+        loginWasCanceled = false
         loadRequests.loginPageDelegate = self
+        loadRequests.login(fromViewController: self)
     }
     
     func finishedLogin() {
@@ -133,7 +136,10 @@ class MightLoginViewController: UIViewController, loginDelegate, ETADelegate {
                 self.performSegue(withIdentifier: self.loginSegueIdentifier, sender: nil)
             }
         }
-
+    }
+    
+    func loginCanceled() {
+        loginWasCanceled = true
     }
     
     private func onlyInAustin() {

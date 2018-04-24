@@ -15,21 +15,11 @@ import UserNotifications
 import FBSDKCoreKit
 import GoogleMaps
 import GooglePlaces
-import GSTouchesShowingWindow_Swift
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterDelegate, MessagingDelegate {
 
-    //var window: UIWindow?
-    
-    var customWindow: GSTouchesShowingWindow?
-    var window: UIWindow? {
-        get {
-            customWindow = customWindow ?? GSTouchesShowingWindow(frame: UIScreen.main.bounds)
-            return customWindow
-        }
-        set { }
-    }
+    var window: UIWindow?
 
     func configureFirebase() {
         if FirebaseApp.app() == nil {
