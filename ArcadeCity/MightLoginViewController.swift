@@ -12,7 +12,7 @@ import FBSDKLoginKit
 
 protocol loginDelegate {
     func finishedLogin()
-    //func loginCanceled()
+    func loginCanceled()
 }
 
 class MightLoginViewController: UIViewController, loginDelegate, ETADelegate {
