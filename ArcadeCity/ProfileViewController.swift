@@ -50,7 +50,6 @@ class ProfileViewController: UIViewController {
         let arrow = NSMutableAttributedString(string: " <   \n     ", attributes: [NSFontAttributeName : UIFont.boldSystemFont(ofSize: 25)])
         backButton.attributedText = arrow
         backButton.sizeToFit()
-        //backButton.frame.origin.y = middleView.frame.origin.y - (backButton.frame.size.height / 2) - 2
         backButton.frame.origin.y = 55
         backButton.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(goBack)))
         backButton.isUserInteractionEnabled = true
@@ -70,6 +69,7 @@ class ProfileViewController: UIViewController {
     }
     
     private func loadImage() {
+        profilePic?.frame.origin.x = view.frame.size.width / 2 - profilePic!.frame.size.width / 2
         if let url = URL(string: (user?.info["Profile Pic URL"])!) {
             DispatchQueue.global(qos: .default).async {
                 [weak self] in

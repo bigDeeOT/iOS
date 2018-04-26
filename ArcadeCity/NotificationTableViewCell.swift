@@ -30,6 +30,7 @@ class NotificationTableViewCell: UITableViewCell {
     override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
         notifySwitch.setOn(initializeSwitchOn, animated: false)
+        notifySwitch.frame.origin.x = frame.size.width - notifySwitch.frame.width - 10
     }
 
 }

@@ -32,11 +32,14 @@ class MightLoginViewController: UIViewController, loginDelegate, ETADelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
         configureButton()
+        mightLogo.center = view.center
+        login.center = view.center
+        login.frame.origin.y = mightLogo.frame.origin.y + mightLogo.frame.size.height + (90/1334 * view.frame.size.height)
+        login.isHidden = true
         spinner = UIActivityIndicatorView(activityIndicatorStyle: .whiteLarge)
         view.addSubview(spinner!)
         spinner?.center = view.center
         spinner?.frame.origin.y += 100
-        login.isHidden = true
         addBackground()
     }
     
@@ -77,7 +80,7 @@ class MightLoginViewController: UIViewController, loginDelegate, ETADelegate {
     private func setLocationBarrier() {
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "MM-dd-yyyy"
-        let date = dateFormatter.date(from: "04-20-2018")
+        let date = dateFormatter.date(from: "05-10-2018")
         if Date().timeIntervalSince(date!) > 0 {
             self.locationBarrier = true
         } else {

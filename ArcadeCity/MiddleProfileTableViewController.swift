@@ -39,7 +39,8 @@ class MiddleProfileTableViewController: UITableViewController, MFMessageComposeV
         } else {
             tableView.allowsSelection = false
         }
-        tableView.contentInset = UIEdgeInsetsMake(60, 0, 0, 0)
+        let topInset = (65 / 647) * view.frame.size.height
+        tableView.contentInset = UIEdgeInsetsMake(topInset, 0, 0, 0)
         tableView.rowHeight = UITableViewAutomaticDimension
         tableView.estimatedRowHeight = 30
         if user?.info["Class"] == "Rider" || user?.info["Class"] == "Pending Driver" {
