@@ -214,11 +214,7 @@ class RideDetailViewController: UIViewController, UITableViewDelegate, UITableVi
     func deleteRequest() {
         LoadRequests.removeRideRequest(rideRequest!)
     }
-    /*
-    func seeMap() {
-        performSegue(withIdentifier: "GoogleMaps", sender: nil)
-    }
- */
+
     func navigate() {
         if let location = rideRequest?.info["Location"] {
         UIApplication.shared.open(URL(string:"comgooglemaps://?saddr=&daddr=\(location)&directionsmode=driving")!, options: [:], completionHandler: nil)
